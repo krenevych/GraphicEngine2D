@@ -1,8 +1,8 @@
 import numpy
 import matplotlib.pyplot as plt
 
-from utils.text_utils import DEFAULT_LABEL_FONT_SIZE, print_label
-from utils.utils import create_coordinate_system
+from src.utils.text import DEFAULT_LABEL_FONT_SIZE, print_label
+from src.utils.utils import create_coordinate_system
 
 
 

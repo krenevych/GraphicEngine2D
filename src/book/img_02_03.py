@@ -1,11 +1,13 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-from utils.lines import draw_vector, drawLength
-from utils.utils import calc_normal, create_coordinate_system
+from src.utils.lines import draw_vector, draw_length_with_perpendiculars_on_edges, draw_arrow
+from src.utils.utils import calc_normal, create_coordinate_system
 
 
-def drawLineWithLength(p, u, color="black",
+def drawLineWithLength(p, u,
+                       color="black",
+                       edge_length=0.1,
                        label="", label_color="black",
                        label_offset=(0.0, 0.0)):
     draw_vector(p, u, color=color, )
@@ -18,9 +20,11 @@ def drawLineWithLength(p, u, color="black",
     delta = perpendicular * 0.03
     start, end = start + delta, end + delta
 
-    drawLength(start, end,
-               label_color=label_color, label=label,
-               label_offset=label_offset)
+    draw_length_with_perpendiculars_on_edges(start, end,
+                                             linewidth=1.4,
+                                             edge_length=edge_length,
+                                             label_color=label_color, label=label,
+                                             label_offset=label_offset)
 
 
 if __name__ == '__main__':
@@ -31,8 +35,11 @@ if __name__ == '__main__':
 
     p = np.array([0.2, .3])
     u = np.array([0.6, 0.4])
+
+    edge_length = 0.05
     drawLineWithLength(p, u, color="red", label=r'$\alpha v$',
-                       label_offset=(-0.07, 0.04)
+                       label_offset=(-0.07, 0.04),
+                       edge_length=edge_length,
                        )
 
     p1 = np.array([0.6, 0.3])
@@ -40,6 +47,7 @@ if __name__ == '__main__':
 
     drawLineWithLength(p1, u1, color="blue", label=r'$v$',
                        label_offset=(-0.05, 0.03),
+                       edge_length = edge_length,
                        )
 
     ############

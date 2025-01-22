@@ -1,8 +1,8 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-from utils.lines import draw_vector
-from utils.utils import create_coordinate_system
+from src.utils.lines import draw_vector
+from src.utils.utils import create_coordinate_system
 
 if __name__ == '__main__':
     create_coordinate_system(

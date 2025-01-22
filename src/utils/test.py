@@ -1,42 +1,45 @@
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
 
-# Вектори
-v1 = np.array([2, 0])  # Перший вектор
-v2 = np.array([-0.5, -0.866])  # Другий вектор (утворює 60 градусів з першим)
+from src.utils.lines import draw_vector, draw_broken_line
+from src.utils.utils import create_coordinate_system
 
-# Центр (початок координат)
-origin = np.array([0, 0])
+if __name__ == '__main__':
+    create_coordinate_system(
+        coordinate_rect=(-1.5, -1.5, 1.5, 1.5),
+        # grid_show=False,
+        grid_line_linestyle="-.",
+        axis_show=True,
+        base_axis_show=False,
+    )
 
-# Кути між векторами
-theta1 = np.arctan2(v1[1], v1[0])  # Кут першого вектора
-theta2 = np.arctan2(v2[1], v2[0])  # Кут другого вектора
+    # Центр (початок координат)
+    origin = np.array([0.5, -1])
 
-# Генерація точок дуги
-angles = np.linspace(theta1, theta2, 100)  # Усі кути між двома векторами
-radius = 0.3  # Радіус дуги
-x_arc = radius * np.cos(angles)  # X-координати дуги
-y_arc = radius * np.sin(angles)  # Y-координати дуги
+    # Вектори
+    v1 = np.array([-1, -1.5])  # Перший вектор
+    v2 = np.array([-1, 1])  # Другий вектор
+    draw_vector(origin, v1, color='blue', label=r"$v_1$")
+    draw_vector(origin, v2, color='red', label=r"$v_2$")
 
-# Створення графіка
-plt.figure(figsize=(6, 6))
+    # Розрахунок координат для прямого кута
+    scale = 0.4  # Масштаб для відображення прямого кута
+    v1_unit = v1 / np.linalg.norm(v1)  # Одиничний вектор v1
+    v2_unit = v2 / np.linalg.norm(v2)  # Одиничний вектор v2
 
-# Малювання векторів
-plt.quiver(*origin, *v1, angles='xy', scale_units='xy', scale=1, color='blue', label="Вектор 1")
-plt.quiver(*origin, *v2, angles='xy', scale_units='xy', scale=1, color='green', label="Вектор 2")
+    corner = origin + scale * v1_unit  # Перша точка кута (вздовж v1)
+    corner2 = corner + scale * v2_unit  # Друга точка кута (вздовж v2)
+    corner3 = origin + scale * v2_unit
 
-# Малювання дуги
-plt.plot(x_arc, y_arc, color='red', linestyle='--', linewidth=2, label="Дуга")
+    draw_broken_line([corner, corner2, corner3],
+                     color="blue",
+                     line_style="--", linewidth=1.0,
+                     labels=['A',
+                             ('B', (-0.1, 0.1)),
+                             'C'
+                             ],  # Підписи вершин
+                     vertex_color="red",
+                     )
 
-# Налаштування меж
-plt.xlim(-1.5, 1.5)
-plt.ylim(-1.5, 1.5)
-plt.gca().set_aspect('equal', adjustable='box')
-plt.axhline(0, color='black', linewidth=0.5, linestyle='--')
-plt.axvline(0, color='black', linewidth=0.5, linestyle='--')
-
-# Легенда та підписи
-plt.legend()
-plt.title("Дуга між двома векторами")
-plt.grid(True)
-plt.show()
+    ############
+    plt.show()

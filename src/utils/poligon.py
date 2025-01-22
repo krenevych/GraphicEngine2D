@@ -1,10 +1,9 @@
 import numpy
 import matplotlib.pyplot as plt
 
+from src.utils.points import draw_points
 from src.utils.text import DEFAULT_LABEL_FONT_SIZE, print_label
 from src.utils.utils import create_coordinate_system
-
-
 
 
 def draw_poly(x, y=None,
@@ -39,15 +38,13 @@ def draw_poly(x, y=None,
                  linewidth=linewidth,
                  )
 
-    if labels is None or len(labels) == 0:
-        return
-
-    # Малювання точок вершин
-    plt.scatter(x, y, color=vertex_color, s=vertex_size, zorder=5)
-
-    # Додавання підписів
-    for i, label in enumerate(labels):
-        print_label((x[i], y[i]), label=label, label_fontsize=labels_font_size, label_color=labels_color, label_offset=(.1, 0.1))
+    draw_points(x, y,
+                vertex_color=vertex_color,
+                vertex_size=vertex_size,
+                labels=labels,
+                labels_color=labels_color,
+                labels_font_size=labels_font_size,
+                )
 
 
 if __name__ == '__main__':
@@ -66,7 +63,12 @@ if __name__ == '__main__':
         numpy.array((2, 4)),
     ]
 
-    labels = ['A', 'B', 'C', 'D']  # Підписи вершин
+    labels = [
+        ('A', (-0.3, -0.3)),  # name + offset
+        ('B', (0.15, -0.3)),
+        ('C', (0.1, 0.0)),
+        ('D', (-0.1, 0.15))
+    ]  # Підписи вершин
     draw_poly(
         # x, y,
         vertices,

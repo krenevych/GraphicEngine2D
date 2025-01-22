@@ -1,41 +1,44 @@
 import matplotlib.pyplot as plt
+import numpy as np
 
-# Координати точок
-P1 = [0, 0]
-P2 = [-2, 1]
-P3 = [2, 2]
+from book.lines import draw_vector
+from book.text_utils import print_label
+from book.utils import create_coordinate_system
 
-# Вектори
-v2 = [P2[0] - P1[0], P2[1] - P1[1]]
-v3 = [P3[0] - P1[0], P3[1] - P1[1]]
+if __name__ == '__main__':
+    create_coordinate_system(
+        coordinate_rect=(-3, -3, 4, 4),
+        grid_show=False
+    )
 
-# Створення графіка
-plt.figure(figsize=(6, 6))
+    # Координати точок
+    P1 = np.array([0, 0])
+    P2 = np.array([-2, 1])
+    P3 = np.array([2, 2])
 
-font_size = 20
+    # Вектори
+    v2 = P2 - P1
+    v3 = P3 - P1
 
-# Малювання векторів
-plt.quiver(P1[0], P1[1], v2[0], v2[1], angles='xy', scale_units='xy', scale=1, color='blue', label=r'$\mathbf{v_2}$')
-plt.quiver(P1[0], P1[1], v3[0], v3[1], angles='xy', scale_units='xy', scale=1, color='brown', label=r'$\mathbf{v_3}$')
+    draw_vector(P1, v2, color="blue")
+    draw_vector(P1, v3, color="brown")
 
-# Підписи точок
-plt.text(P1[0] + 0.3, P1[1] - 0.4, r'$P_1$', fontsize=font_size, color='black', ha='right')
-plt.text(P2[0], P2[1] + 0.1, r'$P_2$', fontsize=font_size, color='blue', ha='right')
-plt.text(P3[0], P3[1] + 0.1, r'$P_3$', fontsize=font_size, color='brown', ha='left')
+    print_label(P1,
+               label_color="green",
+               label=r"$P1$",
+               label_offset=(-0.3, -0.7)
+               )
 
-# Підписи векторів
-plt.text(v2[0] / 2 + 0.2, v2[1] / 2 + 0.2, r'$v_2$', fontsize=font_size, color='black', ha='right')
-plt.text(v3[0] / 2 - 0.3, v3[1] / 2 + 0.2, r'$v_3$', fontsize=font_size, color='black', ha='left')
+    print_label(P2,
+               label_color="green",
+               label=r"$P2$",
+               label_offset=(-0.5, 0.2)
+               )
 
-# Налаштування меж графіка
-plt.xlim(-3, 4)
-plt.ylim(-3, 4)
-# plt.axhline(0, color='black', linewidth=0.5, linestyle='--')
-# plt.axvline(0, color='black', linewidth=0.5, linestyle='--')
-plt.gca().set_aspect('equal', adjustable='box')
+    print_label(P3,
+               label_color="green",
+               label=r"$P3$",
+               label_offset=(-0.3, 0.2)
+               )
 
-# Назва і легенда
-plt.title("Вектори та точки")
-plt.legend()
-plt.grid(False)
-plt.show()
+    plt.show()

@@ -1,28 +1,22 @@
 import matplotlib.pyplot as plt
+import numpy as np
 
-# Координати початкових точок стрілок
-X = [0, 0.5, 0]  # X-координати початку
-Y = [0, 1, 1.4]  # Y-координати початку
+from book.lines import draw_vector
+from book.utils import create_coordinate_system
 
-# Компоненти векторів (напрямок стрілок)
-U = [1, 1, 1]  # X-компоненти
-V = [1, 1, 1]  # Y-компоненти
+if __name__ == '__main__':
+    create_coordinate_system(
+        coordinate_rect=(-1, -1, 3, 5),
+        grid_show=False
+    )
 
-# Створення графіка
-plt.figure(figsize=(6, 6))
+    U = np.array((1, 1))
+    P1 = np.array((0, 0))
+    P2 = np.array((0.5,1))
+    P3 = np.array((0, 1.4))
 
-# Малювання векторів
-plt.quiver(X, Y, U, V, angles='xy', scale_units='xy', scale=1, color='blue')
+    draw_vector(P1, U, color="blue")
+    draw_vector(P2, U, color="blue")
+    draw_vector(P3, U, color="blue")
 
-# Налаштування меж графіка
-plt.xlim(-1, 3)
-plt.ylim(-1, 5)
-# plt.axhline(0, color='black', linewidth=0.5, linestyle='--')
-# plt.axvline(0, color='black', linewidth=0.5, linestyle='--')
-# plt.gca().set_aspect('equal', adjustable='box')
-
-# Назва графіка
-# plt.title("Паралельні вектори")
-
-plt.grid(False)
-plt.show()
+    plt.show()

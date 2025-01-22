@@ -1,41 +1,30 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-# Створення графіка
-plt.figure(figsize=(6, 6))
+from book.lines import draw_vector
+from book.utils import create_coordinate_system
 
-# Початкові точки для першого набору векторів
-P1 = np.array([1, 1])
-U1 = np.array([1, 0.5])
+if __name__ == '__main__':
+    create_coordinate_system(
+        coordinate_rect=(-1, -1, 5, 5),
+        grid_show=False
+    )
 
-P2 = np.array([0.5, .5])
-U2 = np.array([0.5, 1.7])
+    # # Початкові точки для першого набору векторів
+    P1 = np.array([1, 1])
+    U1 = np.array([1, 0.5])
 
-P = np.array([3, .5])
-U = U1 + U2
+    P2 = np.array([0.5, .5])
+    U2 = np.array([0.5, 1.7])
 
-# Малювання векторів першого набору (сині)
-plt.quiver(P1[0], P1[1], U1[0], U1[1], angles='xy', scale_units='xy', scale=1, color='blue', label='First Set')
-plt.quiver(P2[0], P2[1], U2[0], U2[1], angles='xy', scale_units='xy', scale=1, color='brown', label='First Set')
-# plt.quiver( X2, U2, angles='xy', scale_units='xy', scale=1, color='blue', label='First Set')
+    draw_vector(P1, U1, color="blue")
+    draw_vector(P2, U2, color="brown")
 
-# додавання векторів
-F = P + U1
-plt.quiver(P[0], P[1], U1[0], U1[1], angles='xy', scale_units='xy', scale=1, color='blue', label='First Set')
-plt.quiver(F[0], F[1], U2[0], U2[1], angles='xy', scale_units='xy', scale=1, color='brown', label='First Set')
-plt.quiver(P[0], P[1], U[0], U[1], angles='xy', scale_units='xy', scale=1, color='red', label='First Set')
+    P = np.array([3, .5])
+    U = U1 + U2
+    F = P + U1
+    draw_vector(P, U1, color="blue")
+    draw_vector(F, U2, color="brown")
+    draw_vector(P, U, color="red")
 
-# Налаштування меж графіка
-plt.xlim(-1, 5)
-plt.ylim(-1, 5)
-# plt.axhline(0, color='black', linewidth=0.5, linestyle='--')
-# plt.axvline(0, color='black', linewidth=0.5, linestyle='--')
-plt.gca().set_aspect('equal', adjustable='box')
-
-# Назва графіка
-plt.title("Два набори векторів")
-
-# Легенда
-plt.legend()
-plt.grid(False)
-plt.show()
+    plt.show()

@@ -1,20 +1,14 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-from book.utils import calc_normal, drawVector, drawLength, drawPoint
-
-FONT_SIZE = 20
-
+from book.lines import draw_vector, drawLength
+from book.utils import calc_normal, create_coordinate_system
 
 
-def drawLineWithLength(p, u, ax,
-                       color_vector="black",
-                       caption="", color_caption="black", caption_normal_offset=0.1):
-
-    drawVector(p, u,
-               color_vector=color_vector,
-               caption= "",caption_color="yellow" ,caption_normal_offset=caption_normal_offset
-               )
+def drawLineWithLength(p, u, color="black",
+                       label="", label_color="black",
+                       label_offset=(0.0, 0.0)):
+    draw_vector(p, u, color=color, )
 
     # Початок і кінець лінії
     start = p
@@ -24,37 +18,29 @@ def drawLineWithLength(p, u, ax,
     delta = perpendicular * 0.03
     start, end = start + delta, end + delta
 
-    drawLength(start, end, color_caption=color_caption, caption=caption, caption_normal_offset=caption_normal_offset)
-
-
+    drawLength(start, end,
+               label_color=label_color, label=label,
+               label_offset=label_offset)
 
 
 if __name__ == '__main__':
-    # Створення графіка
-    fig, ax = plt.subplots(figsize=(6, 6))
+    create_coordinate_system(
+        coordinate_rect=(0, 0, 1, 1),
+        # grid_show=False
+    )
 
     p = np.array([0.2, .3])
     u = np.array([0.6, 0.4])
-
-    drawLineWithLength(p, u, ax, color_vector="red", caption=r'$\alpha v$', caption_normal_offset=0.06)
+    drawLineWithLength(p, u, color="red", label=r'$\alpha v$',
+                       label_offset=(-0.07, 0.04)
+                       )
 
     p1 = np.array([0.6, 0.3])
     u1 = 0.3 * u
 
-    drawLineWithLength(p1, u1, ax, color_vector="blue", caption=r'$v$', caption_normal_offset=0.05)
+    drawLineWithLength(p1, u1, color="blue", label=r'$v$',
+                       label_offset=(-0.05, 0.03),
+                       )
 
-    p1 = np.array([0.2, .1])
-    u1 = np.array([0.6, 0.4]) * 0.4
-    drawVector(p1, u1, color_vector="green", caption=r"$T$", caption_color="red", caption_normal_offset=-0.05)
-
-    # plt.plot(p[0], p[1], 'ko', label='P') // точку малює
-    drawPoint(p1, size=100, color="blue", caption=r"$R$", color_caption="blue", offset=(-0.02, 0.05))
-    # drawPoint(p1+u1, size=100, color="blue", caption=r"$R$", color_caption="blue", offset=(-0.02, 0.05))
-
-    # Налаштування меж графіка
-    ax.set_xlim(0, 1)
-    ax.set_ylim(0, 1)
-    ax.set_aspect('equal', adjustable='box')
-    plt.grid(True)
-    plt.title("Лінія з перпендикулярами на кінцях")
+    ############
     plt.show()

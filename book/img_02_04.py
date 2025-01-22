@@ -1,35 +1,27 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-FONT_SIZE = 20
+from book.lines import draw_vector
+from book.utils import create_coordinate_system
 
-# Створення графіка
-plt.figure(figsize=(6, 6))
+if __name__ == '__main__':
+    create_coordinate_system(
+        coordinate_rect=(-1, -1, 3, 3),
+        grid_show=False
+    )
 
-P1 = np.array([0.5, 1])
-U1 = np.array([1, 1])
-plt.quiver(P1[0], P1[1], U1[0], U1[1], angles='xy', scale_units='xy', scale=1, color='blue', label='First Set')
+    P1 = np.array([0.5, 1.3])
+    U1 = np.array([1.1, 0.5])
+    draw_vector(P1, U1, color="blue",
+                label=r'$v$',
+                label_offset=(-0.15, 0.1),
+                )
 
-v1 = P1 + U1 * 0.5 + np.array([-0.1, 0.1])
-plt.text(v1[0], v1[1], r'$v$', fontsize=FONT_SIZE, color='black', ha='right')
+    P2 = np.array([1.25, 0.7])
+    U2 = -U1
 
-P2 = np.array([1.25, 0.7])
-U2 = -U1
-plt.quiver(P2[0], P2[1], U2[0], U2[1], angles='xy', scale_units='xy', scale=1, color='brown', label='First Set')
+    draw_vector(P2, U2, color="brown", label=r'$-v$',
+                label_offset=(-0.3, 0.10),
+                )
 
-v2 = P2 + U2 * 0.5 + np.array([-0.2, 0.3])
-plt.text(v2[0], v2[1], r'$-v$', fontsize=FONT_SIZE, color='black', ha='left')
-
-
-# Налаштування меж графіка
-plt.xlim(-1, 3)
-plt.ylim(-1, 5)
-# plt.axhline(0, color='black', linewidth=0.5, linestyle='--')
-# plt.axvline(0, color='black', linewidth=0.5, linestyle='--')
-# plt.gca().set_aspect('equal', adjustable='box')
-
-# Назва графіка
-# plt.title("Паралельні вектори")
-
-plt.grid(False)
-plt.show()
+    plt.show()

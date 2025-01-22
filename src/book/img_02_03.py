@@ -32,8 +32,8 @@ if __name__ == '__main__':
         coordinate_rect=(-0.1, -0.1, 1, 1),
         # grid_show=False,
         # grid_line_linestyle="-.",
-        # show_coordinate_axis=True,
-        # show_base_axis=False,
+        # axis_show=True,
+        # base_axis_show=False,
     )
 
     p = np.array([0.2, .3])

@@ -9,6 +9,8 @@ if __name__ == '__main__':
     create_coordinate_system(
         coordinate_rect=(-1, -1, 4, 4),
         grid_show=True,
+        base_axis_show=False,
+        axis_show=True
     )
 
     # Вектори

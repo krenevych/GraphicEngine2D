@@ -15,10 +15,19 @@ def calc_normal(start, end=None):
         return calc_normal(direction)
 
 
+def draw_axis(start, end,
+              color="black", linewidth=1.0, linestyle="--", ):
+    plt.plot(
+        [start[0], end[0]], [start[1], end[1]],
+        color=color, linestyle=linestyle, linewidth=linewidth
+    )
+
+
 def create_coordinate_system(image_size=(5, 5),
                              coordinate_rect=(-1, -1, 1, 1),
-                             title=("Picture"),
-                             grid_show=True,
+                             title="Picture",
+                             show_base_axis=True, show_coordinate_axis=False,
+                             grid_show=True, grid_line_linestyle="solid", greed_alpha=1.0,
                              keep_aspect_ratio=False,
                              ):
     plt.figure(figsize=image_size)
@@ -27,13 +36,44 @@ def create_coordinate_system(image_size=(5, 5),
     if keep_aspect_ratio:
         plt.gca().set_aspect('equal', adjustable='box')
     plt.title(title)
-    plt.grid(grid_show)
+    if grid_show:
+        plt.grid(grid_show, linestyle=grid_line_linestyle, alpha=greed_alpha, )
+    else:
+        plt.grid(False)
+
+    if show_coordinate_axis:
+        shift_offset = 0.1
+
+        y_len = coordinate_rect[3] - coordinate_rect[1]
+        shift = y_len * shift_offset / 2
+
+        start_x = (0.0, coordinate_rect[1] + shift)
+        end_x = (0.0, coordinate_rect[3] - shift)
+        draw_axis(start_x, end_x, color="red", linestyle="-.")
+
+        x_len = coordinate_rect[2] - coordinate_rect[0]
+        x_shift = x_len * shift_offset / 2
+
+        start_x = (coordinate_rect[0] + x_shift, 0.0)
+        end_x = (coordinate_rect[2] - x_shift, 0.0)
+        draw_axis(start_x, end_x, color="red")
+
+    # Відключення стандартних осей
+    if not show_base_axis:
+        plt.gca().spines['bottom'].set_visible(False)
+        plt.gca().spines['left'].set_visible(False)
+        plt.gca().spines['top'].set_visible(False)
+        plt.gca().spines['right'].set_visible(False)
 
 
 if __name__ == '__main__':
     create_coordinate_system(
-        coordinate_rect=(-0.5, -1, 2, 2),
-        grid_show=False
+        coordinate_rect=(-5, -3, 4, 4),
+        show_base_axis=True,  # set False to hide axis
+        show_coordinate_axis=True,
+        grid_show=True,
+        grid_line_linestyle='--',
+        greed_alpha=0.5,
     )
 
     ##########################
@@ -41,4 +81,3 @@ if __name__ == '__main__':
     ##########################
 
     plt.show()
-

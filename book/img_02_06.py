@@ -1,9 +1,9 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-from book.lines import draw_vector
-from book.text_utils import print_label
-from book.utils import create_coordinate_system
+from utils.lines import draw_vector
+from utils.text_utils import print_label
+from utils.utils import create_coordinate_system
 
 if __name__ == '__main__':
     create_coordinate_system(

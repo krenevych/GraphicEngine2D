@@ -1,8 +1,8 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-from book.lines import draw_vector, drawLength
-from book.utils import calc_normal, create_coordinate_system
+from utils.lines import draw_vector, drawLength
+from utils.utils import calc_normal, create_coordinate_system
 
 
 def drawLineWithLength(p, u, color="black",

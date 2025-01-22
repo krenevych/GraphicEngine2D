@@ -1,9 +1,9 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-from book.point_utils import draw_point
-from book.text_utils import FONT_SIZE, print_label
-from book.utils import calc_normal, create_coordinate_system
+from utils.point_utils import draw_point
+from utils.text_utils import FONT_SIZE, print_label
+from utils.utils import calc_normal, create_coordinate_system
 
 
 def draw_vector(p, u,

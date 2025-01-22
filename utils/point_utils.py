@@ -1,6 +1,6 @@
 from matplotlib import pyplot as plt
 
-from book.text_utils import print_label, FONT_SIZE
+from utils.text_utils import print_label, FONT_SIZE
 
 
 def draw_point(start, size=50, color="black",

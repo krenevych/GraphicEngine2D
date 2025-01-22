@@ -1,9 +1,8 @@
 import numpy
 import matplotlib.pyplot as plt
 
-from book.lines import draw_point
-from book.text_utils import DEFAULT_LABEL_FONT_SIZE, print_label
-from book.utils import create_coordinate_system
+from utils.text_utils import DEFAULT_LABEL_FONT_SIZE, print_label
+from utils.utils import create_coordinate_system
 
 
 

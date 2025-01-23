@@ -8,8 +8,8 @@ from src.utils.utils import create_coordinate_system
 def draw_broken_line(
         x, y=None,
         color="black",
-        vertex_color="black", vertex_size=50,
         linewidth=1.0, line_style="solid",
+        vertex_color="black", vertex_size=50,
         labels=(), labels_color="black", labels_font_size=DEFAULT_LABEL_FONT_SIZE,
 ):
     if y is None:

@@ -1,7 +1,7 @@
 import numpy as np
 
 
-def calc_normal(start, end=None):
+def normal2d(start, end=None):
     if end is None:
         direction = start
         direction = direction / np.linalg.norm(direction)  # Нормалізація вектора
@@ -12,4 +12,4 @@ def calc_normal(start, end=None):
     else:
         # Вектор напряму лінії
         direction = end - start
-        return calc_normal(direction)
+        return normal2d(direction)

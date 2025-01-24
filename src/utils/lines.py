@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-from src.math.utils import calc_normal
+from src.math.utils import normal2d
 from src.utils.points import draw_point
 from src.utils.text import DEFAULT_LABEL_FONT_SIZE, print_label
 from src.utils.scene import draw_scene
@@ -85,7 +85,7 @@ def draw_length_with_perpendiculars_on_edges(start, end, color_line="black", lin
 
     # Малювання перпендикулярних ліній на кінцях
     # Довжина перпендикулярних ліній
-    perpendicular = calc_normal(end - start)
+    perpendicular = normal2d(end - start)
     # Для початкової точки
     perp_start = start + edge_length * perpendicular
     perp_end = start - edge_length * perpendicular

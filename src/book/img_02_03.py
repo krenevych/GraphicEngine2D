@@ -1,6 +1,6 @@
 import numpy as np
 
-from src.math.utils import calc_normal
+from src.math.utils import normal2d
 from src.utils.lines import draw_vector, draw_length_with_perpendiculars_on_edges
 from src.utils.scene import draw_scene
 
@@ -16,7 +16,7 @@ def drawLineWithLength(p, u,
     start = p
     end = p + u
 
-    perpendicular = calc_normal(u)
+    perpendicular = normal2d(u)
     delta = perpendicular * 0.03
     start, end = start + delta, end + delta
 

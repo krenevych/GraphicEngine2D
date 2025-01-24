@@ -1,6 +1,22 @@
 import numpy as np
 from scipy.spatial.transform import Rotation as R
 
+def rotationMatrix2d(phi):
+    """
+    Формує матрицю обертання навколо осі Z на заданий кут.
+
+    Parameters:
+    theta (float): Кут обертання у радіанах.
+
+    Returns:
+    numpy.ndarray: Матриця обертання 3x3.
+    """
+    return np.array([
+        [np.cos(phi), -np.sin(phi), 0],
+        [np.sin(phi),  np.cos(phi), 0],
+        [0,                      0, 1]
+    ])
+
 def rotation_matrix_x(phi):
     """
     Формує матрицю обертання навколо осі X на заданий кут.
@@ -48,6 +64,7 @@ def rotation_matrix_z(phi):
         [np.sin(phi),  np.cos(phi), 0],
         [0,                      0, 1]
     ])
+
 
 # Приклад використання:
 if __name__ == "__main__":

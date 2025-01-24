@@ -1,8 +1,9 @@
 import numpy as np
 from matplotlib import pyplot as plt
 
-from src.utils.text import DEFAULT_LABEL_FONT_SIZE, print_label
-from src.utils.scene import draw_scene
+from src.base.scene import draw_scene
+from src.base.text import DEFAULT_LABEL_FONT_SIZE, print_label
+
 
 def draw_point(start, size=50, color="black",
                label="", label_color="black", label_fontsize=DEFAULT_LABEL_FONT_SIZE, label_offset=(0, 0)):

@@ -1,7 +1,7 @@
 import numpy as np
 from matplotlib import pyplot as plt
 
-from src.utils.scene import draw_scene
+from src.base.scene import draw_scene
 
 DEFAULT_LABEL_FONT_SIZE = 20
 

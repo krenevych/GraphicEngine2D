@@ -1,8 +1,8 @@
 import numpy as np
 
 from src.math.utils import normal2d
-from src.utils.lines import draw_vector, draw_length_with_perpendiculars_on_edges
-from src.utils.scene import draw_scene
+from src.base.lines import draw_vector, draw_length_with_perpendiculars_on_edges
+from src.base.scene import draw_scene
 
 
 def drawLineWithLength(p, u,

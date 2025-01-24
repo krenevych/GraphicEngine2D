@@ -1,8 +1,7 @@
-import matplotlib.pyplot as plt
 import numpy as np
 
-from src.utils.lines import draw_vector
-from src.utils.scene import draw_scene
+from src.base.lines import draw_vector
+from src.base.scene import draw_scene
 
 
 def scene():

@@ -1,6 +1,6 @@
-from src.utils.broken_line import draw_broken_line
-from src.utils.text import DEFAULT_LABEL_FONT_SIZE
-from src.utils.scene import draw_scene
+from src.base.broken_line import draw_broken_line
+from src.base.text import DEFAULT_LABEL_FONT_SIZE
+from src.base.scene import draw_scene
 
 
 def line2d(*poins,

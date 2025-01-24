@@ -1,10 +1,11 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
+from src.base.points import draw_point
+from src.base.scene import draw_scene
+from src.base.text import DEFAULT_LABEL_FONT_SIZE, print_label
 from src.math.utils import normal2d
-from src.utils.points import draw_point
-from src.utils.text import DEFAULT_LABEL_FONT_SIZE, print_label
-from src.utils.scene import draw_scene
+
 
 def draw_vector(p, u,
                 color="black",

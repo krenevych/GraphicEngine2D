@@ -1,10 +1,11 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-from src.utils.broken_line import draw_broken_line
-from src.utils.lines import draw_vector
-from src.utils.text import DEFAULT_LABEL_FONT_SIZE
-from src.utils.scene import draw_scene
+from src.base.broken_line import draw_broken_line
+from src.base.lines import draw_vector
+from src.base.scene import draw_scene
+from src.base.text import DEFAULT_LABEL_FONT_SIZE
+
 
 def draw_arc(origin, v1, v2,
              radius=1.0,  # Радіус дуги

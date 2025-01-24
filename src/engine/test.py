@@ -1,9 +1,8 @@
-import matplotlib.pyplot as plt
-
+from src.base.scene import draw_scene
 from src.engine.drawer import line2d
 from src.math.Mat3x3 import Mat3x3
 from src.math.Vec3 import Vec3
-from src.utils.scene import draw_scene
+
 
 def scene():
     O = Vec3(0, 0, 1)

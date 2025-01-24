@@ -1,9 +1,10 @@
-import numpy
 import matplotlib.pyplot as plt
+import numpy
 
-from src.utils.points import draw_points
-from src.utils.text import DEFAULT_LABEL_FONT_SIZE, print_label
-from src.utils.scene import draw_scene
+from src.base.points import draw_points
+from src.base.scene import draw_scene
+from src.base.text import DEFAULT_LABEL_FONT_SIZE
+
 
 def draw_poly(x, y=None,
               fill_color='none', alpha=1.0,

@@ -1,9 +1,8 @@
-import matplotlib.pyplot as plt
 import numpy as np
 
-from src.utils.lines import draw_vector, draw_line
-from src.utils.text import print_label
-from src.utils.scene import draw_scene
+from src.base.lines import draw_vector, draw_line
+from src.base.scene import draw_scene
+from src.base.text import print_label
 
 
 def scene():

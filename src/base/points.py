@@ -46,7 +46,7 @@ def draw_points(
         label = ""
         label_offset = (0, 0)
 
-        if lab is str:
+        if isinstance(lab, str):
             label = lab
         elif isinstance(lab, (list, tuple)):
             if len(lab) >= 1:

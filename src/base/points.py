@@ -12,6 +12,7 @@ def draw_point(start, size=50, color="black",
     print_label(start=start, label=label, label_color=label_color, label_fontsize=label_fontsize,
                 label_offset=label_offset)
 
+
 def draw_points(
         x, y=None,
         vertex_color="black", vertex_size=50,
@@ -41,13 +42,21 @@ def draw_points(
     plt.scatter(x, y, color=vertex_color, s=vertex_size, zorder=5)
 
     # Додавання підписів
-    for i, label in enumerate(labels):
+    for i, lab in enumerate(labels):
+        label = ""
         label_offset = (0, 0)
-        if type(label) != str:
-            try:
-                label, label_offset = label[0], label[1]
-            except IndexError:
-                pass
+
+        if lab is str:
+            label = lab
+        elif isinstance(lab, (list, tuple)):
+            if len(lab) >= 1:
+                label = lab[0]
+            if len(lab) >= 2:
+                offset = lab[1]
+                if isinstance(offset, (list, tuple)):
+                    offset = np.array(offset, dtype=float)
+                    if offset.shape == (2,):
+                        label_offset = offset
 
         print_label((x[i], y[i]),
                     label=label,
@@ -72,7 +81,7 @@ def scene():
                         'C',
                         "D",
                         # "Hello"
-                        ("H", (-0.2, 0.15))
+                        ("H",)
                         ],  # Підписи вершин
                 vertex_color="red",
                 )
@@ -87,6 +96,3 @@ if __name__ == '__main__':
         axis_show=True,
         base_axis_show=False,
     )
-
-
-

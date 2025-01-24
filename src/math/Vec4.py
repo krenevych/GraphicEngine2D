@@ -101,6 +101,26 @@ class Vec4:
     #         raise TypeError("Множення можливе лише з об'єктами Matrix3x3.")
     #     return Vector3(np.dot(self.data, other.data))
 
+    @property
+    def xy(self):
+        return self.data[:2]
+
+    @property
+    def xyz(self):
+        return self.data[:3]
+
+    @property
+    def x(self):
+        return self.data[0]
+
+    @property
+    def y(self):
+        return self.data[1]
+
+    @property
+    def z(self):
+        return self.data[2]
+
 
 if __name__ == '__main__':
     v1 = Vec4()
@@ -126,6 +146,7 @@ if __name__ == '__main__':
 
     v9 = Vec4(1, "232", 8, 3)
     print(v9)
+
 
 
 

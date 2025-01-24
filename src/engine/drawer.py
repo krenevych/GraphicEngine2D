@@ -11,10 +11,10 @@ def line2d(*poins,
            labels=(), labels_color="black", labels_fontsize=DEFAULT_LABEL_FONT_SIZE):
     ps = []
     for el in poins:
-        ps.append(el.get2())
+        ps.append(el.xy)
 
     if closed:
-        ps.append(poins[0].get2())
+        ps.append(poins[0].xy)
 
     draw_broken_line(ps,
                      color=color,

@@ -1,6 +1,6 @@
 import numpy as np
 
-from src.base.lines import draw_vector
+from src.base.arrow import draw_vector
 from src.base.scene import draw_scene
 from src.base.text import print_label
 

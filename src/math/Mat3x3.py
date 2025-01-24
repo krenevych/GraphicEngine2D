@@ -69,6 +69,16 @@ class Mat3x3:
         """
         return np.array2string(self.data, formatter={'float_kind': lambda x: f"{x:8.3f}"})
 
+    def __add__(self, other):
+        """
+        Реалізує додавання двох матриць Matrix3x3 або numpy.ndarray 3x3.
+        """
+        if not isinstance(other, (Mat3x3, np.ndarray)):
+            raise TypeError("Додавання можливе лише з іншими об'єктами Matrix3x3 або numpy.ndarray 3x3.")
+        if isinstance(other, Mat3x3):
+            return Mat3x3(self.data + other.data)
+        return Mat3x3(self.data + other)
+
     def __matmul__(self, other):
         """
         Реалізує множення матриці на іншу Matrix3x3, numpy.ndarray 3x3, або Vector3.
@@ -83,25 +93,11 @@ class Mat3x3:
             return Vec3(np.dot(self.data, other.data))
         return Mat3x3(np.dot(self.data, other))
 
-    def __add__(self, other):
-        """
-        Реалізує додавання двох матриць Matrix3x3 або numpy.ndarray 3x3.
-        """
-        if not isinstance(other, (Mat3x3, np.ndarray)):
-            raise TypeError("Додавання можливе лише з іншими об'єктами Matrix3x3 або numpy.ndarray 3x3.")
-        if isinstance(other, Mat3x3):
-            return Mat3x3(self.data + other.data)
-        return Mat3x3(self.data + other)
-
     def __mul__(self, other):
         """
-        Реалізує поелементне множення двох матриць Matrix3x3 або numpy.ndarray 3x3.
+        Реалізує множення матриці на іншу Matrix3x3, numpy.ndarray 3x3, або Vector3.
         """
-        if not isinstance(other, (Mat3x3, np.ndarray)):
-            raise TypeError("Поелементне множення можливе лише з іншими об'єктами Matrix3x3 або numpy.ndarray 3x3.")
-        if isinstance(other, Mat3x3):
-            return Mat3x3(self.data * other.data)
-        return Mat3x3(self.data * other)
+        return self.__matmul__(other)
 
     def inverse(self):
         """
@@ -110,6 +106,14 @@ class Mat3x3:
         if np.linalg.det(self.data) == 0:
             raise ValueError("Матриця не має оберненої (визначник дорівнює нулю).")
         return Mat3x3(np.linalg.inv(self.data))
+
+    @staticmethod
+    def rotation(angle, is_radians=True):
+        if not is_radians:
+            angle = np.radians(angle)
+
+        m = rotation_matrix_z(angle)
+        return Mat3x3(m)
 
     @staticmethod
     def rotationX(angle, is_radians=True):
@@ -134,7 +138,7 @@ class Mat3x3:
         return Mat3x3(m)
 
     @staticmethod
-    def translation(tx, ty, tz):
+    def translation(tx, ty):
         m = translationMatrix2d(tx, ty)
         return Mat3x3(m)
 

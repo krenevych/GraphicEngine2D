@@ -28,6 +28,7 @@ def scene():
            )
 
 
+
 if __name__ == '__main__':
     draw_scene(
         scene=scene,       # функція у якій описується сцена

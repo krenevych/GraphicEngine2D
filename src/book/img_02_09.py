@@ -1,6 +1,7 @@
 import numpy as np
 
-from src.base.lines import draw_vector, draw_line
+from src.base.arrow import draw_vector
+from src.base.lines import draw_line
 from src.base.scene import draw_scene
 from src.base.text import print_label
 
@@ -36,4 +37,3 @@ if __name__ == '__main__':
         base_axis_show=False,
         axis_show=True
     )
-

@@ -1,8 +1,4 @@
-
 import numpy as np
-
-# from src.math.Matrix3x3 import Matrix3x3
-
 
 class Vec3:
 
@@ -33,6 +29,13 @@ class Vec3:
         else:
             raise TypeError("Непідтриманий тип даних для ініціалізації.")
 
+    @staticmethod
+    def point(x, y):
+        return Vec3(x, y, 1)
+
+    @staticmethod
+    def vect(x, y):
+        return Vec3(x, y, 0)
 
     def __getitem__(self, index):
         """

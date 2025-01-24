@@ -23,9 +23,9 @@ def scene():
 
     # T1 = Mat3x3.translation(0, -1, 1)
 
-    R = Mat3x3.rotationZ(30, False)
+    R = Mat3x3.rotation(30, False)
     # T = Mat3x3.translation(2, 2, 1)
-    T = Mat3x3.translation(2, 1, 1)
+    T = Mat3x3.translation(2, 1)
     S = Mat3x3.scale(2, 2)
 
     transform = T @ R @ S
@@ -46,7 +46,7 @@ def scene():
 
     line2d(P1_, P2_, P3_, closed=True, color="red", labels=labels, line_style="solid")
 
-    T3 = Mat3x3.translation(0, -1, 1)
+    T3 = Mat3x3.translation(0, -1)
     # transform = T1.inverse() @ R @ T3
     P1_ = transform @ P1
     P2_ = transform @ P2

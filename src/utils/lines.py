@@ -1,10 +1,10 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
+from src.math.utils import calc_normal
 from src.utils.points import draw_point
 from src.utils.text import DEFAULT_LABEL_FONT_SIZE, print_label
-from src.utils.utils import calc_normal, create_coordinate_system
-
+from src.utils.scene import draw_scene
 
 def draw_vector(p, u,
                 color="black",
@@ -48,6 +48,31 @@ def draw_line(
     plt.plot([start[0], end[0]], [start[1], end[1]], color=color, linestyle=linestyle, linewidth=linewidth)
 
 
+def scene():
+    p1 = np.array([0.2, .2])
+    u1 = np.array([0.6, 0.2])
+    draw_vector(p1, u1, color="green", label=r"$T$",
+                label_color="red",
+                label_offset=(-0.05, 0.02),
+                )
+
+    p2 = p1 - (0.0, 0.15)
+
+    draw_arrow(p2, u1, color="green", label=r"$T$",
+               label_color="red",
+               label_offset=(-0.05, 0.02),
+               linewidth=2,
+               head_width=0.1,
+               head_length=0.1,
+               head_color="red"
+               )
+
+    draw_point(p1, size=100, color="blue", label=r"$R$", label_color="blue", label_offset=(-0.02, 0.05))
+
+    draw_line((0.5, .8), (.8, 0.9), linewidth=3, linestyle="--")
+    draw_length_with_perpendiculars_on_edges((0.2, 0.6), (.8, 0.6), edge_length=0.03, linestyle="--")
+
+
 def draw_length_with_perpendiculars_on_edges(start, end, color_line="black", linestyle="--", linewidth=1.0,
                                              edge_length=0.1,
                                              label="", label_color="black", label_fontsize=DEFAULT_LABEL_FONT_SIZE,
@@ -80,33 +105,9 @@ def draw_length_with_perpendiculars_on_edges(start, end, color_line="black", lin
 
 
 if __name__ == '__main__':
-    create_coordinate_system(
+    draw_scene(
+        scene=scene,
         coordinate_rect=(0, 0, 1, 1),
     )
 
-    p1 = np.array([0.2, .2])
-    u1 = np.array([0.6, 0.2])
-    draw_vector(p1, u1, color="green", label=r"$T$",
-                label_color="red",
-                label_offset=(-0.05, 0.02),
-                )
 
-    p2 = p1 - (0.0, 0.15)
-
-    draw_arrow(p2, u1, color="green", label=r"$T$",
-               label_color="red",
-               label_offset=(-0.05, 0.02),
-               linewidth=2,
-               head_width=0.1,
-               head_length=0.1,
-               head_color="red"
-               )
-
-    draw_point(p1, size=100, color="blue", label=r"$R$", label_color="blue", label_offset=(-0.02, 0.05))
-
-    start = np.array([0.5, .5])
-    end = np.array([.8, 0.8])
-    draw_line((0.5, .8), (.8, 0.9), linewidth=3, linestyle="--")
-    draw_length_with_perpendiculars_on_edges((0.2, 0.6), (.8, 0.6), edge_length=0.03, linestyle="--")
-
-    plt.show()

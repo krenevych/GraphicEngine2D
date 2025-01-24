@@ -2,8 +2,7 @@ import numpy as np
 from matplotlib import pyplot as plt
 
 from src.utils.text import DEFAULT_LABEL_FONT_SIZE, print_label
-from src.utils.utils import create_coordinate_system
-
+from src.utils.scene import draw_scene
 
 def draw_point(start, size=50, color="black",
                label="", label_color="black", label_fontsize=DEFAULT_LABEL_FONT_SIZE, label_offset=(0, 0)):
@@ -11,7 +10,6 @@ def draw_point(start, size=50, color="black",
 
     print_label(start=start, label=label, label_color=label_color, label_fontsize=label_fontsize,
                 label_offset=label_offset)
-
 
 def draw_points(
         x, y=None,
@@ -58,15 +56,7 @@ def draw_points(
                     )
 
 
-if __name__ == '__main__':
-    create_coordinate_system(
-        coordinate_rect=(-4, -4, 4, 4),
-        # grid_show=False,
-        grid_line_linestyle="-.",
-        axis_show=True,
-        base_axis_show=False,
-    )
-
+def scene():
     p1 = np.array([0.2, .2])
 
     draw_point(p1, size=100, color="blue", label=r"$R$", label_color="blue", label_offset=(-0.02, 0.05))
@@ -76,14 +66,26 @@ if __name__ == '__main__':
     )
 
     draw_points(points,
-                    labels=[('A', (-0.1, -0.6)),
-                             ('B', (-0.1, 0.1)),
-                             'C',
-                             "D",
-                             # "Hello"
-                             ("H", (-0.2, 0.15))
-                             ],  # Підписи вершин
-                     vertex_color="red",
-                     )
+                labels=[('A', (-0.1, -0.6)),
+                        ('B', (-0.1, 0.1)),
+                        'C',
+                        "D",
+                        # "Hello"
+                        ("H", (-0.2, 0.15))
+                        ],  # Підписи вершин
+                vertex_color="red",
+                )
 
-    plt.show()
+
+if __name__ == '__main__':
+    draw_scene(
+        scene=scene,
+        coordinate_rect=(-4, -4, 4, 4),
+        # grid_show=False,
+        grid_line_linestyle="-.",
+        axis_show=True,
+        base_axis_show=False,
+    )
+
+
+

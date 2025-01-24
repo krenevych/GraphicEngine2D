@@ -1,6 +1,6 @@
 from src.utils.broken_line import draw_broken_line
-from src.utils.lines import draw_vector
 from src.utils.text import DEFAULT_LABEL_FONT_SIZE
+from src.utils.scene import draw_scene
 
 
 def line2d(*poins,
@@ -25,3 +25,11 @@ def line2d(*poins,
                      labels_color=labels_color,
                      labels_font_size=labels_fontsize)
     # draw_vector(, color, label, label_color, label_fontsize, label_offset)
+
+def scene():
+        pass
+
+if __name__ == '__main__':
+    draw_scene(
+        scene=scene,
+    )

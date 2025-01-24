@@ -1,15 +1,10 @@
 import numpy as np
-from matplotlib import pyplot as plt
 
 from src.utils.lines import draw_vector
-from src.utils.utils import create_coordinate_system
+from src.utils.scene import draw_scene
 
-if __name__ == '__main__':
-    create_coordinate_system(
-        coordinate_rect=(-1, -1, 3, 5),
-        grid_show=False
-    )
 
+def scene():
     U = np.array((1, 1))
     P1 = np.array((0, 0))
     P2 = np.array((0.5,1))
@@ -19,4 +14,12 @@ if __name__ == '__main__':
     draw_vector(P2, U, color="blue")
     draw_vector(P3, U, color="blue")
 
-    plt.show()
+
+if __name__ == '__main__':
+    draw_scene(
+        scene = scene,
+        coordinate_rect=(-1, -1, 3, 5),
+        grid_show=False
+    )
+
+

@@ -4,8 +4,7 @@ import numpy as np
 from src.utils.broken_line import draw_broken_line
 from src.utils.lines import draw_vector
 from src.utils.text import DEFAULT_LABEL_FONT_SIZE
-from src.utils.utils import create_coordinate_system
-
+from src.utils.scene import draw_scene
 
 def draw_arc(origin, v1, v2,
              radius=1.0,  # Радіус дуги
@@ -25,7 +24,6 @@ def draw_arc(origin, v1, v2,
 
     # Малювання дуги
     plt.plot(x_arc, y_arc, color=color, linestyle=linestyle, linewidth=linewidth, label="Дуга")
-
 
 def draw_fake_rectangular_arc(
         origin, v1, v2,
@@ -53,16 +51,7 @@ def draw_fake_rectangular_arc(
                      )
 
 
-if __name__ == '__main__':
-    create_coordinate_system(
-        coordinate_rect=(-2, -2, 2, 2),
-        # grid_show=False,
-        base_axis_show=False,
-        axis_show=True,
-        axis_color="red",
-        axis_line_style="-."
-    )
-
+def scene():
     # Центр (початок координат)
     origin = np.array([0.5, 0.5])
 
@@ -100,4 +89,17 @@ if __name__ == '__main__':
                               vertex_color="yellow",
                               )
 
-    plt.show()
+
+if __name__ == '__main__':
+    draw_scene(
+        scene=scene,
+        coordinate_rect=(-2, -2, 2, 2),
+        # grid_show=False,
+        base_axis_show=False,
+        axis_show=True,
+        axis_color="red",
+        axis_line_style="-."
+    )
+
+
+

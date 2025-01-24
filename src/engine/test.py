@@ -3,18 +3,9 @@ import matplotlib.pyplot as plt
 from src.engine.drawer import line2d
 from src.math.Mat3x3 import Mat3x3
 from src.math.Vec3 import Vec3
-from src.utils.utils import create_coordinate_system
+from src.utils.scene import draw_scene
 
-if __name__ == '__main__':
-    create_coordinate_system(
-        coordinate_rect=(-1, -1, 2, 2),
-        # grid_show=False,
-        base_axis_show=False,
-        # axis_show=True,
-        # axis_color="red",
-        # axis_line_style="-."
-    )
-
+def scene():
     O = Vec3(0, 0, 1)
     x = Vec3(1, 0, 0)
     y = Vec3(0, 1, 0)
@@ -64,4 +55,16 @@ if __name__ == '__main__':
 
     line2d(P1_, P2_, P3_, closed=True, color="blue", labels=labels, line_style="solid")
 
-    plt.show()
+
+if __name__ == '__main__':
+    draw_scene(
+        scene=scene,
+        coordinate_rect=(-1, -1, 2, 2),
+        # grid_show=False,
+        base_axis_show=False,
+        # axis_show=True,
+        # axis_color="red",
+        # axis_line_style="-."
+    )
+
+

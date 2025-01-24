@@ -2,8 +2,7 @@ from matplotlib import pyplot as plt
 
 from src.utils.points import draw_points
 from src.utils.text import print_label, DEFAULT_LABEL_FONT_SIZE
-from src.utils.utils import create_coordinate_system
-
+from src.utils.scene import draw_scene
 
 def draw_broken_line(
         x, y=None,
@@ -45,16 +44,7 @@ def draw_broken_line(
                 labels_font_size=labels_font_size,
                 )
 
-
-if __name__ == '__main__':
-    create_coordinate_system(
-        coordinate_rect=(-4, -4, 4, 4),
-        # grid_show=False,
-        grid_line_linestyle="-.",
-        axis_show=True,
-        base_axis_show=False,
-    )
-
+def scene():
     points = (
         (-1, 2), (-1, 3), (3, 1), (2, -3), (-3, -2)
     )
@@ -73,4 +63,16 @@ if __name__ == '__main__':
                      )
 
     ############
-    plt.show()
+
+
+if __name__ == '__main__':
+    draw_scene(
+        scene=scene,
+        coordinate_rect=(-4, -4, 4, 4),
+        # grid_show=False,
+        grid_line_linestyle="-.",
+        axis_show=True,
+        base_axis_show=False,
+    )
+
+

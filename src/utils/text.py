@@ -1,7 +1,7 @@
 import numpy as np
 from matplotlib import pyplot as plt
 
-from src.utils.utils import create_coordinate_system
+from src.utils.scene import draw_scene
 
 DEFAULT_LABEL_FONT_SIZE = 20
 
@@ -14,13 +14,7 @@ def print_label(start,
                  ha='left')
 
 
-if __name__ == '__main__':
-    create_coordinate_system(
-        coordinate_rect=(0, 0, 1, 1),
-        grid_show=True,
-    )
-
-
+def scene():
     print_label(start=(0.5, 0.5),
                 label=r"Hello $R_2^4$", label_color="red", label_fontsize=22,
                 label_offset=(-0.2, 0.1))
@@ -29,4 +23,10 @@ if __name__ == '__main__':
                 label=r"Water $H_20$", label_color="green", label_fontsize=13,
                 label_offset=(-0.2, 0.1))
 
-    plt.show()
+
+if __name__ == '__main__':
+    draw_scene(
+        scene=scene,
+        coordinate_rect=(0, 0, 1, 1),
+        grid_show=True,
+    )

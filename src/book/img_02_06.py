@@ -1,17 +1,11 @@
-import matplotlib.pyplot as plt
 import numpy as np
 
 from src.utils.lines import draw_vector
-from src.utils.points import draw_point
 from src.utils.text import print_label
-from src.utils.utils import create_coordinate_system
+from src.utils.scene import draw_scene
 
-if __name__ == '__main__':
-    create_coordinate_system(
-        coordinate_rect=(-3, -1, 3, 4),
-        grid_show=False
-    )
 
+def scene():
     # Координати точок
     P1 = np.array([0, 0])
     P2 = np.array([-1.5, 1])
@@ -60,4 +54,11 @@ if __name__ == '__main__':
                 label_offset=(-0.3, 0.2)
                 )
 
-    plt.show()
+
+if __name__ == '__main__':
+    draw_scene(
+        scene=scene,
+        coordinate_rect=(-3, -1, 3, 4),
+        grid_show=False
+    )
+

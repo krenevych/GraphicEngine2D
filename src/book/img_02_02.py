@@ -2,14 +2,9 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 from src.utils.lines import draw_vector
-from src.utils.utils import create_coordinate_system
+from src.utils.scene import draw_scene
 
-if __name__ == '__main__':
-    create_coordinate_system(
-        coordinate_rect=(-1, -1, 5, 5),
-        grid_show=False
-    )
-
+def scene():
     # # Початкові точки для першого набору векторів
     P1 = np.array([1, 1])
     U1 = np.array([1, 0.5])
@@ -27,4 +22,11 @@ if __name__ == '__main__':
     draw_vector(F, U2, color="brown")
     draw_vector(P, U, color="red")
 
-    plt.show()
+if __name__ == '__main__':
+    draw_scene(
+        scene=scene,
+        coordinate_rect=(-1, -1, 5, 5),
+        grid_show=False
+    )
+
+

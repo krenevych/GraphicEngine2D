@@ -2,14 +2,10 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 from src.utils.lines import draw_vector
-from src.utils.utils import create_coordinate_system
+from src.utils.scene import draw_scene
 
-if __name__ == '__main__':
-    create_coordinate_system(
-        coordinate_rect=(-1, -1, 3, 3),
-        grid_show=False
-    )
 
+def scene():
     P1 = np.array([0.5, 1.3])
     U1 = np.array([1.1, 0.5])
     draw_vector(P1, U1, color="blue",
@@ -24,4 +20,10 @@ if __name__ == '__main__':
                 label_offset=(-0.3, 0.10),
                 )
 
-    plt.show()
+if __name__ == '__main__':
+    draw_scene(
+        scene=scene,
+        coordinate_rect=(-1, -1, 3, 3),
+        grid_show=False
+    )
+

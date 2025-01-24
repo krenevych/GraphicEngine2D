@@ -3,8 +3,7 @@ import matplotlib.pyplot as plt
 
 from src.utils.points import draw_points
 from src.utils.text import DEFAULT_LABEL_FONT_SIZE, print_label
-from src.utils.utils import create_coordinate_system
-
+from src.utils.scene import draw_scene
 
 def draw_poly(x, y=None,
               fill_color='none', alpha=1.0,
@@ -46,12 +45,7 @@ def draw_poly(x, y=None,
                 labels_font_size=labels_font_size,
                 )
 
-
-if __name__ == '__main__':
-    create_coordinate_system(
-        coordinate_rect=(0, 0, 5, 5),
-    )
-
+def scene():
     # Координати вершин багатокутника
     # x = [1, 3, 4, 2]
     # y = [1, 1, 3, 4]
@@ -81,4 +75,12 @@ if __name__ == '__main__':
         fill_color="red"
     )
 
-    plt.show()
+
+if __name__ == '__main__':
+    draw_scene(
+        scene=scene,
+        coordinate_rect=(0, 0, 5, 5),
+    )
+
+
+

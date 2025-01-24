@@ -1,18 +1,4 @@
-import numpy as np
 from matplotlib import pyplot as plt
-
-def calc_normal(start, end=None):
-    if end is None:
-        direction = start
-        direction = direction / np.linalg.norm(direction)  # Нормалізація вектора
-
-        # Обчислення перпендикулярного вектора
-        __perpendicular = np.array([-direction[1], direction[0]])
-        return __perpendicular
-    else:
-        # Вектор напряму лінії
-        direction = end - start
-        return calc_normal(direction)
 
 
 def draw_axis(start, end,
@@ -23,13 +9,23 @@ def draw_axis(start, end,
     )
 
 
-def create_coordinate_system(image_size=(5, 5),
-                             coordinate_rect=(-1, -1, 1, 1),
-                             title="Picture",
-                             base_axis_show=True, axis_show=False, axis_color ="red", axis_line_style ="-.",
-                             grid_show=True, grid_line_linestyle="solid", greed_alpha=1.0,
-                             keep_aspect_ratio=False,
-                             ):
+def default_scene():
+    ##########################
+    # Draw here
+    ##########################
+
+    pass
+
+
+def draw_scene(
+        scene=default_scene,
+        image_size=(5, 5),
+        coordinate_rect=(-1, -1, 1, 1),
+        title="Picture",
+        base_axis_show=True, axis_show=False, axis_color="red", axis_line_style="-.",
+        grid_show=True, grid_line_linestyle="solid", greed_alpha=1.0,
+        keep_aspect_ratio=False,
+):
     plt.figure(figsize=image_size)
     plt.xlim(coordinate_rect[0], coordinate_rect[2])
     plt.ylim(coordinate_rect[1], coordinate_rect[3])
@@ -65,9 +61,18 @@ def create_coordinate_system(image_size=(5, 5),
         plt.gca().spines['top'].set_visible(False)
         plt.gca().spines['right'].set_visible(False)
 
+    scene()
+
+    plt.show()
+
+
+def scene():
+    pass
+
 
 if __name__ == '__main__':
-    create_coordinate_system(
+    draw_scene(
+        scene=scene,
         coordinate_rect=(-5, -3, 4, 4),
         base_axis_show=True,  # set False to hide axis
         axis_show=True,
@@ -75,9 +80,3 @@ if __name__ == '__main__':
         grid_line_linestyle='--',
         greed_alpha=0.5,
     )
-
-    ##########################
-    # Draw here
-    ##########################
-
-    plt.show()

@@ -1,8 +1,8 @@
-import matplotlib.pyplot as plt
 import numpy as np
 
-from src.utils.lines import draw_vector, draw_length_with_perpendiculars_on_edges, draw_arrow
-from src.utils.utils import calc_normal, create_coordinate_system
+from src.math.utils import calc_normal
+from src.utils.lines import draw_vector, draw_length_with_perpendiculars_on_edges
+from src.utils.scene import draw_scene
 
 
 def drawLineWithLength(p, u,
@@ -26,16 +26,7 @@ def drawLineWithLength(p, u,
                                              label_color=label_color, label=label,
                                              label_offset=label_offset)
 
-
-if __name__ == '__main__':
-    create_coordinate_system(
-        coordinate_rect=(-0.1, -0.1, 1, 1),
-        # grid_show=False,
-        # grid_line_linestyle="-.",
-        # axis_show=True,
-        # base_axis_show=False,
-    )
-
+def scene():
     p = np.array([0.2, .3])
     u = np.array([0.6, 0.4])
 
@@ -50,8 +41,20 @@ if __name__ == '__main__':
 
     drawLineWithLength(p1, u1, color="blue", label=r'$v$',
                        label_offset=(-0.05, 0.03),
-                       edge_length = edge_length,
+                       edge_length=edge_length,
                        )
 
     ############
-    plt.show()
+
+
+if __name__ == '__main__':
+    draw_scene(
+        scene=scene,
+        coordinate_rect=(-0.1, -0.1, 1, 1),
+        # grid_show=False,
+        # grid_line_linestyle="-.",
+        # axis_show=True,
+        # base_axis_show=False,
+    )
+
+

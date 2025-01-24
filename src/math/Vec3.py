@@ -1,5 +1,6 @@
 import numpy as np
 
+
 class Vec3:
 
     def __init__(self, *data):
@@ -30,11 +31,11 @@ class Vec3:
             raise TypeError("Непідтриманий тип даних для ініціалізації.")
 
     @staticmethod
-    def point(x, y):
+    def point(x=0, y=0):
         return Vec3(x, y, 1)
 
     @staticmethod
-    def vect(x, y):
+    def vect(x=0, y=0):
         return Vec3(x, y, 0)
 
     def __getitem__(self, index):
@@ -112,7 +113,6 @@ class Vec3:
     def xy(self):
         return self.data[:2]
 
-
     @property
     def xyz(self):
         return self.data[:3]
@@ -128,7 +128,6 @@ class Vec3:
     @property
     def z(self):
         return self.data[2]
-
 
 
 if __name__ == '__main__':
@@ -150,10 +149,5 @@ if __name__ == '__main__':
     print(v1 + v3)
     print(v2 * v3)
 
-
-
     v9 = Vec3(1, "232", 3)
     print(v9)
-
-
-

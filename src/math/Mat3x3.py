@@ -138,13 +138,19 @@ class Mat3x3:
         return Mat3x3(m)
 
     @staticmethod
-    def translation(tx, ty):
-        m = translationMatrix2d(tx, ty)
+    def translation(tx, ty=None):
+        if ty is None and isinstance(tx, Vec3):
+            m = translationMatrix2d(*tx.xy)
+        else:
+            m = translationMatrix2d(tx, ty)
         return Mat3x3(m)
 
     @staticmethod
-    def scale(sx, sy):
-        m = scaleMatrix2d(sx, sy)
+    def scale(sx, sy=None):
+        if sy is None and isinstance(sx, Vec3):
+            m = scaleMatrix2d(*sx.xy)
+        else:
+            m = scaleMatrix2d(sx, sy)
         return Mat3x3(m)
 
 

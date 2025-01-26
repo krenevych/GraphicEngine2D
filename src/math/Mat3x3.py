@@ -1,5 +1,5 @@
 import numpy as np
-from src.math.Rotations import rotation_matrix_x, rotation_matrix_y, rotation_matrix_z
+from src.math.Rotations import rotation_matrix_x, rotation_matrix_y, rotation_matrix_z, get_rotation_angle
 from src.math.Scale import scaleMatrix2d
 from src.math.Translation import translationMatrix, translationMatrix2d
 from src.math.Vec3 import Vec3
@@ -141,6 +141,8 @@ class Mat3x3:
     def translation(tx, ty=None):
         if ty is None and isinstance(tx, Vec3):
             m = translationMatrix2d(*tx.xy)
+        elif ty is None and isinstance(tx, np.ndarray):
+            m = translationMatrix2d(tx[0], tx[1])
         else:
             m = translationMatrix2d(tx, ty)
         return Mat3x3(m)
@@ -149,9 +151,41 @@ class Mat3x3:
     def scale(sx, sy=None):
         if sy is None and isinstance(sx, Vec3):
             m = scaleMatrix2d(*sx.xy)
+        elif sy is None and isinstance(sx, np.ndarray):
+            m = scaleMatrix2d(sx[0], sx[1])
         else:
             m = scaleMatrix2d(sx, sy)
         return Mat3x3(m)
+
+    @staticmethod
+    def decompose_affine(transition):
+
+        if not isinstance(transition, (np.ndarray, Mat3x3)):
+            raise TypeError("Transformation error.")
+
+        if isinstance(transition, Mat3x3):
+            transition = transition.data
+
+        if transition.shape != (3, 3):
+            raise ValueError("Матриця повинна бути розміром 3x3.")
+
+        # Виділення переносу
+        translation = transition[:2, 2]
+
+        # Виділення матриці RS
+        rs = transition[:2, :2]
+
+        # Обчислення масштабу
+        scale_x = np.linalg.norm(rs[:, 0])
+        scale_y = np.linalg.norm(rs[:, 1])
+        scales = np.array([scale_x, scale_y])
+
+        # Обчислення повороту
+        rotation = rs / scales
+
+        angle = get_rotation_angle(rotation)
+
+        return translation, angle, scales
 
 
 # Приклад використання

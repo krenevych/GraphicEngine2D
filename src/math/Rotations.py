@@ -66,6 +66,30 @@ def rotation_matrix_z(phi):
     ])
 
 
+def get_rotation_angle(matrix):
+
+    # Перевірка ортогональності R
+    if not np.allclose(np.dot(rotation.T, rotation), np.eye(2)) or not np.isclose(np.linalg.det(rotation), 1):
+        raise ValueError("Матриця не є коректною матрицею повороту.")
+
+    """
+    Обчислює кут повороту (в радіанах) із 2D матриці повороту.
+    """
+    if matrix.shape != (2, 2) and matrix.shape != (3, 3):
+        raise ValueError("Некоректна матриця повороту!")
+
+    if matrix.shape == (3, 3):
+        matrix = matrix[:2, :2]
+
+    # Витягуємо значення sin і cos
+    cos_theta = matrix[0, 0]
+    sin_theta = matrix[1, 0]
+
+    # Обчислення кута через arctan2
+    angle = np.arctan2(sin_theta, cos_theta)
+    return angle
+
+
 # Приклад використання:
 if __name__ == "__main__":
     euler_angles_45_45_30 = [45, 15, 30]

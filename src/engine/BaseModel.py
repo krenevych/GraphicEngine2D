@@ -1,3 +1,6 @@
+import numpy as np
+from numpy.matrixlib.defmatrix import matrix
+
 from src.base.scene import draw_scene
 from src.engine.drawer import line2d
 from src.math.Mat3x3 import Mat3x3
@@ -6,11 +9,13 @@ from src.math.Vec3 import Vec3
 
 class BaseModel:
 
-    def __init__(self, *vertices):
+    def __init__(self):
         self.__translation = Vec3.point()
         self.__rotation = 0.0
         self.__scale = Vec3(1, 1, 1)
         self.__pivot = Vec3.point(0, 0)
+
+    def set_geometry(self, *vertices, **params):
         self.__data = list(vertices)
 
     def scale(self, sx, sy=None):
@@ -34,11 +39,13 @@ class BaseModel:
         else:
             self.__pivot = Vec3(tx, ty, 1)
 
+    def set_transformation(self, transition):
+        self.__translation, self.__rotation, self.__scale = Mat3x3.decompose_affine(transition)
 
     @property
     def transformation(self):
         T = Mat3x3.translation(self.__translation)
-        R = Mat3x3.rotation(self.__rotation, False)
+        R = Mat3x3.rotation(self.__rotation, True)
         S = Mat3x3.scale(self.__scale)
 
         return T * R * S
@@ -55,16 +62,25 @@ class BaseModel:
 
 def scene():
     v0 = Vec3.point(0, 0)
-    v1 = Vec3.point(1, 0)
-    v2 = Vec3.point(1, 1)
-    v3 = Vec3.point(0, 1)
-    m = BaseModel(v0, v1, v2, v3)
+    v1 = Vec3.point(2, 0)
+    v2 = Vec3.point(2, 1)
+    v3 = Vec3.point(1, 2)
+    v4 = Vec3.point(0, 1)
+    m = BaseModel()
+    m.set_geometry(v0, v1, v2, v3, v4)
 
     m.draw()
 
     m.scale(2, 1)
     m.translation(Vec3.point(2, 2))
-    m.rotation(45)
+    m.rotation(np.radians(45))
+
+    # S = Mat3x3.scale(2, 1)
+    # T = Mat3x3.translation(Vec3.point(2, 2))
+    # R = Mat3x3.rotation(np.radians(45))
+
+    # transform = T * R * S
+    # m.set_transformation(transform)
 
     m.draw()
 

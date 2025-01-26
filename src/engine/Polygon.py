@@ -35,15 +35,13 @@ class Polygon(BaseModel):
         else:
             raise ValueError("Data corrupted")
 
-    def draw(self):
+    def draw_model(self):
         transformed_geometry = self.transformed_geometry
 
         ps = [el.xy for el in transformed_geometry]
         ps.append(transformed_geometry[0].xy)  # closed line
 
         draw_broken_line(ps, **self._parameters)
-
-        self.draw_local_frame()
 
 
 def scene():
@@ -88,6 +86,9 @@ def scene():
     #     vertex(0, 1)
     # )
 
+    m.show_pivot()
+    m.show_local_frame()
+
     m["color"] = "red"
     m["line_style"] = "--"
     m["vertex_color"] = "grey"
@@ -108,13 +109,6 @@ def scene():
     m.scale(2, 1)
     m.translation(Vec3.point(2, 2))
     m.rotation(np.radians(45))
-
-    # S = Mat3x3.scale(2, 1)
-    # T = Mat3x3.translation(Vec3.point(2, 2))
-    # R = Mat3x3.rotation(np.radians(45))
-
-    # transform = T * R * S
-    # m.set_transformation(transform)
 
     m.draw()
 

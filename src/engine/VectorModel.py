@@ -34,7 +34,7 @@ class VectorModel (BaseModel):
         else:
             raise ValueError("Data corrupted")
 
-    def draw(self):
+    def draw_model(self):
         transformed_geometry = self.transformed_geometry
 
         ps = [el.xy for el in transformed_geometry]
@@ -58,7 +58,7 @@ def scene():
 if __name__ == '__main__':
     draw_scene(
         scene = scene,
-        coordinate_rect=(-1, -1, 3, 5),
+        coordinate_rect=(-1, -1, 5, 5),
         grid_show=False,
         axis_show=True
     )

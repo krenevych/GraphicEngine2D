@@ -37,10 +37,12 @@
 2. Опишіть функцію, у якій розмістіть всі обʼєкти, що мають бути на сцені.
 
 ```python
-def scene():
-    m = Polygon()
 
-    m.set_geometry(
+def scene():
+    polygon = Polygon()
+
+    # Задаємо геометрію - пара послідовних значень визначає вершину на площині
+    polygon.set_geometry(
         0, 0,
         2, 0,
         2, 1,
@@ -48,13 +50,12 @@ def scene():
         0, 1
     )
 
-
-    m["closed"] = True
-    m["color"] = "blue"
-    m["line_style"] = "--"
-    m["vertex_color"] = "grey"
-    m["vertices_show"] = True
-    m["labels"] = [
+    # Задаємо параметри полігону
+    polygon["color"] = "blue"         # колір ліній
+    polygon["line_style"] = "--"      # стиль ліній
+    polygon["vertices_show"] = True   # показувати вершини
+    polygon["vertex_color"] = "grey"  # колір вершин
+    polygon["labels"] = [             # підписи верших зі зміщеннями
         (r'$P_1$', (-0.2, -0.6)),
         (r'$P_2$', (0.2, -0.2)),
         (r'$P_3$', (-0.1, 0.2)),
@@ -62,11 +63,14 @@ def scene():
         (r"$P_5$",(-0.7, -0.2)),
     ]
 
-    m.scale(2, 1)
-    m.translation(2, 1)
-    m.rotation(np.radians(45))
+    # задаємо трансформацію
+    polygon.scale(2, 1)          # масштабування
+    polygon.rotation(np.radians(45))    # поворот
+    polygon.translation(2, 1)    # перенесення
 
-    m.draw()
+    # малюємо полігон
+    polygon.draw()
+
 ```
 
 3. Відобразіть сцену на екрані використовуючи функцію draw_scene вказавши необхідні параметри відображення:

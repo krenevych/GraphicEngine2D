@@ -9,7 +9,6 @@ from src.math.Vec3 import vertex, Vec3
 class Polygon(BaseModel):
     AVAILABLE_PARAMETERS = [
         "color",                 # default: , posible values:
-        "closed",                # default: , posible values:
         "line_style",            # default: , posible values:
         "linewidth",             # default: , posible values:
         "vertices_show",         # default: , posible values:
@@ -38,7 +37,7 @@ class Polygon(BaseModel):
 
     def draw(self):
         transformed_data = self.transformed_geometry
-        line2d(*transformed_data, **self._parameters)
+        line2d(*transformed_data, closed=True, **self._parameters)
 
 
 def scene():
@@ -83,7 +82,6 @@ def scene():
     #     vertex(0, 1)
     # )
 
-    m["closed"] = True
     m["color"] = "red"
     m["line_style"] = "--"
     m["vertex_color"] = "grey"

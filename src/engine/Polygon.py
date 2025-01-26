@@ -25,7 +25,16 @@ class Polygon(BaseModel):
         self._availible_parameters += Polygon.AVAILABLE_PARAMETERS
 
     def set_geometry(self, *vertices):
-        self._geometry = list(vertices)
+        if all(isinstance(item, (float, int)) for item in vertices) and len(vertices) % 2 == 0:
+            self._geometry = [vertex(vertices[i], vertices[i + 1]) for i in range(0, len(vertices), 2)]
+        elif all(isinstance(item, Vec3) for item in vertices):
+            self._geometry = list(vertices)
+        elif all(isinstance(item, np.ndarray) and item.shape == (2,) for item in vertices):
+            self._geometry = [vertex(*item) for item in vertices]
+        elif all(isinstance(item, (tuple, list)) and len(item) == 2 for item in vertices):
+            self._geometry = [vertex(*item) for item in vertices]
+        else:
+            raise ValueError("Data corrupted")
 
     def draw(self):
         transformed_data = self.transformed_geometry
@@ -34,13 +43,45 @@ class Polygon(BaseModel):
 
 def scene():
     m = Polygon()
+    # m.set_geometry(
+    #     np.array((0, 0)),
+    #     np.array((2, 0)),
+    #     np.array((2, 1)),
+    #     np.array((1, 2)),
+    #     np.array((0, 1))
+    # )
+
+    # m.set_geometry(
+    #     np.array((0, 0)),
+    #     np.array((2, 0)),
+    #     np.array((2, 1)),
+    #     np.array((1, 2)),
+    #     np.array((0, 1))
+    # )
+
     m.set_geometry(
-        vertex(0, 0),
-        vertex(2, 0),
-        vertex(2, 1),
-        vertex(1, 2),
-        vertex(0, 1)
+        0, 0,
+        2, 0,
+        2, 1,
+        1, 2,
+        0, 1
     )
+
+    # m.set_geometry(
+    #     (0, 0),
+    #     (2, 0),
+    #     (2, 1),
+    #     (1, 2),
+    #     (0, 1)
+    # )
+
+    # m.set_geometry(
+    #     vertex(0, 0),
+    #     vertex(2, 0),
+    #     vertex(2, 1),
+    #     vertex(1, 2),
+    #     vertex(0, 1)
+    # )
 
     m["closed"] = True
     m["color"] = "red"
@@ -48,13 +89,18 @@ def scene():
     m["vertex_color"] = "grey"
     m["vertices_show"] = True
     m["labels"] = [
-        ('P1', (-0.1, -0.3)),
-        ('P2', (-0.15, 0.2)),
-        ('P3', (-0.1, 0.1)),
+        (r'$P_1$', (-0.1, -0.3)),
+        (r'$P_2$', (-0.15, 0.2)),
+        (r'$P_3$', (-0.1, 0.1)),
+        r"$P_4$",
+        r"$P_5$",
     ]
 
 
     m.draw()
+
+    m["color"] = "blue"
+    m["line_style"] = "solid"
 
     m.scale(2, 1)
     m.translation(Vec3.point(2, 2))
@@ -73,7 +119,7 @@ def scene():
 if __name__ == '__main__':
     draw_scene(
         scene=scene,
-        coordinate_rect=(-1, -1, 5, 5),
+        coordinate_rect=(-1, -1, 6, 6),
         # grid_show=False,
         base_axis_show=False,
         axis_show=True,

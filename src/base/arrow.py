@@ -21,6 +21,15 @@ def draw_vector(p, u,
                 label_offset=label_offset)
 
 
+def draw_segment(start, end,
+                 color="black",
+                 label="", label_color="black", label_fontsize=DEFAULT_LABEL_FONT_SIZE, label_offset=(0, 0)):
+    # малювання вектора
+    p = start
+    u = end - start
+    draw_vector(p, u, color, label, label_color, label_fontsize, label_offset)
+
+
 def draw_arrow(p, u,
                color="black", linewidth=2.0,
                head_width=0.01, head_length=0.01, head_color="black",

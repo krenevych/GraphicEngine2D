@@ -8,7 +8,7 @@ from src.base.text import DEFAULT_LABEL_FONT_SIZE
 
 def draw_poly(x, y=None,
               fill_color='none', alpha=1.0,
-              vertex_color="black", vertex_size=50,
+              vertices_show=False, vertex_color="black", vertex_size=50,
               edgecolor='black', linewidth=2, solid_line=False,
               labels=(), labels_color="black", labels_font_size=DEFAULT_LABEL_FONT_SIZE,
               ):
@@ -19,7 +19,7 @@ def draw_poly(x, y=None,
             x1.append(a)
             y1.append(b)
 
-        draw_poly(x1, y1, fill_color, alpha, vertex_color, vertex_size, edgecolor, linewidth, solid_line, labels,
+        draw_poly(x1, y1, fill_color, alpha, vertices_show, vertex_color, vertex_size, edgecolor, linewidth, solid_line, labels,
                   labels_color, labels_font_size)
 
         return
@@ -39,6 +39,7 @@ def draw_poly(x, y=None,
                  )
 
     draw_points(x, y,
+                vertices_show = vertices_show,
                 vertex_color=vertex_color,
                 vertex_size=vertex_size,
                 labels=labels,
@@ -70,6 +71,7 @@ def scene():
         labels=labels,
         alpha=0.1,
         solid_line=True,
+        vertices_show=True,
         vertex_size=100,
         vertex_color="red",
         linewidth=2,

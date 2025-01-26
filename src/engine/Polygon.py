@@ -43,6 +43,8 @@ class Polygon(BaseModel):
 
         draw_broken_line(ps, **self._parameters)
 
+        self.draw_local_frame()
+
 
 def scene():
     m = Polygon()

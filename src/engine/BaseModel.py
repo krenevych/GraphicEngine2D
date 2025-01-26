@@ -1,7 +1,8 @@
 from abc import ABC, abstractmethod
 
+from src.base.scene import draw_axis
 from src.math.Mat3x3 import Mat3x3
-from src.math.Vec3 import Vec3
+from src.math.Vec3 import Vec3, vertex
 
 
 class BaseModel(ABC):
@@ -57,6 +58,16 @@ class BaseModel(ABC):
 
         return T * R * S
 
+    def draw_local_frame(self):
+        M = self.transformation
+
+        origin = M * vertex(0, 0)
+        ox = M * vertex(1, 0)
+        oy = M * vertex(0, 1)
+
+        draw_axis(origin, ox, color="red", linewidth=2.)
+        draw_axis(origin, oy, color="green", linewidth=2.)
+
     @property
     def transformed_geometry(self):
         M = self.transformation
@@ -66,7 +77,6 @@ class BaseModel(ABC):
             transformed_data.append(_p)
 
         return transformed_data
-
 
     @abstractmethod
     def draw(self):

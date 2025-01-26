@@ -1,8 +1,8 @@
 import numpy as np
 
+from src.base.broken_line import draw_broken_line
 from src.base.scene import draw_scene
 from src.engine.BaseModel import BaseModel
-from src.engine.drawer import line2d
 from src.math.Vec3 import vertex, Vec3
 
 
@@ -36,8 +36,12 @@ class Polygon(BaseModel):
             raise ValueError("Data corrupted")
 
     def draw(self):
-        transformed_data = self.transformed_geometry
-        line2d(*transformed_data, closed=True, **self._parameters)
+        transformed_geometry = self.transformed_geometry
+
+        ps = [el.xy for el in transformed_geometry]
+        ps.append(transformed_geometry[0].xy)  # closed line
+
+        draw_broken_line(ps, **self._parameters)
 
 
 def scene():
@@ -93,7 +97,6 @@ def scene():
         r"$P_4$",
         r"$P_5$",
     ]
-
 
     m.draw()
 

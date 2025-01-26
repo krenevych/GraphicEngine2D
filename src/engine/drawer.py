@@ -7,7 +7,7 @@ from src.math.Vec3 import Vec3
 def line2d(*poins,
            color="black", closed=False,
            linewidth=1.0, line_style="solid",
-           vertex_color="black", vertex_size=50,
+           vertices_show = False, vertex_color="black", vertex_size=50,
            labels=(), labels_color="black", labels_fontsize=DEFAULT_LABEL_FONT_SIZE):
     ps = []
     for el in poins:
@@ -18,6 +18,7 @@ def line2d(*poins,
 
     draw_broken_line(ps,
                      color=color,
+                     vertices_show=vertices_show,
                      vertex_color=vertex_color,
                      vertex_size=vertex_size,
                      linewidth=linewidth,

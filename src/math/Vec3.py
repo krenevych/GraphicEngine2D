@@ -130,6 +130,10 @@ class Vec3:
         return self.data[2]
 
 
+def vertex(x, y):
+    return Vec3.point(x, y)
+
+
 if __name__ == '__main__':
     v1 = Vec3()
     print(v1)

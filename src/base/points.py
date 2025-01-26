@@ -15,7 +15,7 @@ def draw_point(start, size=50, color="black",
 
 def draw_points(
         x, y=None,
-        vertex_color="black", vertex_size=50,
+        vertices_show=False, vertex_color="black", vertex_size=50,
         labels=(), labels_color="black", labels_font_size=DEFAULT_LABEL_FONT_SIZE,
 ):
     if y is None:
@@ -26,6 +26,7 @@ def draw_points(
             y1.append(b)
 
         draw_points(x1, y1,
+                    vertices_show=vertices_show,
                     vertex_color=vertex_color,
                     vertex_size=vertex_size,
                     labels=labels,
@@ -35,11 +36,12 @@ def draw_points(
 
         return
 
+    if vertices_show:
+        # Малювання точок вершин
+        plt.scatter(x, y, color=vertex_color, s=vertex_size, zorder=5)
+
     if labels is None or len(labels) == 0:
         return
-
-    # Малювання точок вершин
-    plt.scatter(x, y, color=vertex_color, s=vertex_size, zorder=5)
 
     # Додавання підписів
     for i, lab in enumerate(labels):
@@ -69,13 +71,14 @@ def draw_points(
 def scene():
     p1 = np.array([0.2, .2])
 
-    draw_point(p1, size=100, color="blue", label=r"$R$", label_color="blue", label_offset=(-0.02, 0.05))
+    draw_point(p1, size=100, color="blue",  label=r"$R$", label_color="blue", label_offset=(-0.02, 0.05))
 
     points = (
         (-1, 2), (-1, 3), (3, 1), (2, -3), (-3, -2)
     )
 
     draw_points(points,
+                vertices_show=True,
                 labels=[('A', (-0.1, -0.6)),
                         ('B', (-0.1, 0.1)),
                         'C',

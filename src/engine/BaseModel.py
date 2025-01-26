@@ -1,22 +1,28 @@
-import numpy as np
-from numpy.matrixlib.defmatrix import matrix
+from abc import ABC, abstractmethod
 
-from src.base.scene import draw_scene
-from src.engine.drawer import line2d
 from src.math.Mat3x3 import Mat3x3
 from src.math.Vec3 import Vec3
 
 
-class BaseModel:
+class BaseModel(ABC):
 
     def __init__(self):
         self.__translation = Vec3.point()
         self.__rotation = 0.0
         self.__scale = Vec3(1, 1, 1)
         self.__pivot = Vec3.point(0, 0)
+        self._geometry = []
+        self._parameters = {}
+        self._availible_parameters = []
 
-    def set_geometry(self, *vertices, **params):
-        self.__data = list(vertices)
+    def set_parameters(self, **kwargs):
+        for key, value in kwargs.items():
+            self[key] = value
+
+    def __setitem__(self, param, value):
+        if param not in self._availible_parameters:
+            raise ValueError("Недопустимий параметер")
+        self._parameters[param] = value
 
     def scale(self, sx, sy=None):
         if sy is None and isinstance(sx, Vec3):
@@ -34,6 +40,7 @@ class BaseModel:
         self.__rotation = angle
 
     def pivot(self, tx, ty):
+        # TODO: take into account...
         if ty is None and isinstance(tx, Vec3):
             self.__pivot = Vec3(tx.xy)
         else:
@@ -50,48 +57,17 @@ class BaseModel:
 
         return T * R * S
 
-    def draw(self):
+    @property
+    def transformed_geometry(self):
         M = self.transformation
         transformed_data = []
-        for point in self.__data:
+        for point in self._geometry:
             _p = M * point
             transformed_data.append(_p)
 
-        line2d(*transformed_data, closed=True)
+        return transformed_data
 
 
-def scene():
-    v0 = Vec3.point(0, 0)
-    v1 = Vec3.point(2, 0)
-    v2 = Vec3.point(2, 1)
-    v3 = Vec3.point(1, 2)
-    v4 = Vec3.point(0, 1)
-    m = BaseModel()
-    m.set_geometry(v0, v1, v2, v3, v4)
-
-    m.draw()
-
-    m.scale(2, 1)
-    m.translation(Vec3.point(2, 2))
-    m.rotation(np.radians(45))
-
-    # S = Mat3x3.scale(2, 1)
-    # T = Mat3x3.translation(Vec3.point(2, 2))
-    # R = Mat3x3.rotation(np.radians(45))
-
-    # transform = T * R * S
-    # m.set_transformation(transform)
-
-    m.draw()
-
-
-if __name__ == '__main__':
-    draw_scene(
-        scene=scene,
-        coordinate_rect=(-1, -1, 5, 5),
-        # grid_show=False,
-        base_axis_show=False,
-        axis_show=True,
-        axis_color="red",
-        axis_line_style="-."
-    )
+    @abstractmethod
+    def draw(self):
+        pass

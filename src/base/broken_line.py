@@ -9,7 +9,7 @@ def draw_broken_line(
         x, y=None,
         color="black",
         linewidth=1.0, line_style="solid",
-        vertex_color="black", vertex_size=50,
+        vertices_show=False, vertex_color="black", vertex_size=50,
         labels=(), labels_color="black", labels_font_size=DEFAULT_LABEL_FONT_SIZE,
 ):
     if y is None:
@@ -21,6 +21,7 @@ def draw_broken_line(
 
         draw_broken_line(x1, y1,
                          color=color,
+                         vertices_show=vertices_show,
                          vertex_color=vertex_color,
                          vertex_size=vertex_size,
                          linewidth=linewidth,
@@ -38,6 +39,7 @@ def draw_broken_line(
              linestyle=line_style)
 
     draw_points(x, y,
+                vertices_show=vertices_show,
                 vertex_color=vertex_color,
                 vertex_size=vertex_size,
                 labels=labels,
@@ -54,6 +56,7 @@ def scene():
                      color="blue",
                      line_style="--",
                      linewidth=1.0,
+                     vertices_show=True,
                      labels=[('A', (-0.1, -0.6)),
                              ('B', (-0.15, 0.2)),
                              'C',

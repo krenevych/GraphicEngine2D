@@ -69,7 +69,7 @@ def rotation_matrix_z(phi):
 def get_rotation_angle(matrix):
 
     # Перевірка ортогональності R
-    if not np.allclose(np.dot(rotation.T, rotation), np.eye(2)) or not np.isclose(np.linalg.det(rotation), 1):
+    if not np.allclose(np.dot(matrix.T, matrix), np.eye(2)) or not np.isclose(np.linalg.det(matrix), 1):
         raise ValueError("Матриця не є коректною матрицею повороту.")
 
     """
@@ -114,9 +114,3 @@ if __name__ == "__main__":
     print("\nМатриця обертання через scipy:")
     print(rotation_matrix_45_45_30)
 
-    # # Отримання кватерніона
-    # quaternion = rotation.as_quat()  # Порядок: [x, y, z, w]
-    # print("Кватерніон:", quaternion)
-    #
-    # euler_angles_xyz = rotation.as_euler(EU, degrees=True)
-    # print(f"Кути Ейлера {EU} :", euler_angles_xyz)

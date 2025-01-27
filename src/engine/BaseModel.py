@@ -57,8 +57,8 @@ class BaseModel(ABC):
     def show_local_frame(self, enabled=True):
         self.__is_draw_local_frame = enabled
 
-    def set_transformation(self, transition):
-        self.__translation, self.__rotation, self.__scale = Mat3x3.decompose_affine(transition)
+    def set_transformation(self, transformation):
+        self.__translation, self.__rotation, self.__scale = Mat3x3.decompose_affine(transformation)
 
     @property
     def transformation(self):

@@ -1,7 +1,7 @@
 import numpy as np
 
 from src.base.broken_line import draw_broken_line
-from src.base.scene import Scene
+from src.engine.Scene import Scene
 from src.math.Mat3x3 import Mat3x3
 from src.math.Vec3 import vertex
 

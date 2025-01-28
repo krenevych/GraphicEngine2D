@@ -1,7 +1,7 @@
 import numpy as np
 from matplotlib import pyplot as plt
 
-from src.base.scene import Scene
+from src.engine.Scene import Scene
 from src.base.text import DEFAULT_LABEL_FONT_SIZE, print_label
 
 

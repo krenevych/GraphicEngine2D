@@ -2,7 +2,7 @@ import numpy as np
 
 from src.base.arrow import draw_vector
 from src.base.points import draw_point
-from src.base.scene import Scene
+from src.engine.Scene import Scene
 from src.base.text import print_label
 
 if __name__ == '__main__':

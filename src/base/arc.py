@@ -3,7 +3,7 @@ import numpy as np
 
 from src.base.arrow import draw_vector
 from src.base.broken_line import draw_broken_line
-from src.base.scene import Scene
+from src.engine.Scene import Scene
 from src.base.text import DEFAULT_LABEL_FONT_SIZE
 
 

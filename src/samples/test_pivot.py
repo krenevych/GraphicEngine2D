@@ -1,6 +1,6 @@
 import numpy as np
 
-from src.base.scene import Scene
+from src.engine.Scene import Scene
 from src.engine.Polygon import Polygon
 
 if __name__ == '__main__':

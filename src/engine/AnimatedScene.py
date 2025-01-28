@@ -4,7 +4,7 @@ import matplotlib
 from matplotlib import pyplot as plt
 from matplotlib.animation import FuncAnimation
 
-from src.base.scene import Scene
+from src.engine.Scene import Scene
 from src.engine.simple.SimplePolygon import SimplePolygon
 from src.math.Mat3x3 import Mat3x3
 from src.math.Vec3 import vertex

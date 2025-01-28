@@ -1,7 +1,7 @@
 import numpy as np
 
 from src.base.arrow import draw_vector
-from src.base.scene import Scene
+from src.engine.Scene import Scene
 
 if __name__ == '__main__':
     class SampleScene(Scene):

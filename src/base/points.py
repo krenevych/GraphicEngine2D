@@ -1,7 +1,7 @@
 import numpy as np
 from matplotlib import pyplot as plt
 
-from src.base.scene import draw_scene
+from src.base.scene import Scene
 from src.base.text import DEFAULT_LABEL_FONT_SIZE, print_label
 
 
@@ -68,34 +68,35 @@ def draw_points(
                     )
 
 
-def scene():
-    p1 = np.array([0.2, .2])
-
-    draw_point(p1, size=100, color="blue",  label=r"$R$", label_color="blue", label_offset=(-0.02, 0.05))
-
-    points = (
-        (-1, 2), (-1, 3), (3, 1), (2, -3), (-3, -2)
-    )
-
-    draw_points(points,
-                vertices_show=True,
-                labels=[('A', (-0.1, -0.6)),
-                        ('B', (-0.1, 0.1)),
-                        'C',
-                        "D",
-                        # "Hello"
-                        ("H",)
-                        ],  # Підписи вершин
-                vertex_color="red",
-                )
-
-
 if __name__ == '__main__':
-    draw_scene(
-        scene=scene,
+
+    class PointScene(Scene):
+
+        def draw_scene(self):
+            p1 = np.array([0.2, .2])
+
+            draw_point(p1, size=100, color="blue", label=r"$R$", label_color="blue", label_offset=(-0.02, 0.05))
+
+            points = (
+                (-1, 2), (-1, 3), (3, 1), (2, -3), (-3, -2)
+            )
+
+            draw_points(points,
+                        vertices_show=True,
+                        labels=[('A', (-0.1, -0.6)),
+                                ('B', (-0.1, 0.1)),
+                                'C',
+                                "D",
+                                # "Hello"
+                                ("H",)
+                                ],  # Підписи вершин
+                        vertex_color="red",
+                        )
+
+    scene = PointScene(
         coordinate_rect=(-4, -4, 4, 4),
         # grid_show=False,
         grid_line_linestyle="-.",
         axis_show=True,
         base_axis_show=False,
-    )
+    ).draw()

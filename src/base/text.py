@@ -1,7 +1,7 @@
 import numpy as np
 from matplotlib import pyplot as plt
 
-from src.base.scene import draw_scene
+from src.base.scene import Scene
 
 DEFAULT_LABEL_FONT_SIZE = 20
 
@@ -14,19 +14,19 @@ def print_label(start,
                  ha='left')
 
 
-def scene():
-    print_label(start=(0.5, 0.5),
-                label=r"Hello $R_2^4$", label_color="red", label_fontsize=22,
-                label_offset=(-0.2, 0.1))
-
-    print_label(start=(0.5, 0.2),
-                label=r"Water $H_20$", label_color="green", label_fontsize=13,
-                label_offset=(-0.2, 0.1))
-
-
 if __name__ == '__main__':
-    draw_scene(
-        scene=scene,
+    class TextScene(Scene):
+        def draw_scene(self):
+            print_label(start=(0.5, 0.5),
+                        label=r"Hello $R_2^4$", label_color="red", label_fontsize=22,
+                        label_offset=(-0.2, 0.1))
+
+            print_label(start=(0.5, 0.2),
+                        label=r"Water $H_20$", label_color="green", label_fontsize=13,
+                        label_offset=(-0.2, 0.1))
+
+
+    TextScene(
         coordinate_rect=(0, 0, 1, 1),
         grid_show=True,
-    )
+    ).draw()

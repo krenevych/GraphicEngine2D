@@ -3,7 +3,7 @@ import numpy as np
 
 from src.base.arrow import draw_vector
 from src.base.broken_line import draw_broken_line
-from src.base.scene import draw_scene
+from src.base.scene import Scene
 from src.base.text import DEFAULT_LABEL_FONT_SIZE
 
 
@@ -25,6 +25,7 @@ def draw_arc(origin, v1, v2,
 
     # Малювання дуги
     plt.plot(x_arc, y_arc, color=color, linestyle=linestyle, linewidth=linewidth, label="Дуга")
+
 
 def draw_fake_rectangular_arc(
         origin, v1, v2,
@@ -52,55 +53,52 @@ def draw_fake_rectangular_arc(
                      )
 
 
-def scene():
-    # Центр (початок координат)
-    origin = np.array([0.5, 0.5])
-
-    # Вектори
-    v1 = np.array([1, -1.3])  # Перший вектор
-    v2 = np.array([0.5, 0.866])  # Другий вектор (утворює 60 градусів з першим)
-
-    draw_arc(origin, v1, v2,
-             radius=0.25,
-             color="red",
-             linestyle="--", linewidth=1.0,
-             )
-
-    # # Малювання векторів
-    draw_vector(origin, v1, color='blue', label=r"$v_1$")
-    draw_vector(origin, v2, color='green', label=r"$v_2$")
-
-    # perpendicular
-    v1 = np.array([-1, -1.5])  # Перший вектор
-    v2 = np.array([-1, 1])  # Другий вектор
-    origin = origin + (-1.0, -1.0)
-    draw_vector(origin, v1, color='brown', label=r"$v_1$")
-    draw_vector(origin, v2, color='red', label=r"$v_2$")
-
-    labels = [('A', (0.1, -0.3)),
-              ('B', (-0.3, 0.0)),
-              ('C', (-0.1, 0.2)),
-              ]  # Підписи вершин
-    draw_fake_rectangular_arc(origin, v1, v2,
-                              scale=0.25,
-                              color="green",
-                              linestyle="--", linewidth=1.0,
-                              labels=labels,
-                              labels_color="crimson",
-                              vertex_color="yellow",
-                              )
-
-
 if __name__ == '__main__':
-    draw_scene(
-        scene=scene,
+    class SampleScene(Scene):
+        def draw_scene(self):
+            # Центр (початок координат)
+            origin = np.array([0.5, 0.5])
+
+            # Вектори
+            v1 = np.array([1, -1.3])  # Перший вектор
+            v2 = np.array([0.5, 0.866])  # Другий вектор (утворює 60 градусів з першим)
+
+            draw_arc(origin, v1, v2,
+                     radius=0.25,
+                     color="red",
+                     linestyle="--", linewidth=1.0,
+                     )
+
+            # # Малювання векторів
+            draw_vector(origin, v1, color='blue', label=r"$v_1$")
+            draw_vector(origin, v2, color='green', label=r"$v_2$")
+
+            # perpendicular
+            v1 = np.array([-1, -1.5])  # Перший вектор
+            v2 = np.array([-1, 1])  # Другий вектор
+            origin = origin + (-1.0, -1.0)
+            draw_vector(origin, v1, color='brown', label=r"$v_1$")
+            draw_vector(origin, v2, color='red', label=r"$v_2$")
+
+            labels = [('A', (0.1, -0.3)),
+                      ('B', (-0.3, 0.0)),
+                      ('C', (-0.1, 0.2)),
+                      ]  # Підписи вершин
+            draw_fake_rectangular_arc(origin, v1, v2,
+                                      scale=0.25,
+                                      color="green",
+                                      linestyle="--", linewidth=1.0,
+                                      labels=labels,
+                                      labels_color="crimson",
+                                      vertex_color="yellow",
+                                      )
+
+
+    SampleScene(
         coordinate_rect=(-2, -2, 2, 2),
         # grid_show=False,
         base_axis_show=False,
         axis_show=True,
         axis_color="red",
         axis_line_style="-."
-    )
-
-
-
+    ).draw()

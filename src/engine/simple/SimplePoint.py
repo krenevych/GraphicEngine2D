@@ -1,7 +1,7 @@
 import numpy as np
 
 from src.base.points import draw_point
-from src.base.scene import draw_scene
+from src.base.scene import Scene
 from src.math.Mat3x3 import Mat3x3
 from src.math.Vec3 import vertex
 
@@ -14,28 +14,28 @@ class SimplePoint:
         self.color = "black"
 
     def draw(self):
-        ps =  self.transformation * self.vertex
+        ps = self.transformation * self.vertex
         draw_point(ps.xy, color=self.color)
 
 
-def scene():
-    point = SimplePoint(1, 1 )
-
-    point.color = "blue"  # колір ліній
-    point.draw()
-
-    R = Mat3x3.rotation(np.radians(45))
-    S = Mat3x3.scale(2, 3)
-    T = Mat3x3.translation(1, 1)
-
-    point.color = "red"  # колір ліній
-    point.transformation = T * R * S
-    point.draw()
-
-
 if __name__ == '__main__':
-    draw_scene(
-        scene=scene,  # функція у якій описується сцена
+    class SimplePointScene(Scene):
+        def draw_scene(self):
+            point = SimplePoint(1, 1)
+
+            point.color = "blue"  # колір ліній
+            point.draw()
+
+            R = Mat3x3.rotation(np.radians(45))
+            S = Mat3x3.scale(2, 3)
+            T = Mat3x3.translation(1, 1)
+
+            point.color = "red"  # колір ліній
+            point.transformation = T * R * S
+            point.draw()
+
+
+    SimplePointScene(
         image_size=(5, 5),  # розмір зображення: 1 - 100 пікселів
         coordinate_rect=(-2, -2, 6, 6),  # розмірність системи координат
         title="Picture",  # заголовок рисунка
@@ -44,4 +44,4 @@ if __name__ == '__main__':
         axis_show=True,  # чи показувати осі координат
         axis_color=("red", "green"),  # колір осей координат
         axis_line_style="-."  # стиль ліній осей координат
-    )
+    ).draw()

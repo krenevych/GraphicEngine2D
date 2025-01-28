@@ -1,51 +1,50 @@
 import numpy as np
 
-from src.base.scene import draw_scene
+from src.base.scene import Scene
 from src.engine.Polygon import Polygon
 
-
-def scene():
-    triangle = Polygon()
-
-    # Задаємо геометрію - пара послідовних значень визначає вершину на площині
-    triangle.set_geometry(
-        0, 0,
-        2, 0,
-        1, 1,
-    )
-
-    triangle.pivot(1, 0)
-    triangle.show_pivot()
-    triangle.show_local_frame()
-
-    # Задаємо параметри полігону
-    # triangle["show_frames"] = True
-    triangle["color"] = "blue"         # колір ліній
-    triangle["line_style"] = "--"      # стиль ліній
-    # triangle["vertices_show"] = True   # показувати вершини
-    # triangle["vertex_color"] = "grey"  # колір вершин
-    # triangle["labels"] = [             # підписи верших зі зміщеннями
-    #     (r'$P_1$', (-0.2, -0.6)),
-    #     (r'$P_2$', (0.2, -0.2)),
-    #     (r'$P_3$', (-0.1, 0.2)),
-    #     # (r"$P_4$", (-0.2, 0.3)),
-    #     # (r"$P_5$",(-0.7, -0.2)),
-    # ]
-
-    triangle.draw()
-
-    # задаємо трансформацію
-    # triangle.scale(2, 1)          # масштабування
-    triangle.rotation(np.radians(30))    # поворот
-    # triangle.translation(2, 1)    # перенесення
-    triangle["line_style"] = "-"      # стиль ліній
-    # малюємо полігон
-    triangle.draw()
-
-
 if __name__ == '__main__':
-    draw_scene(
-        scene=scene,       # функція у якій описується сцена
+    class SampleScene(Scene):
+        def draw_scene(self):
+            triangle = Polygon()
+
+            # Задаємо геометрію - пара послідовних значень визначає вершину на площині
+            triangle.set_geometry(
+                0, 0,
+                2, 0,
+                1, 1,
+            )
+
+            triangle.pivot(1, 0)
+            triangle.show_pivot()
+            triangle.show_local_frame()
+
+            # Задаємо параметри полігону
+            # triangle["show_frames"] = True
+            triangle["color"] = "blue"         # колір ліній
+            triangle["line_style"] = "--"      # стиль ліній
+            # triangle["vertices_show"] = True   # показувати вершини
+            # triangle["vertex_color"] = "grey"  # колір вершин
+            # triangle["labels"] = [             # підписи верших зі зміщеннями
+            #     (r'$P_1$', (-0.2, -0.6)),
+            #     (r'$P_2$', (0.2, -0.2)),
+            #     (r'$P_3$', (-0.1, 0.2)),
+            #     # (r"$P_4$", (-0.2, 0.3)),
+            #     # (r"$P_5$",(-0.7, -0.2)),
+            # ]
+
+            triangle.draw()
+
+            # задаємо трансформацію
+            # triangle.scale(2, 1)          # масштабування
+            triangle.rotation(np.radians(30))    # поворот
+            # triangle.translation(2, 1)    # перенесення
+            triangle["line_style"] = "-"      # стиль ліній
+            # малюємо полігон
+            triangle.draw()
+
+
+    SampleScene(
         image_size=(5, 5),  # розмір зображення: 1 - 100 пікселів
         coordinate_rect=(-1, -1, 3, 3),  #  розмірність системи координат
         title="Picture",  # заголовок рисунка
@@ -54,4 +53,4 @@ if __name__ == '__main__':
         axis_show=True,    # чи показувати осі координат
         axis_color=("red", "green"),  # колір осей координат
         axis_line_style="-."  #  стиль ліній осей координат
-    )
+    ).draw()

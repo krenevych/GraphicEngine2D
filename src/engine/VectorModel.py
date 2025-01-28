@@ -1,7 +1,7 @@
 import numpy as np
 
 from src.base.arrow import draw_vector, draw_segment
-from src.base.scene import draw_scene
+from src.base.scene import draw_scene, Scene
 from src.engine.BaseModel import BaseModel
 from src.math.Vec3 import Vec3, vertex
 
@@ -41,25 +41,25 @@ class VectorModel (BaseModel):
 
         draw_segment(*ps, **self._parameters)
 
-
-def scene():
-
-    v = VectorModel(1, 1)
-    v["color"] = "blue"
-    v["label"] = "v"
-    v["label_offset"] = -0.2, 0.1
-    v.draw()
-
-    v.translation(1, 2)
-    v.rotation(np.radians(20))
-    v.draw()
-
-
 if __name__ == '__main__':
-    draw_scene(
-        scene = scene,
+    class SampleScene(Scene):
+        def draw_scene(self):
+
+            v = VectorModel(1, 1)
+            v["color"] = "blue"
+            v["label"] = "v"
+            v["label_offset"] = -0.2, 0.1
+            v.draw()
+
+            v.translation(1, 2)
+            v.rotation(np.radians(20))
+            v.draw()
+
+
+
+    SampleScene(
         coordinate_rect=(-1, -1, 5, 5),
         grid_show=False,
         axis_show=True
-    )
+    ).draw()
 

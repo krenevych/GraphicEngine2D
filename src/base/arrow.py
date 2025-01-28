@@ -1,7 +1,7 @@
 import numpy as np
 from matplotlib import pyplot as plt
 
-from src.base.scene import draw_scene
+from src.base.scene import Scene
 from src.base.text import DEFAULT_LABEL_FONT_SIZE, print_label
 
 
@@ -47,27 +47,29 @@ def draw_arrow(p, u,
                 label_fontsize=label_fontsize,
                 label_offset=label_offset)
 
-def scene():
-    p1 = np.array([0.2, .2])
-    u1 = np.array([0.6, 0.2])
-    draw_vector(p1, u1, color="green", label=r"$T$",
-                label_color="red",
-                label_offset=(-0.05, 0.02),
-                )
-
-    p2 = p1 - (0.0, 0.15)
-
-    draw_arrow(p2, u1, color="green", label=r"$T$",
-               label_color="red",
-               label_offset=(-0.05, 0.02),
-               linewidth=2,
-               head_width=0.1,
-               head_length=0.1,
-               head_color="red"
-               )
 
 if __name__ == '__main__':
-    draw_scene(
-        scene=scene,
+    class SampleScene(Scene):
+        def draw_scene(self):
+            p1 = np.array([0.2, .2])
+            u1 = np.array([0.6, 0.2])
+            draw_vector(p1, u1, color="green", label=r"$T$",
+                        label_color="red",
+                        label_offset=(-0.05, 0.02),
+                        )
+
+            p2 = p1 - (0.0, 0.15)
+
+            draw_arrow(p2, u1, color="green", label=r"$T$",
+                       label_color="red",
+                       label_offset=(-0.05, 0.02),
+                       linewidth=2,
+                       head_width=0.1,
+                       head_length=0.1,
+                       head_color="red"
+                       )
+
+
+    SampleScene(
         coordinate_rect=(0, 0, 1, 1),
-    )
+    ).draw()

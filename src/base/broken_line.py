@@ -1,7 +1,7 @@
 from matplotlib import pyplot as plt
 
 from src.base.points import draw_points
-from src.base.scene import draw_scene
+from src.base.scene import Scene
 from src.base.text import DEFAULT_LABEL_FONT_SIZE
 
 
@@ -47,36 +47,36 @@ def draw_broken_line(
                 labels_font_size=labels_font_size,
                 )
 
-def scene():
-    points = (
-        (-1, 2), (-1, 3), (3, 1), (2, -3), (-3, -2)
-    )
-
-    draw_broken_line(points,
-                     color="blue",
-                     line_style="--",
-                     linewidth=1.0,
-                     vertices_show=True,
-                     labels=[('A', (-0.1, -0.6)),
-                             ('B', (-0.15, 0.2)),
-                             'C',
-                             "D",
-                             ("H", (-0.2, 0.15))
-                             ],  # Підписи вершин
-                     vertex_color="red",
-                     )
-
-    ############
-
 
 if __name__ == '__main__':
-    draw_scene(
-        scene=scene,
+    class BrokenLine(Scene):
+
+        def draw_scene(self):
+            points = (
+                (-1, 2), (-1, 3), (3, 1), (2, -3), (-3, -2)
+            )
+
+            draw_broken_line(points,
+                             color="blue",
+                             line_style="--",
+                             linewidth=1.0,
+                             vertices_show=True,
+                             labels=[('A', (-0.1, -0.6)),
+                                     ('B', (-0.15, 0.2)),
+                                     'C',
+                                     "D",
+                                     ("H", (-0.2, 0.15))
+                                     ],  # Підписи вершин
+                             vertex_color="red",
+                             )
+
+
+    BrokenLine(
         coordinate_rect=(-4, -4, 4, 4),
         # grid_show=False,
         grid_line_linestyle="-.",
         axis_show=True,
         base_axis_show=False,
-    )
+    ).draw()
 
 

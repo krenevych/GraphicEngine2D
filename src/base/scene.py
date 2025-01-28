@@ -56,7 +56,7 @@ def draw_scene(
         title="Picture",
         base_axis_show=True, axis_show=False, axis_color=("red", "green"), axis_line_style="-.",
         grid_show=True, grid_line_linestyle="solid", greed_alpha=1.0,
-        keep_aspect_ratio=False,
+        keep_aspect_ratio=True,
 ):
     plt.figure(figsize=image_size)
     plt.xlim(coordinate_rect[0], coordinate_rect[2])

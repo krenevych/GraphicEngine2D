@@ -1,12 +1,6 @@
 from matplotlib import pyplot as plt
 
-
-def draw_axis(start, end,
-              color="black", linewidth=1.0, linestyle="--", ):
-    plt.plot(
-        [start[0], end[0]], [start[1], end[1]],
-        color=color, linestyle=linestyle, linewidth=linewidth
-    )
+from src.base.axes import draw_axes
 
 
 def default_scene():
@@ -16,38 +10,35 @@ def default_scene():
 
     pass
 
+def show_axes(axis_show, coordinate_rect, axis_color, axis_line_style):
+    if axis_show:
+        draw_axes(coordinate_rect, axis_color, axis_line_style)
 
-def draw_axes(coordinate_rect, axis_color, axis_line_style):
-    shift_offset = 0.1
+    plt.xlim(coordinate_rect[0], coordinate_rect[2])
+    plt.ylim(coordinate_rect[1], coordinate_rect[3])
 
-    y_len = coordinate_rect[3] - coordinate_rect[1]
-    shift = y_len * shift_offset / 2
 
-    start_x = (0.0, coordinate_rect[1] + shift)
-    end_x = (0.0, coordinate_rect[3] - shift)
 
-    axis_x_color = "red"
-    axis_y_color = "green"
-    if isinstance(axis_color, str):
-        axis_x_color = axis_color
-        axis_y_color = axis_color
-    elif isinstance(axis_color, (tuple, list)):
-        if len(axis_color) == 1:
-            axis_x_color = axis_color
-            axis_y_color = axis_color
-        elif len(axis_color) >= 2:
-            axis_x_color = axis_color[0]
-            axis_y_color = axis_color[1]
+def setup_base_parameters(base_axis_show,
+                          keep_aspect_ratio,
+                          grid_show, grid_line_linestyle, greed_alpha):
+    # Відключення стандартних осей
+    if not base_axis_show:
+        plt.gca().spines['bottom'].set_visible(False)
+        plt.gca().spines['left'].set_visible(False)
+        plt.gca().spines['top'].set_visible(False)
+        plt.gca().spines['right'].set_visible(False)
 
-    draw_axis(start_x, end_x, color=axis_y_color, linestyle=axis_line_style)
+    if keep_aspect_ratio:
+        plt.gca().set_aspect('equal', adjustable='box')
 
-    x_len = coordinate_rect[2] - coordinate_rect[0]
-    x_shift = x_len * shift_offset / 2
+    if grid_show:
+        plt.grid(grid_show, linestyle=grid_line_linestyle, alpha=greed_alpha, )
+    else:
+        plt.grid(False)
 
-    start_x = (coordinate_rect[0] + x_shift, 0.0)
-    end_x = (coordinate_rect[2] - x_shift, 0.0)
-    draw_axis(start_x, end_x, color=axis_x_color, linestyle=axis_line_style)
-
+def set_title(title):
+    plt.title(title)
 
 def draw_scene(
         scene=default_scene,
@@ -59,25 +50,11 @@ def draw_scene(
         keep_aspect_ratio=True,
 ):
     plt.figure(figsize=image_size)
-    plt.xlim(coordinate_rect[0], coordinate_rect[2])
-    plt.ylim(coordinate_rect[1], coordinate_rect[3])
-    if keep_aspect_ratio:
-        plt.gca().set_aspect('equal', adjustable='box')
-    plt.title(title)
-    if grid_show:
-        plt.grid(grid_show, linestyle=grid_line_linestyle, alpha=greed_alpha, )
-    else:
-        plt.grid(False)
 
-    if axis_show:
-        draw_axes(coordinate_rect, axis_color, axis_line_style)
+    set_title(title)
 
-    # Відключення стандартних осей
-    if not base_axis_show:
-        plt.gca().spines['bottom'].set_visible(False)
-        plt.gca().spines['left'].set_visible(False)
-        plt.gca().spines['top'].set_visible(False)
-        plt.gca().spines['right'].set_visible(False)
+    setup_base_parameters(base_axis_show, keep_aspect_ratio, grid_show, grid_line_linestyle, greed_alpha)
+    show_axes(axis_show, coordinate_rect, axis_color, axis_line_style)
 
     scene()
 

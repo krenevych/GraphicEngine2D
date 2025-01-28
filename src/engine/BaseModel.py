@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 
+from src.base.axes import draw_axis
 from src.base.points import draw_point
-from src.base.scene import draw_axis
 from src.math.Mat3x3 import Mat3x3
 from src.math.Vec3 import Vec3, vertex
 

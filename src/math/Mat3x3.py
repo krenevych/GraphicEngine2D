@@ -214,7 +214,7 @@ if __name__ == "__main__":
     print(m2)
 
     # Множення матриць
-    m4 = m1 @ m2
+    m4 = m1 @ m2  # @ == *
     print("Результат множення матриць:")
     print(m4)
 
@@ -225,7 +225,7 @@ if __name__ == "__main__":
 
     # Поелементне множення матриць
     m6 = m2 * m2
-    print("Результат поелементного множення матриць:")
+    print("Результат множення матриць:")
     print(m6)
 
     # Обчислення оберненої матриці
@@ -234,7 +234,7 @@ if __name__ == "__main__":
         print("Обернена матриця до m1:")
         print(m1_inv)
 
-        m8 = m1_inv @ m1
+        m8 = m1_inv * m1
         print("m7 * m1:")
         print(m8)
     except ValueError as e:
@@ -260,8 +260,8 @@ if __name__ == "__main__":
     b = Vec3(1, 2, 4)
     print("b =", b)
 
-    x = m1_inv @ b
+    x = m1_inv * b
     print("x = ", x)
 
-    b1 = m1 @ x
+    b1 = m1 * x
     print("b1 =", b1)

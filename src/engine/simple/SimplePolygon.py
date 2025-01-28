@@ -28,9 +28,6 @@ class SimplePolygon:
         draw_broken_line(ps, color=self.color, line_style=self.line_style)
 
 
-
-
-
 if __name__ == '__main__':
     class SimplePolygonScene(Scene):
 

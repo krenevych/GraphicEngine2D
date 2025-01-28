@@ -84,13 +84,9 @@ def draw_scene(
     plt.show()
 
 
-def scene():
-    pass
-
-
 if __name__ == '__main__':
     draw_scene(
-        scene=scene,
+        scene=default_scene,
         coordinate_rect=(-3, -3, 4, 4),
         base_axis_show=True,  # set False to hide axis
         axis_show=True,

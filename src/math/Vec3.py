@@ -77,7 +77,10 @@ class Vec3:
         return Vec3(self.data - other)
 
     def __mul__(self, other):
-        return self.dot(other)
+        if isinstance(other, (float, int)):
+            return Vec3(self.data * other)
+        else:
+            return self.dot(other)
 
     def dot(self, other):
         """

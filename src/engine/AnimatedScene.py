@@ -1,4 +1,4 @@
-from abc import abstractmethod
+from abc import abstractmethod, ABC
 
 import matplotlib
 from matplotlib import pyplot as plt
@@ -8,23 +8,26 @@ from src.engine.Scene import Scene
 
 matplotlib.use("TkAgg")
 
-
-class AnimationListener:
-
-    @abstractmethod
-    def on_start(self):
-        pass
-
-    @abstractmethod
-    def on_finish(self):
-        pass
-
-    @abstractmethod
-    def on_restart(self):
-        pass
-
-ANIMATION_STOPED = "ANIMATION_STOPED"
+ANIMATION_STOPPED = "ANIMATION_STOPED"
 ANIMATION_PLAYED = "ANIMATION_FINISHED"
+
+
+class AnimationListener(ABC):
+    @abstractmethod
+    def on_start(self): pass
+
+    @abstractmethod
+    def on_finish(self): pass
+
+    @abstractmethod
+    def on_repeat(self): pass
+
+
+class AnimationFinishedListener(AnimationListener, ABC):
+    def on_start(self): pass
+
+    def on_repeat(self): pass
+
 
 class AnimatedScene(Scene):
 
@@ -34,20 +37,24 @@ class AnimatedScene(Scene):
         self._start = None
         self._end = None
         self._frames = 0
-        self._animation_state = ANIMATION_STOPED
+        self._repeat = False
+        self._animation_state = ANIMATION_STOPPED
 
-        self.listener = None
+        self.__listener = None
 
-    def animate(self, start, end,
-                frame=100,
-                interval=16,
-                animation_listener=None,
-                repeat=False):
+    def animate(self,
+                start,  # Початкове значення трасформації
+                end,  # Кінцеве значення трасформації
+                frame=100,  # Кількість кадрів анімації
+                interval=16,  # Час в мілісекундах між кадрами анімації
+                repeat=False,  # Чи циклічна анімація
+                animation_listener=None,  # спостерігач
+                ):
         self._start = start
         self._end = end
         self._frames = frame
         self._repeat = repeat
-        self.listener = animation_listener
+        self.__listener = animation_listener
 
         global ani
         ani = FuncAnimation(self.figure, self.__update, frames=frame, blit=False, interval=interval, repeat=repeat)
@@ -62,21 +69,20 @@ class AnimatedScene(Scene):
         # print(f"Frame {frame}")
 
         if frame == 0:
-            if self._animation_state == ANIMATION_STOPED:
+            if self._animation_state == ANIMATION_STOPPED:
                 self._animation_state = ANIMATION_PLAYED
-                if self.listener is not None:
-                    self.listener.on_start()
-
+                if self.__listener is not None:
+                    self.__listener.on_start()
 
         if frame == self._frames - 1:
             if self._animation_state == ANIMATION_PLAYED:
-                if  self._repeat:
-                    if self.listener is not None:
-                        self.listener.on_restart()
+                if self._repeat:
+                    if self.__listener is not None:
+                        self.__listener.on_repeat()
                 else:
-                    self._animation_state = ANIMATION_STOPED
-                    if self.listener is not None:
-                        self.listener.on_finish()
+                    self._animation_state = ANIMATION_STOPPED
+                    if self.__listener is not None:
+                        self.__listener.on_finish()
 
         self.figure.clear()  # Очищення фігури
 

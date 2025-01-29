@@ -5,11 +5,14 @@ from src.engine.Polygon import Polygon
 
 if __name__ == '__main__':
     class SampleScene(Scene):
-        def draw_scene(self):
-            polygon = Polygon()
+
+        def __init__(self, **kwargs):
+            super().__init__(**kwargs)
+
+            self._polygon = Polygon()
 
             # Задаємо геометрію - пара послідовних значень визначає вершину на площині
-            polygon.set_geometry(
+            self._polygon.set_geometry(
                 0, 0,
                 2, 0,
                 2, 1,
@@ -17,12 +20,15 @@ if __name__ == '__main__':
                 0, 1
             )
 
+
+        def draw_scene(self):
+
             # Задаємо параметри полігону
-            polygon["color"] = "blue"         # колір ліній
-            polygon["line_style"] = "--"      # стиль ліній
-            polygon["vertices_show"] = True   # показувати вершини
-            polygon["vertex_color"] = "grey"  # колір вершин
-            polygon["labels"] = [             # підписи верших зі зміщеннями
+            self._polygon["color"] = "blue"         # колір ліній
+            self._polygon["line_style"] = "--"      # стиль ліній
+            self._polygon["vertices_show"] = True   # показувати вершини
+            self._polygon["vertex_color"] = "grey"  # колір вершин
+            self._polygon["labels"] = [             # підписи верших зі зміщеннями
                 (r'$P_1$', (-0.2, -0.6)),
                 (r'$P_2$', (0.2, -0.2)),
                 (r'$P_3$', (-0.1, 0.2)),
@@ -31,15 +37,15 @@ if __name__ == '__main__':
             ]
 
             # задаємо трансформацію
-            polygon.scale(2, 1)          # масштабування
-            polygon.rotation(np.radians(45))    # поворот
-            polygon.translation(2, 1)    # перенесення
+            self._polygon.scale(2, 1)          # масштабування
+            self._polygon.rotation(np.radians(45))    # поворот
+            self._polygon.translation(2, 1)    # перенесення
 
             # малюємо полігон
-            polygon.draw()
+            self._polygon.draw()
 
 
-    SampleScene(
+    scene = SampleScene(
         image_size=(5, 5),  # розмір зображення: 1 - 100 пікселів
         coordinate_rect=(-1, -1, 6, 6),  #  розмірність системи координат
         title="Picture",  # заголовок рисунка
@@ -48,4 +54,6 @@ if __name__ == '__main__':
         axis_show=True,    # чи показувати осі координат
         axis_color=("red", "green"),  # колір осей координат
         axis_line_style="-."  #  стиль ліній осей координат
-    ).draw()
+    )
+
+    scene.draw()

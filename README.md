@@ -17,6 +17,7 @@
 ![Малюнок 1](images/img6.png)
 ![Малюнок 1](images/img4.png)
 ![Малюнок 1](images/img5.png)
+![Малюнок anim](images/animation.gif)
 
 ## Встановлення
 
@@ -55,7 +56,7 @@ class SampleScene(Scene):
 ```
 
 4. Для нащадку класу AnimatedScene додатково реалізуйте метод `on_frame(self, frame, start, end)`, що описує зображення
-   сцени на кожному фреймі анімації [animated_scene.](src/samples/anim/animated_scene.py)
+   сцени на кожному фреймі анімації (див.[animated_scene.](src/samples/anim/animated_scene.py))
 
 ```python
 

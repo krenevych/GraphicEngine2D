@@ -59,6 +59,8 @@ class AnimatedScene(Scene):
         global ani
         ani = FuncAnimation(self.figure, self.__update, frames=frame, blit=False, interval=interval, repeat=repeat)
 
+ #       ani.save("animation.gif", writer="pillow", fps=20)
+
         plt.show()
 
     @abstractmethod

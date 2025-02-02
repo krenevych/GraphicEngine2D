@@ -28,6 +28,22 @@ class Scene(ABC):
         self.keep_aspect_ratio = keep_aspect_ratio
 
         self.figure = plt.figure(figsize=self.image_size)
+        self.figures = {}
+
+    def add_figure(self, figure, name="default"):
+        if name not in self.figures:
+            self.figures[name] = figure
+        else:
+            raise KeyError("Figure name {} already exists".format(name))
+
+    def __setitem__(self, name, figure):
+        self.add_figure(figure, name)
+
+    def __getitem__(self, item):
+        return self.figures[item]
+
+    def get_figure(self, name):
+        return self.figures[name]
 
     def show_axes(self):
         if self.axis_show:
@@ -55,18 +71,20 @@ class Scene(ABC):
     def set_title(self):
         plt.title(self.title)
 
-    def draw(self):
-        self.set_title()
+    def draw_figure(self, name="default"):
+        if name in self.figures:
+            self.figures[name].draw()
 
+    def draw_figures(self):
+        for name, figure in self.figures.items():
+            figure.draw()
+
+
+    def prepare(self):
+        self.set_title()
         self.setup_base_parameters()
         self.show_axes()
+        return self
 
-        self.draw_scene()
-
+    def finalize(self):
         plt.show()
-
-    @abstractmethod
-    def draw_scene(self):
-        pass
-
-

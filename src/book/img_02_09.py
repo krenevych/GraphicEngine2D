@@ -7,7 +7,7 @@ from src.base.text import print_label
 
 if __name__ == '__main__':
     class SampleScene(Scene):
-        def draw_scene(self):
+        def draw_figures(self):
             # Вектори
             u = np.array([3.5, 1])  # Вектор u
             v = np.array([1, 3])  # Вектор v
@@ -30,9 +30,11 @@ if __name__ == '__main__':
             draw_line(v, proj_v_on_u, linestyle="--", linewidth=0.8)
 
 
-    SampleScene(
+    scene = SampleScene(
         coordinate_rect=(-1, -1, 4, 4),
         grid_show=True,
         base_axis_show=False,
         axis_show=True
-    ).draw()
+    ).prepare()
+    scene.draw_figures()
+    scene.finalize()

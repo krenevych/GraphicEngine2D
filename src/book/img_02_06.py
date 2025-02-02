@@ -6,7 +6,7 @@ from src.base.text import print_label
 
 if __name__ == '__main__':
     class SampleScene(Scene):
-        def draw_scene(self):
+        def draw_figures(self):
             # Координати точок
             P1 = np.array([0, 0])
             P2 = np.array([-1.5, 1])
@@ -56,8 +56,10 @@ if __name__ == '__main__':
                         )
 
 
-    SampleScene(
+    scene = SampleScene(
         coordinate_rect=(-3, -1, 3, 4),
         grid_show=False
-    ).draw()
+    ).prepare()
+    scene.draw_figures()
+    scene.finalize()
 

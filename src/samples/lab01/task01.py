@@ -4,7 +4,7 @@ from src.math.Mat3x3 import Mat3x3
 
 if __name__ == '__main__':
     class SampleScene(Scene):
-        def draw_scene(self):
+        def draw_figures(self):
             rect = SimplePolygon(
                 0, 0,
                 1, 0,
@@ -38,7 +38,7 @@ if __name__ == '__main__':
             rect.transformation = R_30 * T_2_3
             rect.draw()
 
-    SampleScene(
+    scene = SampleScene(
         image_size=(5, 5),  # розмір зображення: 1 - 100 пікселів
         coordinate_rect=(-3, -1, 6, 6),  # розмірність системи координат
         title="Picture",  # заголовок рисунка
@@ -48,4 +48,6 @@ if __name__ == '__main__':
         axis_color=("red", "green"),  # колір осей координат
         axis_line_style="-.",  # стиль ліній осей координат
         keep_aspect_ratio = True,
-    ).draw()
+    ).prepare()
+    scene.draw_figures()
+    scene.finalize()

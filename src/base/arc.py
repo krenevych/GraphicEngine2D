@@ -55,7 +55,7 @@ def draw_fake_rectangular_arc(
 
 if __name__ == '__main__':
     class SampleScene(Scene):
-        def draw_scene(self):
+        def draw_figures(self):
             # Центр (початок координат)
             origin = np.array([0.5, 0.5])
 
@@ -93,12 +93,13 @@ if __name__ == '__main__':
                                       vertex_color="yellow",
                                       )
 
-
-    SampleScene(
+    scene = Scene(
         coordinate_rect=(-2, -2, 2, 2),
         # grid_show=False,
         base_axis_show=False,
         axis_show=True,
         axis_color="red",
         axis_line_style="-."
-    ).draw()
+    ).prepare()
+    scene.draw_figures()
+    scene.finalize()

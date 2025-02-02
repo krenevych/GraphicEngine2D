@@ -6,7 +6,7 @@ from src.engine.Scene import Scene
 if __name__ == '__main__':
     class SampleScene(Scene):
 
-        def draw_scene(self):
+        def draw_figures(self):
             # # Початкові точки для першого набору векторів
             P1 = np.array([1, 1])
             U1 = np.array([1, 0.5])
@@ -25,7 +25,9 @@ if __name__ == '__main__':
             draw_vector(P, U, color="red")
 
 
-    SampleScene(
+    scene = SampleScene(
         coordinate_rect=(-1, -1, 5, 5),
         grid_show=False
-    ).draw()
+    ).prepare()
+    scene.draw_figures()
+    scene.finalize()

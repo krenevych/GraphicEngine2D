@@ -16,7 +16,7 @@ def print_label(start,
 
 if __name__ == '__main__':
     class TextScene(Scene):
-        def draw_scene(self):
+        def draw_figures(self):
             print_label(start=(0.5, 0.5),
                         label=r"Hello $R_2^4$", label_color="red", label_fontsize=22,
                         label_offset=(-0.2, 0.1))
@@ -26,7 +26,10 @@ if __name__ == '__main__':
                         label_offset=(-0.2, 0.1))
 
 
-    TextScene(
+    scene = TextScene(
         coordinate_rect=(0, 0, 1, 1),
         grid_show=True,
-    ).draw()
+    ).prepare()
+    scene.draw_figures()
+    scene.finalize()
+

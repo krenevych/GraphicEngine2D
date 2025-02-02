@@ -5,7 +5,7 @@ from src.engine.Scene import Scene
 
 if __name__ == '__main__':
     class SampleScene(Scene):
-        def draw_scene(self):
+        def draw_figures(self):
             P1 = np.array([0.5, 1.3])
             U1 = np.array([1.1, 0.5])
             draw_vector(P1, U1, color="blue",
@@ -20,8 +20,10 @@ if __name__ == '__main__':
                         label_offset=(-0.3, 0.10),
                         )
 
-    SampleScene(
+    scene = SampleScene(
         coordinate_rect=(-1, -1, 3, 3),
         grid_show=False
-    ).draw()
+    ).prepare()
+    scene.draw_figures()
+    scene.finalize()
 

@@ -30,7 +30,7 @@ def drawLineWithLength(p, u,
 
 if __name__ == '__main__':
     class SampleScene(Scene):
-        def draw_scene(self):
+        def draw_figures(self):
             p = np.array([0.2, .3])
             u = np.array([0.6, 0.4])
 
@@ -52,12 +52,14 @@ if __name__ == '__main__':
 
 
 
-    SampleScene(
+    scene = SampleScene(
         coordinate_rect=(-0.1, -0.1, 1, 1),
         # grid_show=False,
         # grid_line_linestyle="-.",
         # axis_show=True,
         # base_axis_show=False,
-    ).draw()
+    ).prepare()
+    scene.draw_figures()
+    scene.finalize()
 
 

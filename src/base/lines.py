@@ -47,11 +47,13 @@ def draw_length_with_perpendiculars_on_edges(start, end, color_line="black", lin
 
 if __name__ == '__main__':
     class SampleScene(Scene):
-        def draw_scene(self):
+        def draw_figures(self):
             draw_line((0.5, .8), (.8, 0.9), linewidth=3, linestyle="--")
             draw_length_with_perpendiculars_on_edges((0.2, 0.6), (.8, 0.6), edge_length=0.03, linestyle="--")
 
 
-    SampleScene(
+    scene = SampleScene(
         coordinate_rect=(0, 0, 1, 1),
-    ).draw()
+    ).prepare()
+    scene.draw_figures()
+    scene.finalize()

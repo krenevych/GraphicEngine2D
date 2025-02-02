@@ -1,3 +1,5 @@
+from zipfile import sizeEndCentDir
+
 import numpy as np
 
 from src.base.broken_line import draw_broken_line
@@ -115,11 +117,13 @@ if __name__ == '__main__':
             m.draw()
 
 
-    PolygonScene(
+    scene = PolygonScene(
         coordinate_rect=(-1, -1, 6, 6),
         # grid_show=False,
         base_axis_show=False,
         axis_show=True,
         axis_color="red",
         axis_line_style="-."
-    ).draw()
+    ).prepare()
+    scene.draw_figures()
+    scene.finalize()

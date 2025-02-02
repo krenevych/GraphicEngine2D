@@ -9,10 +9,11 @@ if __name__ == '__main__':
         def __init__(self, **kwargs):
             super().__init__(**kwargs)
 
-            self._polygon = Polygon()
+            polygon = Polygon()
+            self["polygon"] = polygon
 
             # Задаємо геометрію - пара послідовних значень визначає вершину на площині
-            self._polygon.set_geometry(
+            polygon.set_geometry(
                 0, 0,
                 2, 0,
                 2, 1,
@@ -21,14 +22,14 @@ if __name__ == '__main__':
             )
 
 
-        def draw_scene(self):
-
+        def draw_figures(self):
+            polygon = self["polygon"]
             # Задаємо параметри полігону
-            self._polygon["color"] = "blue"         # колір ліній
-            self._polygon["line_style"] = "--"      # стиль ліній
-            self._polygon["vertices_show"] = True   # показувати вершини
-            self._polygon["vertex_color"] = "grey"  # колір вершин
-            self._polygon["labels"] = [             # підписи верших зі зміщеннями
+            polygon["color"] = "blue"         # колір ліній
+            polygon["line_style"] = "--"      # стиль ліній
+            polygon["vertices_show"] = True   # показувати вершини
+            polygon["vertex_color"] = "grey"  # колір вершин
+            polygon["labels"] = [             # підписи верших зі зміщеннями
                 (r'$P_1$', (-0.2, -0.6)),
                 (r'$P_2$', (0.2, -0.2)),
                 (r'$P_3$', (-0.1, 0.2)),
@@ -37,12 +38,12 @@ if __name__ == '__main__':
             ]
 
             # задаємо трансформацію
-            self._polygon.scale(2, 1)          # масштабування
-            self._polygon.rotation(np.radians(45))    # поворот
-            self._polygon.translation(2, 1)    # перенесення
+            polygon.scale(2, 1)          # масштабування
+            polygon.rotation(np.radians(45))    # поворот
+            polygon.translation(2, 1)    # перенесення
 
             # малюємо полігон
-            self._polygon.draw()
+            polygon.draw()
 
 
     scene = SampleScene(
@@ -54,6 +55,6 @@ if __name__ == '__main__':
         axis_show=True,    # чи показувати осі координат
         axis_color=("red", "green"),  # колір осей координат
         axis_line_style="-."  #  стиль ліній осей координат
-    )
-
-    scene.draw()
+    ).prepare()
+    scene.draw_figures()
+    scene.finalize()

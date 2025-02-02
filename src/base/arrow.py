@@ -70,6 +70,8 @@ if __name__ == '__main__':
                        )
 
 
-    SampleScene(
+    scene = Scene(
         coordinate_rect=(0, 0, 1, 1),
-    ).draw()
+    ).prepare()
+    scene.draw_figures()
+    scene.finalize()

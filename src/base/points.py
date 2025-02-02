@@ -72,7 +72,7 @@ if __name__ == '__main__':
 
     class PointScene(Scene):
 
-        def draw_scene(self):
+        def draw_figures(self):
             p1 = np.array([0.2, .2])
 
             draw_point(p1, size=100, color="blue", label=r"$R$", label_color="blue", label_offset=(-0.02, 0.05))
@@ -99,4 +99,6 @@ if __name__ == '__main__':
         grid_line_linestyle="-.",
         axis_show=True,
         base_axis_show=False,
-    ).draw()
+    ).prepare()
+    scene.draw_figures()
+    scene.finalize()

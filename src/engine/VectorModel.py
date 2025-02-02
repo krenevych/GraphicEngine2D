@@ -43,7 +43,7 @@ class VectorModel (BaseModel):
 
 if __name__ == '__main__':
     class SampleScene(Scene):
-        def draw_scene(self):
+        def draw_figures(self):
 
             v = VectorModel(1, 1)
             v["color"] = "blue"
@@ -57,9 +57,11 @@ if __name__ == '__main__':
 
 
 
-    SampleScene(
+    scene = Scene(
         coordinate_rect=(-1, -1, 5, 5),
         grid_show=False,
         axis_show=True
-    ).draw()
+    ).prepare()
+    scene.draw_figures()
+    scene.finalize()
 

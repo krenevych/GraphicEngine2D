@@ -1,7 +1,7 @@
 import numpy as np
 
-from src.engine.Scene import Scene
 from src.engine.Polygon import Polygon
+from src.engine.Scene import Scene
 
 if __name__ == '__main__':
     class SampleScene(Scene):
@@ -44,7 +44,7 @@ if __name__ == '__main__':
             triangle.draw()
 
 
-    SampleScene(
+    scene = SampleScene(
         image_size=(5, 5),  # розмір зображення: 1 - 100 пікселів
         coordinate_rect=(-1, -1, 3, 3),  #  розмірність системи координат
         title="Picture",  # заголовок рисунка
@@ -53,4 +53,6 @@ if __name__ == '__main__':
         axis_show=True,    # чи показувати осі координат
         axis_color=("red", "green"),  # колір осей координат
         axis_line_style="-."  #  стиль ліній осей координат
-    ).draw()
+    ).prepare()
+    scene.draw_figures()
+    scene.finalize()

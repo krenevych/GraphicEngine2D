@@ -51,7 +51,7 @@ def draw_broken_line(
 if __name__ == '__main__':
     class BrokenLine(Scene):
 
-        def draw_scene(self):
+        def draw_figures(self):
             points = (
                 (-1, 2), (-1, 3), (3, 1), (2, -3), (-3, -2)
             )
@@ -71,12 +71,16 @@ if __name__ == '__main__':
                              )
 
 
-    BrokenLine(
+    scene = BrokenLine(
         coordinate_rect=(-4, -4, 4, 4),
         # grid_show=False,
         grid_line_linestyle="-.",
         axis_show=True,
         base_axis_show=False,
-    ).draw()
+    ).prepare()
+
+    scene.draw_figures()
+
+    scene.finalize()
 
 

@@ -16,7 +16,9 @@ if __name__ == '__main__':
             draw_vector(P3, U, color="blue")
 
 
-    SampleScene(
+    scene = SampleScene(
         coordinate_rect=(-1, -1, 3, 5),
         grid_show=False
-    ).draw()
+    ).prepare()
+    scene.draw_figures()
+    scene.finalize()

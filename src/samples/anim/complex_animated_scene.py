@@ -1,9 +1,11 @@
+import numpy as np
+
 from src.engine.AnimatedScene import AnimatedScene
-from src.engine.animation.Animation import AnimationFinishedListener
+from src.engine.animation.RotationAnimation import RotationAnimation
+from src.engine.animation.ScaleAnimation import ScaleAnimation
 from src.engine.animation.TranslationAnimation import TranslationAnimation
 from src.engine.simple.SimplePolygon import SimplePolygon
 from src.math.Vec3 import vertex
-
 
 
 class AnimatedSceneSample(AnimatedScene):
@@ -34,17 +36,33 @@ if __name__ == '__main__':
         keep_aspect_ratio=True,
     )
 
-    class AnimListener(AnimationFinishedListener):
-        def __init__(self, scene):
-            self.scene = scene
 
-        def on_finish(self, scene):
-            print("Finished animation")
+    def translation(scene):
+        print("Finished animation 1")
+        scene.animate(TranslationAnimation(start=vertex(0, 0),
+                                           end=vertex(3, 3),
+                                           channels=("rect",),
+                                           frames=30,
+                                           animation_listener=finish
+                                           ))
 
 
-    animation = TranslationAnimation(start=vertex(0, 0),
-                                     end=vertex(2, 2),
-                                     channels=("rect",),
-                                     animation_listener=AnimListener(scene))
+    def rotation(scene):
+        print("Finished scale animation")
+        scene.animate(RotationAnimation(start=0,
+                                    end=np.radians(45),
+                                    frames=50,
+                                    channels=("rect",),
+                                    animation_listener=translation))
 
-    scene.animate(animation)
+
+    def finish(scene):
+        print("Finished translation")
+
+
+    scene.animate(ScaleAnimation(start=(1, 1),
+                                    end=(2, 2),
+                                    frames=50,
+                                    channels=("rect",),
+                                    animation_listener=rotation))
+

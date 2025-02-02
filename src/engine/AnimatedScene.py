@@ -3,7 +3,7 @@ from abc import ABC
 import matplotlib
 from matplotlib.animation import FuncAnimation
 
-from src.engine.Animation import Animation
+from src.engine.animation.Animation import Animation
 from src.engine.Scene import Scene
 
 matplotlib.use("TkAgg")
@@ -20,6 +20,7 @@ class AnimatedScene(Scene, ABC):
     def animate(self, animation: Animation):
 
         self._animation = animation
+        self._animation.initial_transformation = self[animation.channels[0]].transformation
 
         global ani
         ani = FuncAnimation(self.figure,
@@ -42,7 +43,7 @@ class AnimatedScene(Scene, ABC):
                 figure = self[channel]
                 figure.transformation = transformation
 
-            self._animation.notify(frame)
+            self._animation.notify(self, frame)
 
 
     def __update(self, frame):

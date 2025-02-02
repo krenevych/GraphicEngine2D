@@ -17,6 +17,9 @@ class SimplePoint:
         ps = self.transformation * self.vertex
         draw_point(ps.xy, color=self.color)
 
+    def set_transformation(self, transformation):
+        self.transformation = transformation
+
 
 if __name__ == '__main__':
     class SimplePointScene(Scene):

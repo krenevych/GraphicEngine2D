@@ -3,24 +3,41 @@ from abc import ABC
 import matplotlib
 from matplotlib.animation import FuncAnimation
 
-from src.engine.animation.Animation import Animation
+from src.engine.animation.Animation import Animation, AnimationFinishedListener
 from src.engine.Scene import Scene
 
 matplotlib.use("TkAgg")
 
 
-class AnimatedScene(Scene, ABC):
+class AnimatedScene(Scene, AnimationFinishedListener):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
-        self._animation = None
+        self._current_animation = None
+        self._animations = []
 
+    def on_finish(self, scene):
+        self.__animate_next()
 
-    def animate(self, animation: Animation):
+    def add_animation(self, animation: Animation):
+        self._animations.append(animation)
+        animation.add_animation_listener(self)
 
-        self._animation = animation
-        self._animation.initial_transformation = self[animation.channels[0]].transformation
+    def __animate_next(self):
+        if len(self._animations) > 0:
+            current = self._animations[0]
+            self._animations.pop(0)
+            self.animate(current)
+
+    def animate(self, animation: Animation = None):
+
+        if animation is None:
+            self.__animate_next()
+            return
+
+        self._current_animation = animation
+        self._current_animation.initial_transformation = self[animation.channels[0]].transformation
 
         global ani
         ani = FuncAnimation(self.figure,
@@ -36,14 +53,14 @@ class AnimatedScene(Scene, ABC):
 
     def on_frame(self, frame):
 
-        if self._animation is not None:
+        if self._current_animation is not None:
 
-            transformation = self._animation.current_transformation(frame)
-            for channel in self._animation.channels:
+            transformation = self._current_animation.current_transformation(frame)
+            for channel in self._current_animation.channels:
                 figure = self[channel]
-                figure.transformation = transformation
+                figure.set_transformation(transformation)
 
-            self._animation.notify(self, frame)
+            self._current_animation.notify(self, frame)
 
 
     def __update(self, frame):

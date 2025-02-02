@@ -22,6 +22,7 @@ class AnimationFinishedListener(AnimationListener, ABC):
 
     def on_repeat(self, scene): pass
 
+
 class FinishCallback(AnimationFinishedListener):
     def __init__(self, callback):
         if callable(callback):
@@ -50,30 +51,33 @@ class Animation(ABC):
         self.interval = interval
         self.repeat = repeat
         self.state = ANIMATION_STOPPED
+        self.__animation_listeners = []
 
-        if isinstance(animation_listener, AnimationListener):
-            self.listener = animation_listener
-        elif callable(animation_listener):
-            self.listener = FinishCallback(animation_listener)
-        else:
-            self.listener = None
+        self.add_animation_listener(animation_listener)
+
+    def add_animation_listener(self, animation_listener):
+        if animation_listener is not None:
+            if isinstance(animation_listener, AnimationListener):
+                self.__animation_listeners.append(animation_listener)
+            elif callable(animation_listener):
+                self.__animation_listeners.append(FinishCallback(animation_listener))
 
     def notify(self, scene, frame):
         if frame == 0:
             if self.state == ANIMATION_STOPPED:
                 self.state = ANIMATION_PLAYED
-                if self.listener is not None:
-                    self.listener.on_start(scene)
+                for listener in self.__animation_listeners:
+                    listener.on_start(scene)
 
         if frame == self.frames - 1:
             if self.state == ANIMATION_PLAYED:
                 if self.repeat:
-                    if self.listener is not None:
-                        self.listener.on_repeat(scene)
+                    for listener in self.__animation_listeners:
+                        listener.on_repeat(scene)
                 else:
                     self.state = ANIMATION_STOPPED
-                    if self.listener is not None:
-                        self.listener.on_finish(scene)
+                    for listener in self.__animation_listeners:
+                        listener.on_finish(scene)
 
     @abstractmethod
     def current_transformation(self, frame):

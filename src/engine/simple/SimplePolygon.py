@@ -16,6 +16,9 @@ class SimplePolygon:
         self.color = "black"
         self.line_style = "-"
 
+    def set_transformation(self, transformation):
+        self.transformation = transformation
+
     @property
     def transformed_geometry(self):
         return [self.transformation * point for point in self.__geometry]

@@ -37,7 +37,6 @@ if __name__ == '__main__':
     scene["rect"].line_style = "-"
 
 
-
     class AnimListener(AnimationFinishedListener):
         def __init__(self, scene):
             self.scene = scene
@@ -53,8 +52,8 @@ if __name__ == '__main__':
 
 
     animation = TranslationAnimation(start=vertex(0, 0),
-                          end=vertex(2, 2),
-                          channels=("rect",),
-                          animation_listener=AnimListener(scene))
+                                     end=vertex(2, 2),
+                                     channels=("rect",),
+                                     animation_listener=AnimListener(scene))
 
     scene.animate(animation)

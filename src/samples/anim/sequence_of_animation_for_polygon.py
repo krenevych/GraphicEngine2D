@@ -19,7 +19,7 @@ class AnimatedSceneSample(AnimatedScene):
             1, 1,
             0, 1
         )
-        polygon.pivot(0.5, 0.5)
+        # polygon.pivot(0.5, 0.5)
         polygon.show_pivot()
         polygon["color"] = "blue"
         polygon["line_style"] = ":"

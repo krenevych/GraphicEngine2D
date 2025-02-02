@@ -23,7 +23,7 @@ class SimplePoint:
 
 if __name__ == '__main__':
     class SimplePointScene(Scene):
-        def draw_scene(self):
+        def draw_figures(self):
             point = SimplePoint(1, 1)
 
             point.color = "blue"  # колір ліній

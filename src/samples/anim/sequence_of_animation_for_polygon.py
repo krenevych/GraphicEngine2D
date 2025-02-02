@@ -14,12 +14,13 @@ class AnimatedSceneSample(AnimatedScene):
 
         polygon = Polygon()
         polygon.set_geometry(
-            0, 0,
+            0, 1,
             1, 0,
-            1, 1,
-            0, 1
+            2, 1,
+            1, 2
         )
-        # polygon.pivot(0.5, 0.5)
+        polygon.show_local_frame()
+        polygon.pivot(0, 1)
         polygon.show_pivot()
         polygon["color"] = "blue"
         polygon["line_style"] = ":"
@@ -30,9 +31,9 @@ class AnimatedSceneSample(AnimatedScene):
 if __name__ == '__main__':
     scene = AnimatedSceneSample(
         image_size=(5, 5),  # розмір зображення: 1 - 100 пікселів
-        coordinate_rect=(-5, -1, 5, 5),  # розмірність системи координат
+        coordinate_rect=(-1, -1, 5, 5),  # розмірність системи координат
         title="Picture",  # заголовок рисунка
-        grid_show=False,  # чи показувати координатну сітку
+        # grid_show=False,  # чи показувати координатну сітку
         base_axis_show=False,  # чи показувати базові осі зображення
         axis_show=True,  # чи показувати осі координат
         axis_color=("red", "green"),  # колір осей координат
@@ -48,7 +49,7 @@ if __name__ == '__main__':
                                        )
 
     scale = ScaleAnimation(start=(1, 1),
-                           end=(2, 3),
+                           end=(2, 2),
                            frames=100,
                            channels=("rect",),
                            # animation_listener=rotation

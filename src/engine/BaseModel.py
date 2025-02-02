@@ -61,35 +61,45 @@ class BaseModel(ABC):
         self.__translation, self.__rotation, self.__scale = Mat3x3.decompose_affine(transformation)
 
     @property
-    def transformation(self):
-        P = Mat3x3.translation(self.__pivot)
-        P_inv = P.inverse()
+    def pivot_transform(self):
+        pivot_tr = Mat3x3.translation(self.__pivot)
+        return pivot_tr
 
+    @property
+    def transformation(self):
         T = Mat3x3.translation(self.__translation)
         R = Mat3x3.rotation(self.__rotation, True)
         S = Mat3x3.scale(self.__scale)
 
-        return P * T * R * S * P_inv
+        return T * R * S
 
     def __draw_local_frame(self):
         if self.__is_draw_local_frame:
-            M = self.transformation
+            P = self.pivot_transform
+            P_inv = P.inverse()
 
-            origin = M * vertex(0, 0)
-            ox = M * vertex(1, 0)
-            oy = M * vertex(0, 1)
+            M = P * self.transformation * P_inv
+
+            origin = M * self.__pivot
+            ox = self.__pivot + self.transformation * vertex(1, 0)
+            oy = self.__pivot + self.transformation * vertex(0, 1)
 
             draw_axis(origin, ox, color="red", linewidth=2.)
             draw_axis(origin, oy, color="green", linewidth=2.)
 
     def __draw_pivot(self):
         if self.__is_draw_pivot:
-            pivot = self.transformation * self.__pivot
+            P = self.pivot_transform
+            P_inv = P.inverse()
+
+            pivot = P * self.transformation * P_inv * self.__pivot
             draw_point(pivot.xy, color="red")
 
     @property
     def transformed_geometry(self):
-        M = self.transformation
+        P = self.pivot_transform
+        P_inv = P.inverse()
+        M = P * self.transformation * P_inv
         transformed_data = []
         for point in self._geometry:
             _p = M * point

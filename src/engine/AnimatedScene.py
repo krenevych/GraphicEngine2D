@@ -39,7 +39,7 @@ class AnimatedScene(Scene, ABC):
 
             transformation = self._animation.current_transformation(frame)
             for channel in self._animation.channels:
-                figure = self.get_figure(channel)
+                figure = self[channel]
                 figure.transformation = transformation
 
             self._animation.notify(frame)

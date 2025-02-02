@@ -11,32 +11,34 @@ if __name__ == '__main__':
                 1, 1,
                 0, 1
             )
+            self["rect"] = rect
             rect.color = "blue"
             rect.line_style = ":"
-            rect.draw()
+            self.draw("rect")
 
             R_30 = Mat3x3.rotation(45, is_radians=False)
 
             rect.transformation = R_30
             rect.color = "orange"
             rect.line_style = ":"
-            rect.draw()
+            self.draw("rect")
 
             T_2_3 = Mat3x3.translation(2, 3)
 
             rect.transformation = T_2_3
             rect.color = "orange"
             rect.line_style = ":"
-            rect.draw()
+            self.draw("rect")
 
             # rect.transformation = R_30 * T_2_3
             rect.color = "red"
             rect.line_style = "-"
             rect.transformation = T_2_3 * R_30
-            rect.draw()
+            self.draw("rect")
 
             rect.transformation = R_30 * T_2_3
-            rect.draw()
+            self.draw("rect")
+
 
     scene = SampleScene(
         image_size=(5, 5),  # розмір зображення: 1 - 100 пікселів
@@ -47,7 +49,7 @@ if __name__ == '__main__':
         axis_show=True,  # чи показувати осі координат
         axis_color=("red", "green"),  # колір осей координат
         axis_line_style="-.",  # стиль ліній осей координат
-        keep_aspect_ratio = True,
+        keep_aspect_ratio=True,
     ).prepare()
     scene.draw_figures()
     scene.finalize()

@@ -36,14 +36,14 @@ class Scene(ABC):
         else:
             raise KeyError("Figure name {} already exists".format(name))
 
+    def get_figure(self, name):
+        return self.figures[name]
+
     def __setitem__(self, name, figure):
         self.add_figure(figure, name)
 
     def __getitem__(self, item):
         return self.figures[item]
-
-    def get_figure(self, name):
-        return self.figures[name]
 
     def show_axes(self):
         if self.axis_show:
@@ -71,14 +71,17 @@ class Scene(ABC):
     def set_title(self):
         plt.title(self.title)
 
-    def draw_figure(self, name="default"):
-        if name in self.figures:
-            self.figures[name].draw()
+    def draw(self, name=None):
+        if name is None:
+            self.draw_figures()
+        elif name in self.figures:
+            self[name].draw()
+        else:
+            raise KeyError("Figure {} doesn't exist to draw".format(name))
 
     def draw_figures(self):
         for name, figure in self.figures.items():
             figure.draw()
-
 
     def prepare(self):
         self.set_title()

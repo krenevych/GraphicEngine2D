@@ -24,7 +24,7 @@ class AnimatedSceneSample(AnimatedScene):
 
 
 if __name__ == '__main__':
-    scene = AnimatedSceneSample(
+    animated_scene = AnimatedSceneSample(
         image_size=(5, 5),  # розмір зображення: 1 - 100 пікселів
         coordinate_rect=(-3, -1, 6, 6),  # розмірність системи координат
         title="Picture",  # заголовок рисунка
@@ -60,9 +60,9 @@ if __name__ == '__main__':
         print("Finished translation")
 
 
-    scene.animate(ScaleAnimation(start=(1, 1),
-                                    end=(2, 2),
-                                    frames=50,
-                                    channels=("rect",),
-                                    animation_listener=rotation))
+    animated_scene.animate(ScaleAnimation(start=(1, 1),
+                                          end=(2, 2),
+                                          frames=50,
+                                          channels=("rect",),
+                                          animation_listener=rotation))
 

@@ -5,7 +5,6 @@ from src.engine.simple.SimplePolygon import SimplePolygon
 from src.math.Vec3 import vertex
 
 
-
 class AnimatedSceneSample(AnimatedScene):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -34,10 +33,8 @@ if __name__ == '__main__':
         keep_aspect_ratio=True,
     )
 
-    class AnimListener(AnimationFinishedListener):
-        def __init__(self, scene):
-            self.scene = scene
 
+    class AnimListener(AnimationFinishedListener):
         def on_finish(self, scene):
             print("Finished animation")
 
@@ -45,6 +42,6 @@ if __name__ == '__main__':
     animation = TranslationAnimation(start=vertex(0, 0),
                                      end=vertex(2, 2),
                                      channels=("rect",),
-                                     animation_listener=AnimListener(scene))
+                                     animation_listener=AnimListener())
 
     scene.animate(animation)

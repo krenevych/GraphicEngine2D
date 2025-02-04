@@ -1,10 +1,9 @@
-from abc import ABC
-
 import matplotlib
 from matplotlib.animation import FuncAnimation
 
-from src.engine.animation.Animation import Animation, AnimationFinishedListener
 from src.engine.Scene import Scene
+from src.engine.animation.Animation import Animation
+from src.engine.animation.AnimationListener import AnimationFinishedListener
 
 matplotlib.use("TkAgg")
 
@@ -37,7 +36,7 @@ class AnimatedScene(Scene, AnimationFinishedListener):
             return
 
         self._current_animation = animation
-        self._current_animation.initial_transformation = self[animation.channels[0]].transformation
+        self._current_animation.start = self[animation.channel].transformation
 
         global ani
         ani = FuncAnimation(self.figure,
@@ -56,16 +55,14 @@ class AnimatedScene(Scene, AnimationFinishedListener):
         if self._current_animation is not None:
 
             transformation = self._current_animation.current_transformation(frame)
-            for channel in self._current_animation.channels:
-                figure = self[channel]
+            if self._current_animation.channel in self.figures:
+                figure = self[self._current_animation.channel]
                 figure.set_transformation(transformation)
 
             self._current_animation.notify(self, frame)
 
 
     def __update(self, frame):
-        # print(f"Frame {frame}")
-
         self.figure.clear()  # Очищення фігури
         self.prepare()
 

@@ -4,6 +4,8 @@ from src.engine.AnimatedScene import AnimatedScene
 from src.engine.Polygon import Polygon
 from src.engine.animation.RotationAnimation import RotationAnimation
 from src.engine.animation.ScaleAnimation import ScaleAnimation
+from src.engine.animation.TranslationAnimation import TranslationAnimation
+from src.math.Vec3 import vertex
 
 
 class AnimatedSceneSample(AnimatedScene):
@@ -14,10 +16,10 @@ class AnimatedSceneSample(AnimatedScene):
 
         polygon = Polygon()
         polygon.set_geometry(
-            0, 0,
-            0, 0,
-            0, 0,
-            0, 0
+            0.5, 0.5,
+            1.5, 0.5,
+            1.5, 1.5,
+            0.5, 1.5
         )
         polygon.show_local_frame()
         # polygon.show_pivot()
@@ -30,7 +32,7 @@ class AnimatedSceneSample(AnimatedScene):
 if __name__ == '__main__':
     scene = AnimatedSceneSample(
         image_size=(5, 5),  # розмір зображення: 1 - 100 пікселів
-        coordinate_rect=(-3, -1, 3, 3),  # розмірність системи координат
+        coordinate_rect=(-3, -1, 6, 6),  # розмірність системи координат
         title="Picture",  # заголовок рисунка
         # grid_show=False,  # чи показувати координатну сітку
         base_axis_show=False,  # чи показувати базові осі зображення
@@ -40,32 +42,26 @@ if __name__ == '__main__':
         keep_aspect_ratio=True,
     ).prepare()
 
-    # translation = TranslationAnimation(start=vertex(0, 0),
-    #                                    end=vertex(3, 3),
-    #                                    channels=("rect",),
-    #                                    frames=100,
-    #                                    # animation_listener=finish,
-    #                                    )
-    #
+    translation = TranslationAnimation(
+        end=vertex(2, 2),
+        channel="rect",
+        frames=60,
+        # animation_listener=finish,
+    )
 
+    scale = ScaleAnimation(
+        end=(2, 3),
+        frames=60,
+        channel="rect",
+    )
 
-    scale = ScaleAnimation(start=(1, 1),
-                           end=(2, 3),
-                           frames=180,
-                           channels=("rect",),
-                           )
-
-    rotation = RotationAnimation(start=0,
-                                 end=np.radians(60),
-                                 frames=180,
-                                 channels=("rect",),
-                                 # animation_listener=translation
-                                 )
+    rotation = RotationAnimation(
+        end=np.radians(60),
+        frames=60,
+        channel="rect",
+    )
 
     scene.add_animation(scale)
     scene.add_animation(rotation)
-    # scene.add_animation(translation)
+    scene.add_animation(translation)
     scene.animate()
-    # scene.draw_figures()
-    # scene.finalize()
-

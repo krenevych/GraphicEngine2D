@@ -1,11 +1,9 @@
-import matplotlib
-
-
-import matplotlib.pyplot as plt
-from matplotlib.animation import FuncAnimation
-from PIL import Image
 import os
 
+import matplotlib
+import matplotlib.pyplot as plt
+from PIL import Image
+from matplotlib.animation import FuncAnimation
 
 matplotlib.use("TkAgg")
 # Шлях до папки із зображеннями

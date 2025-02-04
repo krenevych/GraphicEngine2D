@@ -36,28 +36,28 @@ if __name__ == '__main__':
         keep_aspect_ratio=True,
     )
 
-    translation = TranslationAnimation(start=vertex(0, 0),
-                                       end=vertex(3, 3),
-                                       channels=("rect",),
-                                       frames=30,
-                                       # animation_listener=finish,
-                                       )
+    translation = TranslationAnimation(
+        end=vertex(3, 3),
+        channel="rect",
+        frames=30,
+        # animation_listener=finish,
+    )
 
-    scale = ScaleAnimation(start=(1, 1),
-                           end=(2, 3),
-                           frames=50,
-                           channels=("rect",),
-                           # animation_listener=rotation
-                           )
+    scale = ScaleAnimation(
+        end=(2, 3),
+        frames=50,
+        channel="rect",
+        # animation_listener=rotation
+    )
 
-    rotation = RotationAnimation(start=0,
-                                 end=np.radians(30),
-                                 frames=50,
-                                 channels=("rect",),
-                                 # animation_listener=translation
-                                 )
+    rotation = RotationAnimation(
+        end=np.radians(30),
+        frames=50,
+        channel="rect",
+        # animation_listener=translation
+    )
 
-    scene.add_animation(scale)
     scene.add_animation(rotation)
+    scene.add_animation(scale)
     scene.add_animation(translation)
     scene.animate()

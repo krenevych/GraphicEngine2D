@@ -39,30 +39,32 @@ if __name__ == '__main__':
 
     def translation(scene):
         print("Finished animation 1")
-        scene.animate(TranslationAnimation(start=vertex(0, 0),
-                                           end=vertex(3, 3),
-                                           channels=("rect",),
-                                           frames=30,
-                                           animation_listener=finish
-                                           ))
+        scene.animate(TranslationAnimation(
+            end=vertex(3, 3),
+            channel="rect",
+            frames=30,
+            animation_listener=finish
+        ))
 
 
     def rotation(scene):
         print("Finished scale animation")
-        scene.animate(RotationAnimation(start=0,
-                                    end=np.radians(45),
-                                    frames=50,
-                                    channels=("rect",),
-                                    animation_listener=translation))
+        scene.animate(RotationAnimation(
+            end=np.radians(45),
+            frames=50,
+            channel="rect",
+            animation_listener=translation)
+        )
 
 
     def finish(scene):
         print("Finished translation")
 
 
-    animated_scene.animate(ScaleAnimation(start=(1, 1),
-                                          end=(2, 2),
-                                          frames=50,
-                                          channels=("rect",),
-                                          animation_listener=rotation))
-
+    animated_scene.animate(ScaleAnimation(
+        end=(2, 2),
+        frames=50,
+        channel="rect",
+        animation_listener=rotation
+    )
+    )

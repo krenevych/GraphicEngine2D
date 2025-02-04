@@ -39,9 +39,9 @@ if __name__ == '__main__':
             print("Finished animation")
 
 
-    animation = TranslationAnimation(start=vertex(0, 0),
-                                     end=vertex(2, 2),
-                                     channels=("rect",),
-                                     animation_listener=AnimListener())
+    animation = TranslationAnimation(
+        end=vertex(2, 2),
+        channel="rect",
+        animation_listener=AnimListener())
 
     scene.animate(animation)

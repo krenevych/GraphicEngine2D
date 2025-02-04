@@ -1,4 +1,4 @@
-from abc import ABC, abstractmethod
+from abc import ABC
 
 from src.engine.animation.AnimationListener import AnimationListener, FinishCallback
 from src.math.Mat3x3 import Mat3x3
@@ -11,18 +11,16 @@ ANIMATION_PLAYED = "ANIMATION_FINISHED"
 class Animation(ABC):
 
     def __init__(self,
-                 start,  # Початкове значення трасформації
                  end,  # Кінцеве значення трасформації
-                 channels=("default",),
+                 channel="default",
                  frames=60,  # Кількість кадрів анімації 60 (при інтервалі 16 мілісекунд буде 1 секунда)
                  interval=16,  # Час в мілісекундах між кадрами анімації
                  repeat=False,  # Чи циклічна анімація
                  animation_listener=None,  # спостерігач
                  ):
-        self.initial_transformation = Mat3x3.identity()
-        self.start = start
+        self.start = Mat3x3.identity()
         self.end = end
-        self.channels = channels
+        self.channel = channel
         self.frames = frames
         self.interval = interval
         self.repeat = repeat
@@ -55,6 +53,17 @@ class Animation(ABC):
                     for listener in self.__animation_listeners:
                         listener.on_finish(scene)
 
-    @abstractmethod
     def current_transformation(self, frame):
-        pass
+        start_translation, start_angle, start_scales = Mat3x3.decompose_affine(self.start)
+        end_translation, end_angle, end_scales = Mat3x3.decompose_affine(self.end)
+
+        translation = start_translation + (end_translation - start_translation) *  (frame / self.frames)
+        angle = start_angle + (end_angle - start_angle) *  (frame / self.frames)
+        scales = start_scales + (end_scales - start_scales) *  (frame / self.frames)
+
+        T = Mat3x3.translation(translation)
+        R = Mat3x3.rotation(angle)
+        S = Mat3x3.scale(scales)
+
+        transformation = T * R * S
+        return transformation

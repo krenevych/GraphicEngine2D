@@ -1,22 +1,22 @@
 import numpy as np
 
 from src.base.broken_line import draw_broken_line
-from src.base.scene import draw_scene
+from src.engine.Scene import Scene
 from src.engine.BaseModel import BaseModel
 from src.math.Vec3 import vertex, Vec3
 
 
 class Polygon(BaseModel):
     AVAILABLE_PARAMETERS = [
-        "color",                 # default: , posible values:
-        "line_style",            # default: , posible values:
-        "linewidth",             # default: , posible values:
-        "vertices_show",         # default: , posible values:
-        "vertex_color",          # default: , posible values:
-        "vertex_size",           # default: , posible values:
-        "labels",                # default: , posible values:
-        "labels_color",          # default: , posible values:
-        "labels_fontsize",       # default: , posible values:
+        "color",  # default: , posible values:
+        "line_style",  # default: , posible values:
+        "linewidth",  # default: , posible values:
+        "vertices_show",  # default: , posible values:
+        "vertex_color",  # default: , posible values:
+        "vertex_size",  # default: , posible values:
+        "labels",  # default: , posible values:
+        "labels_color",  # default: , posible values:
+        "labels_fontsize",  # default: , posible values:
     ]
 
     def __init__(self):
@@ -44,82 +44,91 @@ class Polygon(BaseModel):
         draw_broken_line(ps, **self._parameters)
 
 
-def scene():
-    m = Polygon()
-    # m.set_geometry(
-    #     np.array((0, 0)),
-    #     np.array((2, 0)),
-    #     np.array((2, 1)),
-    #     np.array((1, 2)),
-    #     np.array((0, 1))
-    # )
-
-    # m.set_geometry(
-    #     np.array((0, 0)),
-    #     np.array((2, 0)),
-    #     np.array((2, 1)),
-    #     np.array((1, 2)),
-    #     np.array((0, 1))
-    # )
-
-    m.set_geometry(
-        0, 0,
-        2, 0,
-        2, 1,
-        1, 2,
-        0, 1
-    )
-
-    # m.set_geometry(
-    #     (0, 0),
-    #     (2, 0),
-    #     (2, 1),
-    #     (1, 2),
-    #     (0, 1)
-    # )
-
-    # m.set_geometry(
-    #     vertex(0, 0),
-    #     vertex(2, 0),
-    #     vertex(2, 1),
-    #     vertex(1, 2),
-    #     vertex(0, 1)
-    # )
-
-    m.show_pivot()
-    m.show_local_frame()
-
-    m["color"] = "red"
-    m["line_style"] = "--"
-    m["vertex_color"] = "grey"
-    m["vertices_show"] = True
-    m["labels"] = [
-        (r'$P_1$', (-0.1, -0.3)),
-        (r'$P_2$', (-0.15, 0.2)),
-        (r'$P_3$', (-0.1, 0.1)),
-        r"$P_4$",
-        r"$P_5$",
-    ]
-
-    m.draw()
-
-    m["color"] = "blue"
-    m["line_style"] = "solid"
-
-    m.scale(2, 1)
-    m.translation(Vec3.point(2, 2))
-    m.rotation(np.radians(45))
-
-    m.draw()
-
-
 if __name__ == '__main__':
-    draw_scene(
-        scene=scene,
-        coordinate_rect=(-1, -1, 6, 6),
+    class PolygonScene(Scene):
+        def draw_figures(self):
+            m = Polygon()
+            # m.set_geometry(
+            #     np.array((0, 0)),
+            #     np.array((2, 0)),
+            #     np.array((2, 1)),
+            #     np.array((1, 2)),
+            #     np.array((0, 1))
+            # )
+
+            # m.set_geometry(
+            #     np.array((0, 0)),
+            #     np.array((2, 0)),
+            #     np.array((2, 1)),
+            #     np.array((1, 2)),
+            #     np.array((0, 1))
+            # )
+
+            m.set_geometry(
+                0, 0,
+                1, 0,
+                1, 1,
+                0, 1
+            )
+            # m.set_geometry(
+            #     0, 0,
+            #     2, 0,
+            #     2, 1,
+            #     1, 2,
+            #     0, 1
+            # )
+
+            # m.set_geometry(
+            #     (0, 0),
+            #     (2, 0),
+            #     (2, 1),
+            #     (1, 2),
+            #     (0, 1)
+            # )
+
+            # m.set_geometry(
+            #     vertex(0, 0),
+            #     vertex(2, 0),
+            #     vertex(2, 1),
+            #     vertex(1, 2),
+            #     vertex(0, 1)
+            # )
+
+            m.pivot(0.5, 0.5)
+            m.show_pivot()
+            # m.show_local_frame()
+
+            m["color"] = "green"
+            m["line_style"] = "--"
+            # m["vertex_color"] = "grey"
+            # m["vertices_show"] = True
+            # m["labels"] = [
+            #     (r'$P_1$', (-0.1, -0.3)),
+            #     (r'$P_2$', (-0.15, 0.2)),
+            #     (r'$P_3$', (-0.1, 0.1)),
+            #     r"$P_4$",
+            #     r"$P_5$",
+            # ]
+
+            m.draw()
+
+            m["color"] = "blue"
+            m["line_style"] = "solid"
+
+            # m.scale(2, 1)
+            # m.translation(Vec3.point(2, 2))
+            m.rotation(np.radians(45))
+
+            m.draw()
+
+
+    scene = PolygonScene(
+        coordinate_rect=(-1, -1, 3, 3),
         # grid_show=False,
         base_axis_show=False,
         axis_show=True,
         axis_color="red",
         axis_line_style="-."
-    )
+    ).prepare()
+    scene.draw_figures()
+    scene.finalize()

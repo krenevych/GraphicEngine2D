@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import numpy
 
 from src.base.points import draw_points
-from src.base.scene import draw_scene
+from src.engine.Scene import Scene
 from src.base.text import DEFAULT_LABEL_FONT_SIZE
 
 
@@ -19,7 +19,8 @@ def draw_poly(x, y=None,
             x1.append(a)
             y1.append(b)
 
-        draw_poly(x1, y1, fill_color, alpha, vertices_show, vertex_color, vertex_size, edgecolor, linewidth, solid_line, labels,
+        draw_poly(x1, y1, fill_color, alpha, vertices_show, vertex_color, vertex_size, edgecolor, linewidth, solid_line,
+                  labels,
                   labels_color, labels_font_size)
 
         return
@@ -39,7 +40,7 @@ def draw_poly(x, y=None,
                  )
 
     draw_points(x, y,
-                vertices_show = vertices_show,
+                vertices_show=vertices_show,
                 vertex_color=vertex_color,
                 vertex_size=vertex_size,
                 labels=labels,
@@ -47,43 +48,43 @@ def draw_poly(x, y=None,
                 labels_font_size=labels_font_size,
                 )
 
-def scene():
-    # Координати вершин багатокутника
-    # x = [1, 3, 4, 2]
-    # y = [1, 1, 3, 4]
-
-    vertices = [
-        numpy.array((1, 1)),
-        numpy.array((3, 1)),
-        numpy.array((4, 3)),
-        numpy.array((2, 4)),
-    ]
-
-    labels = [
-        ('A', (-0.3, -0.3)),  # name + offset
-        ('B', (0.15, -0.3)),
-        ('C', (0.1, 0.0)),
-        ('D', (-0.1, 0.15))
-    ]  # Підписи вершин
-    draw_poly(
-        # x, y,
-        vertices,
-        labels=labels,
-        alpha=0.1,
-        solid_line=True,
-        vertices_show=True,
-        vertex_size=100,
-        vertex_color="red",
-        linewidth=2,
-        fill_color="red"
-    )
-
 
 if __name__ == '__main__':
-    draw_scene(
-        scene=scene,
+    class SampleScene(Scene):
+        def draw_figures(self):
+            # Координати вершин багатокутника
+            # x = [1, 3, 4, 2]
+            # y = [1, 1, 3, 4]
+
+            vertices = [
+                numpy.array((1, 1)),
+                numpy.array((3, 1)),
+                numpy.array((4, 3)),
+                numpy.array((2, 4)),
+            ]
+
+            labels = [
+                ('A', (-0.3, -0.3)),  # name + offset
+                ('B', (0.15, -0.3)),
+                ('C', (0.1, 0.0)),
+                ('D', (-0.1, 0.15))
+            ]  # Підписи вершин
+            draw_poly(
+                # x, y,
+                vertices,
+                labels=labels,
+                alpha=0.1,
+                solid_line=True,
+                vertices_show=True,
+                vertex_size=100,
+                vertex_color="red",
+                linewidth=2,
+                fill_color="red"
+            )
+
+
+    scene = SampleScene(
         coordinate_rect=(0, 0, 5, 5),
-    )
-
-
-
+    ).prepare()
+    scene.draw_figures()
+    scene.finalize()

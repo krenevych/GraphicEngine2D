@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-from src.base.scene import draw_scene
+from src.engine.Scene import Scene
 from src.base.text import DEFAULT_LABEL_FONT_SIZE, print_label
 from src.math.utils import normal2d
 
@@ -45,16 +45,15 @@ def draw_length_with_perpendiculars_on_edges(start, end, color_line="black", lin
                 label_offset=label_offset)
 
 
-def scene():
-
-    draw_line((0.5, .8), (.8, 0.9), linewidth=3, linestyle="--")
-    draw_length_with_perpendiculars_on_edges((0.2, 0.6), (.8, 0.6), edge_length=0.03, linestyle="--")
-
-
 if __name__ == '__main__':
-    draw_scene(
-        scene=scene,
+    class SampleScene(Scene):
+        def draw_figures(self):
+            draw_line((0.5, .8), (.8, 0.9), linewidth=3, linestyle="--")
+            draw_length_with_perpendiculars_on_edges((0.2, 0.6), (.8, 0.6), edge_length=0.03, linestyle="--")
+
+
+    scene = SampleScene(
         coordinate_rect=(0, 0, 1, 1),
-    )
-
-
+    ).prepare()
+    scene.draw_figures()
+    scene.finalize()

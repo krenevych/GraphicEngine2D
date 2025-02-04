@@ -108,6 +108,11 @@ class Mat3x3:
         return Mat3x3(np.linalg.inv(self.data))
 
     @staticmethod
+    def identity():
+        return Mat3x3(np.eye(3, dtype=float))
+
+
+    @staticmethod
     def rotation(angle, is_radians=True):
         if not is_radians:
             angle = np.radians(angle)

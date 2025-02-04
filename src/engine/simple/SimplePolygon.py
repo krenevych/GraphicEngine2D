@@ -1,7 +1,7 @@
 import numpy as np
 
 from src.base.broken_line import draw_broken_line
-from src.base.scene import draw_scene
+from src.engine.Scene import Scene
 from src.math.Mat3x3 import Mat3x3
 from src.math.Vec3 import vertex
 
@@ -16,6 +16,9 @@ class SimplePolygon:
         self.color = "black"
         self.line_style = "-"
 
+    def set_transformation(self, transformation):
+        self.transformation = transformation
+
     @property
     def transformed_geometry(self):
         return [self.transformation * point for point in self.__geometry]
@@ -28,30 +31,31 @@ class SimplePolygon:
         draw_broken_line(ps, color=self.color, line_style=self.line_style)
 
 
-def scene():
-    rect = SimplePolygon(0, 0,
-                         1, 0,
-                         1, 1,
-                         0, 1,
-                         )
-
-    rect.color = "blue"  # колір ліній
-    rect.line_style = "--"  # стиль ліній
-    rect.draw()
-
-    R = Mat3x3.rotation(np.radians(45))
-    S = Mat3x3.scale(2, 3)
-    T = Mat3x3.translation(1, 1)
-
-    rect.color = "red"  # колір ліній
-    rect.line_style = "-"  # стиль ліній
-    rect.transformation = T * R * S
-    rect.draw()
-
-
 if __name__ == '__main__':
-    draw_scene(
-        scene=scene,  # функція у якій описується сцена
+    class SimplePolygonScene(Scene):
+
+        def draw_figures(self):
+            rect = SimplePolygon(0, 0,
+                                 1, 0,
+                                 1, 1,
+                                 0, 1,
+                                 )
+
+            rect.color = "blue"  # колір ліній
+            rect.line_style = "--"  # стиль ліній
+            rect.draw()
+
+            R = Mat3x3.rotation(np.radians(45))
+            S = Mat3x3.scale(2, 3)
+            T = Mat3x3.translation(1, 1)
+
+            rect.color = "red"  # колір ліній
+            rect.line_style = "-"  # стиль ліній
+            rect.transformation = T * R * S
+            rect.draw()
+
+
+    scene = SimplePolygonScene(
         image_size=(5, 5),  # розмір зображення: 1 - 100 пікселів
         coordinate_rect=(-2, -2, 6, 6),  # розмірність системи координат
         title="Picture",  # заголовок рисунка
@@ -60,4 +64,6 @@ if __name__ == '__main__':
         axis_show=True,  # чи показувати осі координат
         axis_color=("red", "green"),  # колір осей координат
         axis_line_style="-."  # стиль ліній осей координат
-    )
+    ).prepare()
+    scene.draw_figures()
+    scene.finalize()

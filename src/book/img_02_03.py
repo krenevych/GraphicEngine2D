@@ -1,9 +1,9 @@
 import numpy as np
 
 from src.base.arrow import draw_vector
+from src.base.lines import draw_length_with_perpendiculars_on_edges
+from src.engine.Scene import Scene
 from src.math.utils import normal2d
-from src.base.lines import  draw_length_with_perpendiculars_on_edges
-from src.base.scene import draw_scene
 
 
 def drawLineWithLength(p, u,
@@ -27,35 +27,39 @@ def drawLineWithLength(p, u,
                                              label_color=label_color, label=label,
                                              label_offset=label_offset)
 
-def scene():
-    p = np.array([0.2, .3])
-    u = np.array([0.6, 0.4])
-
-    edge_length = 0.05
-    drawLineWithLength(p, u, color="red", label=r'$\alpha v$',
-                       label_offset=(-0.07, 0.04),
-                       edge_length=edge_length,
-                       )
-
-    p1 = np.array([0.6, 0.3])
-    u1 = 0.3 * u
-
-    drawLineWithLength(p1, u1, color="blue", label=r'$v$',
-                       label_offset=(-0.05, 0.03),
-                       edge_length=edge_length,
-                       )
-
-    ############
-
 
 if __name__ == '__main__':
-    draw_scene(
-        scene=scene,
+    class SampleScene(Scene):
+        def draw_figures(self):
+            p = np.array([0.2, .3])
+            u = np.array([0.6, 0.4])
+
+            edge_length = 0.05
+            drawLineWithLength(p, u, color="red", label=r'$\alpha v$',
+                               label_offset=(-0.07, 0.04),
+                               edge_length=edge_length,
+                               )
+
+            p1 = np.array([0.6, 0.3])
+            u1 = 0.3 * u
+
+            drawLineWithLength(p1, u1, color="blue", label=r'$v$',
+                               label_offset=(-0.05, 0.03),
+                               edge_length=edge_length,
+                               )
+
+            ############
+
+
+
+    scene = SampleScene(
         coordinate_rect=(-0.1, -0.1, 1, 1),
         # grid_show=False,
         # grid_line_linestyle="-.",
         # axis_show=True,
         # base_axis_show=False,
-    )
+    ).prepare()
+    scene.draw_figures()
+    scene.finalize()
 
 

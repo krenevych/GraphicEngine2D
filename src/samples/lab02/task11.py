@@ -44,7 +44,6 @@ class SceneSample(Scene):
         translation = transformation[:2, 2]
         print(f"{translation=}")
 
-
         i = transformation[:2, 0]
         j = transformation[:2, 1]
         print(f"{i=}")
@@ -56,12 +55,11 @@ class SceneSample(Scene):
         print(f"{s_x=}")
         print(f"{s_y=}")
 
-
         scale_x = (2.934 ** 2 + 0.624 ** 2) ** 0.5
         scale_y = ((-0.416) ** 2 + 1.956 ** 2) ** 0.5
         print(f"{scale_x=}", f"{scale_y=}")
 
-        transformation_1 = transformation * Mat3x3.scale(1 / scale_x, 1/ scale_y)
+        transformation_1 = transformation * Mat3x3.scale(1 / scale_x, 1 / scale_y)
         print(transformation_1)
 
         print(np.linalg.norm(transformation_1[:2, 0]))
@@ -70,15 +68,12 @@ class SceneSample(Scene):
         print(np.linalg.norm(transformation_1[0, :2]))
         print(np.linalg.norm(transformation_1[0, :2]))
 
-        cos_t = transformation_1[0,0]
-        sin_t = transformation_1[1,0]
-        angle = np.arctan2( sin_t, cos_t)
+        cos_t = transformation_1[0, 0]
+        sin_t = transformation_1[1, 0]
+        angle = np.arctan2(sin_t, cos_t)
         print(angle, np.degrees(angle))
 
-        print( Mat3x3.decompose_affine(transformation), sep="\n") # checking
-
-
-
+        print(Mat3x3.decompose_affine(transformation), sep="\n")  # checking
 
 
 if __name__ == '__main__':

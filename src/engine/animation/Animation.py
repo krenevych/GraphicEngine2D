@@ -1,35 +1,11 @@
 from abc import ABC, abstractmethod
 
+from src.engine.animation.AnimationListener import AnimationListener, FinishCallback
 from src.math.Mat3x3 import Mat3x3
 
 ANIMATION_STOPPED = "ANIMATION_STOPED"
 ANIMATION_PLAYED = "ANIMATION_FINISHED"
 
-
-class AnimationListener(ABC):
-    @abstractmethod
-    def on_start(self, scene): pass
-
-    @abstractmethod
-    def on_finish(self, scene): pass
-
-    @abstractmethod
-    def on_repeat(self, scene): pass
-
-
-class AnimationFinishedListener(AnimationListener, ABC):
-    def on_start(self, scene): pass
-
-    def on_repeat(self, scene): pass
-
-
-class FinishCallback(AnimationFinishedListener):
-    def __init__(self, callback):
-        if callable(callback):
-            self.callback = callback
-
-    def on_finish(self, scene):
-        self.callback(scene)
 
 
 class Animation(ABC):

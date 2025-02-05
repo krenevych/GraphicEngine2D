@@ -1,8 +1,8 @@
 import numpy as np
 
 from src.base.arrow import draw_segment
-from src.engine.BaseModelTRS import BaseModelTRS
-from src.engine.Scene import Scene
+from src.engine.model.BaseModelTRS import BaseModelTRS
+from src.engine.scene.Scene import Scene
 from src.math.Vec3 import Vec3, vertex
 
 

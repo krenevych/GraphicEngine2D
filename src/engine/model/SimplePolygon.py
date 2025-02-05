@@ -1,41 +1,51 @@
 import numpy as np
 
-from src.base.points import draw_points
-from src.engine.BaseModel import BaseModel
-from src.engine.Scene import Scene
+from src.base.broken_line import draw_broken_line
+from src.engine.model.BaseModel import BaseModel
+from src.engine.scene.Scene import Scene
 from src.math.Mat3x3 import Mat3x3
 
 
-class SimplePoint(BaseModel):
+class SimplePolygon(BaseModel):
 
     def __init__(self, *vertices):
-        super().__init__(*vertices)  # TODO:
+        super().__init__(*vertices)
+
+        self.line_style = "-"
 
     def draw_model(self):
         transformed_geometry = self.transformed_geometry
         ps = [el.xy for el in transformed_geometry]
+        ps.append(transformed_geometry[0].xy)  # closed line
 
-        draw_points(ps, vertex_color=self.color)
+        draw_broken_line(ps, color=self.color, line_style=self.line_style)
 
 
 if __name__ == '__main__':
-    class SimplePointScene(Scene):
-        def draw_figures(self):
-            point = SimplePoint(1, 1, 2, 2, 0, 1)
+    class SimplePolygonScene(Scene):
 
-            point.color = "blue"  # колір ліній
-            point.draw()
+        def draw_figures(self):
+            rect = SimplePolygon(0, 0,
+                                 1, 0,
+                                 1, 1,
+                                 0, 1,
+                                 )
+
+            rect.color = "blue"  # колір ліній
+            rect.line_style = "--"  # стиль ліній
+            rect.draw()
 
             R = Mat3x3.rotation(np.radians(45))
             S = Mat3x3.scale(2, 3)
             T = Mat3x3.translation(1, 1)
 
-            point.color = "red"  # колір ліній
-            point.set_transformation(T * R * S)
-            point.draw()
+            rect.color = "red"  # колір ліній
+            rect.line_style = "-"  # стиль ліній
+            rect.set_transformation( T * R * S )
+            rect.draw()
 
 
-    scene = SimplePointScene(
+    scene = SimplePolygonScene(
         image_size=(5, 5),  # розмір зображення: 1 - 100 пікселів
         coordinate_rect=(-2, -2, 6, 6),  # розмірність системи координат
         title="Picture",  # заголовок рисунка

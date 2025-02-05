@@ -2,8 +2,8 @@ import numpy as np
 
 from src.base.arrow import draw_vector
 from src.base.points import draw_point
-from src.engine.Scene import Scene
 from src.base.text import print_label
+from src.engine.scene.Scene import Scene
 
 if __name__ == '__main__':
     class SampleScene(Scene):

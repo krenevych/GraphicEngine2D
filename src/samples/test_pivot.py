@@ -1,7 +1,7 @@
 import numpy as np
 
-from src.engine.Polygon import Polygon
-from src.engine.Scene import Scene
+from src.engine.model.Polygon import Polygon
+from src.engine.scene.Scene import Scene
 
 if __name__ == '__main__':
     class SampleScene(Scene):

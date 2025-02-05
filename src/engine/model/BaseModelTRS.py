@@ -1,4 +1,4 @@
-from src.engine.BaseModel import BaseModel
+from src.engine.model.BaseModel import BaseModel
 from src.math.Mat3x3 import Mat3x3
 from src.math.Vec3 import Vec3
 

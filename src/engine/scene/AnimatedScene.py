@@ -1,7 +1,7 @@
 import matplotlib
 from matplotlib.animation import FuncAnimation
 
-from src.engine.Scene import Scene
+from src.engine.scene.Scene import Scene
 from src.engine.animation.Animation import Animation
 from src.engine.animation.AnimationListener import AnimationFinishedListener
 

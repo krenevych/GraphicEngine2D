@@ -2,7 +2,7 @@ import numpy as np
 
 from src.base.arrow import draw_vector
 from src.base.lines import draw_length_with_perpendiculars_on_edges
-from src.engine.Scene import Scene
+from src.engine.scene.Scene import Scene
 from src.math.utils import normal2d
 
 

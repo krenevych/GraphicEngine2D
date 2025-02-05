@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import numpy
 
 from src.base.points import draw_points
-from src.engine.Scene import Scene
+from src.engine.scene.Scene import Scene
 from src.base.text import DEFAULT_LABEL_FONT_SIZE
 
 

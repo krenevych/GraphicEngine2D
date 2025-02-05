@@ -1,8 +1,8 @@
 import numpy as np
 
 from src.base.broken_line import draw_broken_line
-from src.engine.BaseModelTRS import BaseModelTRS
-from src.engine.Scene import Scene
+from src.engine.model.BaseModelTRS import BaseModelTRS
+from src.engine.scene.Scene import Scene
 
 
 class Polygon(BaseModelTRS):

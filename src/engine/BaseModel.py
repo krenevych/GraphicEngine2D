@@ -61,7 +61,7 @@ class BaseModel(ABC):
         self.__translation, self.__rotation, self.__scale = Mat3x3.decompose_affine(transformation)
 
     def apply_transformation_to_geometry(self):
-        self.__geometry = self.transformed_geometry
+        self._geometry = self.transformed_geometry
         self.set_transformation(Mat3x3.identity())
 
     @property

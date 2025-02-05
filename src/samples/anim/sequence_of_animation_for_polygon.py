@@ -42,24 +42,27 @@ if __name__ == '__main__':
     ).prepare()
 
     translation = TranslationAnimation(
-        end=vertex(3, 3),
+        end=vertex(1, 1),
         channel="rect",
-        frames=100,
+        # frames=100,
         # animation_listener=finish,
+        # apply_geometry_transformation_on_finish=True,
     )
 
     scale = ScaleAnimation(
         end=(2, 2),
-        frames=100,
+        # frames=100,
         channel="rect",
         # animation_listener=rotation
+        # apply_geometry_transformation_on_finish=True,
     )
 
     rotation = RotationAnimation(
         end=np.radians(30),
-        frames=100,
+        # frames=100,
         channel="rect",
         # animation_listener=translation
+        # apply_geometry_transformation_on_finish=True,
     )
 
     scene.add_animation(scale)

@@ -2,10 +2,10 @@ import numpy as np
 
 from src.engine.AnimatedScene import AnimatedScene
 from src.engine.Polygon import Polygon
-from src.engine.animation.Animation import Animation
 from src.engine.animation.RotationAnimation import RotationAnimation
 from src.engine.animation.ScaleAnimation import ScaleAnimation
 from src.engine.animation.TranslationAnimation import TranslationAnimation
+from src.engine.animation.TrsTransformationAnimation import TrsTransformationAnimation
 from src.math.Mat3x3 import Mat3x3
 from src.math.Vec3 import vertex
 
@@ -66,15 +66,14 @@ if __name__ == '__main__':
     )
 
     transf = (
-            # Mat3x3.translation(3, 4) *
+        # Mat3x3.translation(3, 4) *
             Mat3x3.rotation(30, False) *
             Mat3x3.scale(1, 3)
     )
 
     transf_1 = transf.inverse()
 
-    complex = Animation(end=transf, channel="rect")
-    # complex_1 = Animation(end=transf_1, channel="rect")
+    complex = TrsTransformationAnimation(end=transf, channel="rect")
 
     # scene.add_animation(translation)
     # scene.add_animation(rotation)

@@ -37,10 +37,10 @@ if __name__ == '__main__':
     )
 
     translation = TranslationAnimation(
-        end=vertex(3, 3),
+        end=vertex(1, 1),
         channel="rect",
         frames=30,
-        # apply_geometry_transformation_on_finish=True,
+        apply_geometry_transformation_on_finish=True,
         # animation_listener=finish,
     )
 
@@ -53,14 +53,14 @@ if __name__ == '__main__':
     )
 
     rotation = RotationAnimation(
-        end=np.radians(30),
+        end=np.radians(45),
         frames=50,
         channel="rect",
-        # apply_geometry_transformation_on_finish=True,
+        apply_geometry_transformation_on_finish=True,
         # animation_listener=translation
     )
 
+    scene.add_animation(translation)
     scene.add_animation(rotation)
     scene.add_animation(scale)
-    scene.add_animation(translation)
     scene.animate()

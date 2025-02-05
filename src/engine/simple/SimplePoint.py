@@ -11,7 +11,7 @@ class SimplePoint:
     def __init__(self, *vertices):
         assert all(isinstance(item, (float, int)) for item in vertices) and len(vertices) % 2 == 0
 
-        self.__geometry = [vertex(vertices[i], vertices[i + 1]) for i in range(0, len(vertices), 2)]
+        self._geometry = [vertex(vertices[i], vertices[i + 1]) for i in range(0, len(vertices), 2)]
         self.transformation = Mat3x3()
         self.color = "black"
 
@@ -20,13 +20,12 @@ class SimplePoint:
 
     @property
     def transformed_geometry(self):
-        geom =  [self.transformation * point for point in self.__geometry]
+        geom = [self.transformation * point for point in self._geometry]
         return geom
 
     def apply_transformation_to_geometry(self):
-        self.__geometry = self.transformed_geometry
+        self._geometry = self.transformed_geometry
         self.set_transformation(Mat3x3.identity())
-        pass
 
     def draw(self):
         transformed_geometry = self.transformed_geometry

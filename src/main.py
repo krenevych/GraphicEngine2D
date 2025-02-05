@@ -54,6 +54,8 @@ if __name__ == '__main__':
         axis_show=True,  # чи показувати осі координат
         axis_color=("red", "green"),  # колір осей координат
         axis_line_style="-."  # стиль ліній осей координат
-    ).prepare()
+    )
+
+    scene.prepare()  # налаштовує та зображує базові елементи сцени (розмірність, глобальна система координат, тощо.)
     scene.draw_figures()
     scene.finalize()

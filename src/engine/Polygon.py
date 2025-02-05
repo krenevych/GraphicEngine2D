@@ -19,21 +19,10 @@ class Polygon(BaseModel):
         "labels_fontsize",  # default: , posible values:
     ]
 
-    def __init__(self):
-        super().__init__()
-        self._availible_parameters += Polygon.AVAILABLE_PARAMETERS
+    def __init__(self, *vertices):
+        super().__init__(*vertices)
 
-    def set_geometry(self, *vertices):
-        if all(isinstance(item, (float, int)) for item in vertices) and len(vertices) % 2 == 0:
-            self._geometry = [vertex(vertices[i], vertices[i + 1]) for i in range(0, len(vertices), 2)]
-        elif all(isinstance(item, Vec3) for item in vertices):
-            self._geometry = list(vertices)
-        elif all(isinstance(item, np.ndarray) and item.shape == (2,) for item in vertices):
-            self._geometry = [vertex(*item) for item in vertices]
-        elif all(isinstance(item, (tuple, list)) and len(item) == 2 for item in vertices):
-            self._geometry = [vertex(*item) for item in vertices]
-        else:
-            raise ValueError("Data corrupted")
+        self._availible_parameters += Polygon.AVAILABLE_PARAMETERS
 
     def draw_model(self):
         transformed_geometry = self.transformed_geometry

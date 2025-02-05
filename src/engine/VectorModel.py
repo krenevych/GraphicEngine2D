@@ -6,7 +6,7 @@ from src.engine.BaseModel import BaseModel
 from src.math.Vec3 import Vec3, vertex
 
 
-class VectorModel (BaseModel):
+class VectorModel(BaseModel):
     AVAILABLE_PARAMETERS = [
         "color",  # default: , posible values:
         "line_style",  # default: , posible values:
@@ -18,21 +18,25 @@ class VectorModel (BaseModel):
     ]
 
     def __init__(self, *direction):
-        super().__init__()
+        super().__init__(*direction)
         self._availible_parameters += self.AVAILABLE_PARAMETERS
 
-        self._geometry.append(vertex(0, 0))
+    def build_geometry(self, *vertices):
+        direction = vertices
+        _geometry = [vertex(0, 0)]
 
         if len(direction) == 1:
             item = direction[0]
             if isinstance(item, Vec3):
-                self._geometry.append(direction)
+                _geometry.append(direction)
             elif isinstance(item, (np.ndarray, tuple, list)) and len(item) == 2:
-                self._geometry.append(vertex(*item))
-        elif len(direction)  == 2 and all(isinstance(item, (float, int)) for item in direction):
-            self._geometry.append(vertex(*direction))
+                _geometry.append(vertex(*item))
+        elif len(direction) == 2 and all(isinstance(item, (float, int)) for item in direction):
+            _geometry.append(vertex(*direction))
         else:
             raise ValueError("Data corrupted")
+
+        return _geometry
 
     def draw_model(self):
         transformed_geometry = self.transformed_geometry
@@ -41,10 +45,10 @@ class VectorModel (BaseModel):
 
         draw_segment(*ps, **self._parameters)
 
+
 if __name__ == '__main__':
     class SampleScene(Scene):
         def draw_figures(self):
-
             v = VectorModel(1, 1)
             v["color"] = "blue"
             v["label"] = "v"
@@ -56,7 +60,6 @@ if __name__ == '__main__':
             v.draw()
 
 
-
     scene = SampleScene(
         coordinate_rect=(-1, -1, 5, 5),
         grid_show=False,
@@ -64,4 +67,3 @@ if __name__ == '__main__':
     ).prepare()
     scene.draw_figures()
     scene.finalize()
-

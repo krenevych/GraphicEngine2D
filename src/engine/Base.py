@@ -1,5 +1,7 @@
 from abc import abstractmethod, ABCMeta
 
+import numpy as np
+
 from src.base.axes import draw_axis
 from src.base.points import draw_point
 from src.math.Mat3x3 import Mat3x3
@@ -10,7 +12,8 @@ class Base(metaclass=ABCMeta):
     AVAILABLE_PARAMETERS = []
 
     def __init__(self, *vertices):
-        self._geometry = []
+        self._geometry = self.build_geometry(*vertices)
+
         self._transformation = Mat3x3()
         self.color = "black"
 
@@ -20,6 +23,26 @@ class Base(metaclass=ABCMeta):
 
         self._parameters = {}
         self._availible_parameters = Base.AVAILABLE_PARAMETERS
+
+    def set_geometry(self, *vertices):
+        self._geometry = self.build_geometry(*vertices)
+
+    def build_geometry(self, *vertices):
+        if len(vertices) == 0:
+            geometry = []
+        elif all(isinstance(item, (float, int)) for item in vertices) and len(vertices) % 2 == 0:
+            geometry = [vertex(vertices[i], vertices[i + 1]) for i in range(0, len(vertices), 2)]
+        elif all(isinstance(item, Vec3) for item in vertices):
+            geometry = list(vertices)
+        elif all(isinstance(item, np.ndarray) and item.shape == (2,) for item in vertices):
+            geometry = [vertex(*item) for item in vertices]
+        elif all(isinstance(item, (tuple, list)) and len(item) == 2 for item in vertices):
+            geometry = [vertex(*item) for item in vertices]
+        else:
+            raise ValueError("Data corrupted")
+
+        return geometry
+
 
     def set_parameters(self, **kwargs):
         for key, value in kwargs.items():

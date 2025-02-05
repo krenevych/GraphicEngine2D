@@ -1,12 +1,11 @@
 import numpy as np
 
 from src.base.broken_line import draw_broken_line
+from src.engine.BaseModelTRS import BaseModelTRS
 from src.engine.Scene import Scene
-from src.engine.BaseModel import BaseModel
-from src.math.Vec3 import vertex, Vec3
 
 
-class Polygon(BaseModel):
+class Polygon(BaseModelTRS):
     AVAILABLE_PARAMETERS = [
         "color",  # default: , posible values:
         "line_style",  # default: , posible values:

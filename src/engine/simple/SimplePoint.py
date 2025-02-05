@@ -1,12 +1,12 @@
 import numpy as np
 
 from src.base.points import draw_points
-from src.engine.Base import Base
+from src.engine.BaseModel import BaseModel
 from src.engine.Scene import Scene
 from src.math.Mat3x3 import Mat3x3
 
 
-class SimplePoint(Base):
+class SimplePoint(BaseModel):
 
     def __init__(self, *vertices):
         super().__init__(*vertices)  # TODO:

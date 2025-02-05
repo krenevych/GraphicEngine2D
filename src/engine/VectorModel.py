@@ -1,12 +1,12 @@
 import numpy as np
 
 from src.base.arrow import draw_segment
+from src.engine.BaseModelTRS import BaseModelTRS
 from src.engine.Scene import Scene
-from src.engine.BaseModel import BaseModel
 from src.math.Vec3 import Vec3, vertex
 
 
-class VectorModel(BaseModel):
+class VectorModel(BaseModelTRS):
     AVAILABLE_PARAMETERS = [
         "color",  # default: , posible values:
         "line_style",  # default: , posible values:

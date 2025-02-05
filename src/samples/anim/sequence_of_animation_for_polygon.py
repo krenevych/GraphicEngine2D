@@ -49,14 +49,6 @@ if __name__ == '__main__':
         # apply_geometry_transformation_on_finish=True,
     )
 
-    delay = TranslationAnimation(
-        end=vertex(0, 0),
-        channel="rect",
-        frames=320,
-        # animation_listener=finish,
-        # apply_geometry_transformation_on_finish=True,
-    )
-
     translation2 = TranslationAnimation(
         end=vertex(-1, -1),
         channel="rect",
@@ -113,7 +105,6 @@ if __name__ == '__main__':
         # apply_geometry_transformation_on_finish=True,
     )
 
-    scene.add_animation(delay)
     scene.add_animation(scale_before)
     scene.add_animation(scale_before2)
     scene.add_animation(scale)

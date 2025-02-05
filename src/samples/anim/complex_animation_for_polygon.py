@@ -1,11 +1,11 @@
 import numpy as np
 
-from src.engine.scene.AnimatedScene import AnimatedScene
-from src.engine.model.Polygon import Polygon
 from src.engine.animation.RotationAnimation import RotationAnimation
 from src.engine.animation.ScaleAnimation import ScaleAnimation
 from src.engine.animation.TranslationAnimation import TranslationAnimation
 from src.engine.animation.TrsTransformationAnimation import TrsTransformationAnimation
+from src.engine.model.Polygon import Polygon
+from src.engine.scene.AnimatedScene import AnimatedScene
 from src.math.Mat3x3 import Mat3x3
 from src.math.Vec3 import vertex
 

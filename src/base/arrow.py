@@ -1,8 +1,8 @@
 import numpy as np
 from matplotlib import pyplot as plt
 
-from src.engine.scene.Scene import Scene
 from src.base.text import DEFAULT_LABEL_FONT_SIZE, print_label
+from src.engine.scene.Scene import Scene
 
 
 def draw_vector(p, u,

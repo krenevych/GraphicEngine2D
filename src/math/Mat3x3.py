@@ -1,7 +1,8 @@
 import numpy as np
+
 from src.math.Rotations import rotation_matrix_x, rotation_matrix_y, rotation_matrix_z, get_rotation_angle
 from src.math.Scale import scaleMatrix2d
-from src.math.Translation import translationMatrix, translationMatrix2d
+from src.math.Translation import translationMatrix2d
 from src.math.Vec3 import Vec3
 
 
@@ -47,7 +48,8 @@ class Mat3x3:
             else:
                 raise TypeError("Непідтриманий тип даних для ініціалізації.")
         else:
-            raise TypeError("Непідтриманий тип даних для ініціалізації або недостатньо елементів для побудови матриці 3x3.")
+            raise TypeError(
+                "Непідтриманий тип даних для ініціалізації або недостатньо елементів для побудови матриці 3x3.")
 
     def __getitem__(self, indices):
         """
@@ -110,7 +112,6 @@ class Mat3x3:
     @staticmethod
     def identity():
         return Mat3x3(np.eye(3, dtype=float))
-
 
     @staticmethod
     def rotation(angle, is_radians=True):

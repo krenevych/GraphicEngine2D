@@ -2,8 +2,6 @@ import matplotlib
 
 matplotlib.use("TkAgg")
 
-
-
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
@@ -23,11 +21,13 @@ ax.set_ylim(-1.2, 1.2)
 ax.set_title("Анімація синусоїди та косинусоїди")
 ax.legend()
 
+
 # Функція оновлення для обох ліній
 def update(frame):
     line1.set_ydata(np.sin(x + frame / 10))  # Оновлення синусоїди
     line2.set_ydata(np.cos(x + frame / 10))  # Оновлення косинусоїди
     return line1, line2
+
 
 # Створюємо анімацію
 ani = FuncAnimation(fig, update, frames=100, interval=50, blit=True)

@@ -1,6 +1,7 @@
 import numpy as np
 from scipy.spatial.transform import Rotation as R
 
+
 def rotationMatrix2d(phi):
     """
     Формує матрицю обертання навколо осі Z на заданий кут.
@@ -13,9 +14,10 @@ def rotationMatrix2d(phi):
     """
     return np.array([
         [np.cos(phi), -np.sin(phi), 0],
-        [np.sin(phi),  np.cos(phi), 0],
-        [0,                      0, 1]
+        [np.sin(phi), np.cos(phi), 0],
+        [0, 0, 1]
     ])
+
 
 def rotation_matrix_x(phi):
     """
@@ -30,8 +32,9 @@ def rotation_matrix_x(phi):
     return np.array([
         [1, 0, 0],
         [0, np.cos(phi), -np.sin(phi)],
-        [0, np.sin(phi),  np.cos(phi)]
+        [0, np.sin(phi), np.cos(phi)]
     ])
+
 
 def rotation_matrix_y(phi):
     """
@@ -44,10 +47,11 @@ def rotation_matrix_y(phi):
     numpy.ndarray: Матриця обертання 3x3.
     """
     return np.array([
-        [np.cos(phi),  0, np.sin(phi)],
-        [0,            1,           0],
+        [np.cos(phi), 0, np.sin(phi)],
+        [0, 1, 0],
         [-np.sin(phi), 0, np.cos(phi)]
     ])
+
 
 def rotation_matrix_z(phi):
     """
@@ -61,13 +65,12 @@ def rotation_matrix_z(phi):
     """
     return np.array([
         [np.cos(phi), -np.sin(phi), 0],
-        [np.sin(phi),  np.cos(phi), 0],
-        [0,                      0, 1]
+        [np.sin(phi), np.cos(phi), 0],
+        [0, 0, 1]
     ])
 
 
 def get_rotation_angle(matrix):
-
     # Перевірка ортогональності R
     if not np.allclose(np.dot(matrix.T, matrix), np.eye(2)) or not np.isclose(np.linalg.det(matrix), 1):
         raise ValueError("Матриця не є коректною матрицею повороту.")
@@ -113,4 +116,3 @@ if __name__ == "__main__":
     rotation_matrix_45_45_30 = rotation.as_matrix()
     print("\nМатриця обертання через scipy:")
     print(rotation_matrix_45_45_30)
-

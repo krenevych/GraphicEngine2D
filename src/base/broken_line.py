@@ -1,8 +1,8 @@
 from matplotlib import pyplot as plt
 
 from src.base.points import draw_points
-from src.engine.scene.Scene import Scene
 from src.base.text import DEFAULT_LABEL_FONT_SIZE
+from src.engine.scene.Scene import Scene
 
 
 def draw_broken_line(

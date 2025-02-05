@@ -3,8 +3,8 @@ import numpy as np
 
 from src.base.arrow import draw_vector
 from src.base.broken_line import draw_broken_line
-from src.engine.scene.Scene import Scene
 from src.base.text import DEFAULT_LABEL_FONT_SIZE
+from src.engine.scene.Scene import Scene
 
 
 def draw_arc(origin, v1, v2,

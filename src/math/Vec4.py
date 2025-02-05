@@ -1,5 +1,6 @@
 import numpy as np
 
+
 class Vec4:
 
     def __init__(self, *data):
@@ -28,7 +29,6 @@ class Vec4:
                 raise TypeError("Непідтриманий тип даних для ініціалізації.")
         else:
             raise TypeError("Непідтриманий тип даних для ініціалізації.")
-
 
     def __getitem__(self, index):
         """
@@ -146,7 +146,3 @@ if __name__ == '__main__':
 
     v9 = Vec4(1, "232", 8, 3)
     print(v9)
-
-
-
-

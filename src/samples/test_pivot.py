@@ -21,8 +21,8 @@ if __name__ == '__main__':
 
             # Задаємо параметри полігону
             # triangle["show_frames"] = True
-            triangle["color"] = "blue"         # колір ліній
-            triangle["line_style"] = "--"      # стиль ліній
+            triangle["color"] = "blue"  # колір ліній
+            triangle["line_style"] = "--"  # стиль ліній
             # triangle["vertices_show"] = True   # показувати вершини
             # triangle["vertex_color"] = "grey"  # колір вершин
             # triangle["labels"] = [             # підписи верших зі зміщеннями
@@ -37,22 +37,22 @@ if __name__ == '__main__':
 
             # задаємо трансформацію
             # triangle.scale(2, 1)          # масштабування
-            triangle.rotation(np.radians(30))    # поворот
+            triangle.rotation(np.radians(30))  # поворот
             # triangle.translation(2, 1)    # перенесення
-            triangle["line_style"] = "-"      # стиль ліній
+            triangle["line_style"] = "-"  # стиль ліній
             # малюємо полігон
             triangle.draw()
 
 
     scene = SampleScene(
         image_size=(5, 5),  # розмір зображення: 1 - 100 пікселів
-        coordinate_rect=(-1, -1, 3, 3),  #  розмірність системи координат
+        coordinate_rect=(-1, -1, 3, 3),  # розмірність системи координат
         title="Picture",  # заголовок рисунка
-        grid_show=False,   #  чи показувати координатну сітку
+        grid_show=False,  # чи показувати координатну сітку
         base_axis_show=False,  # чи показувати базові осі зображення
-        axis_show=True,    # чи показувати осі координат
+        axis_show=True,  # чи показувати осі координат
         axis_color=("red", "green"),  # колір осей координат
-        axis_line_style="-."  #  стиль ліній осей координат
+        axis_line_style="-."  # стиль ліній осей координат
     ).prepare()
     scene.draw_figures()
     scene.finalize()

@@ -1,7 +1,7 @@
-from src.engine.scene.AnimatedScene import AnimatedScene
 from src.engine.animation.AnimationListener import AnimationFinishedListener
 from src.engine.animation.TranslationAnimation import TranslationAnimation
 from src.engine.model.SimplePolygon import SimplePolygon
+from src.engine.scene.AnimatedScene import AnimatedScene
 from src.math.Vec3 import vertex
 
 

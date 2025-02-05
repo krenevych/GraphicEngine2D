@@ -9,6 +9,7 @@ def translationMatrix2d(t_x, t_y):
     ])
     return translation_matrix
 
+
 def translationMatrix(t_x, t_y, t_z):
     translation_matrix_3d = np.array([
         [1, 0, 0, t_x],
@@ -26,5 +27,3 @@ if __name__ == '__main__':
                           t_z=5  # Зсув уздовж осі Z
                           )
     print(T)
-
-

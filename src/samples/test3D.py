@@ -1,6 +1,7 @@
 import matplotlib
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
+
 matplotlib.use("TkAgg")
 
 # # Створення 3D-фігури за допомогою plt.subplots()

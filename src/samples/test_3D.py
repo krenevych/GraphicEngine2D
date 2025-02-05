@@ -23,7 +23,7 @@ z_axis = np.array([0, 0, 1])
 fig, ax = plt.subplots(figsize=(6, 6), subplot_kw={"projection": "3d"})
 
 # Малювання осей
-ax.quiver(*origin, *x_axis, color='red', linewidth=2, linestyle='dotted',label='X-axis', arrow_length_ratio=0.1)
+ax.quiver(*origin, *x_axis, color='red', linewidth=2, linestyle='dotted', label='X-axis', arrow_length_ratio=0.1)
 ax.quiver(*origin, *y_axis, color='green', linewidth=2, label='Y-axis', arrow_length_ratio=0.1)
 ax.quiver(*origin, *z_axis, color='blue', linewidth=2, label='Z-axis', arrow_length_ratio=0.1)
 

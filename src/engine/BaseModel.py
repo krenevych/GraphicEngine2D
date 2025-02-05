@@ -2,15 +2,17 @@ from abc import ABC, abstractmethod
 
 from src.base.axes import draw_axis
 from src.base.points import draw_point
+from src.engine.Base import Base
 from src.math.Mat3x3 import Mat3x3
 from src.math.Vec3 import Vec3, vertex
 
 
-class BaseModel(ABC):
+class BaseModel(Base, ABC):
     BASE_AVAILABLE_PARAMETERS = [
     ]
 
-    def __init__(self):
+    def __init__(self, *vertices):
+        super().__init__(*vertices)
         self.__translation = Vec3.point()
         self.__rotation = 0.0
         self.__scale = Vec3(1, 1, 1)
@@ -59,10 +61,6 @@ class BaseModel(ABC):
 
     def set_transformation(self, transformation):
         self.__translation, self.__rotation, self.__scale = Mat3x3.decompose_affine(transformation)
-
-    def apply_transformation_to_geometry(self):
-        self._geometry = self.transformed_geometry
-        self.set_transformation(Mat3x3.identity())
 
     @property
     def pivot_transform(self):

@@ -17,7 +17,7 @@ if __name__ == '__main__':
 
             R = Mat3x3.rotation(65, is_radians=False)
 
-            rect.transformation = R
+            rect.set_transformation(R)
             rect.draw()
 
 

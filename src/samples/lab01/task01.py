@@ -18,14 +18,14 @@ if __name__ == '__main__':
 
             R_30 = Mat3x3.rotation(45, is_radians=False)
 
-            rect.transformation = R_30
+            rect.set_transformation(R_30)
             rect.color = "orange"
             rect.line_style = ":"
             self.draw("rect")
 
             T_2_3 = Mat3x3.translation(2, 3)
 
-            rect.transformation = T_2_3
+            rect.set_transformation(T_2_3)
             rect.color = "orange"
             rect.line_style = ":"
             self.draw("rect")
@@ -33,10 +33,10 @@ if __name__ == '__main__':
             # rect.transformation = R_30 * T_2_3
             rect.color = "red"
             rect.line_style = "-"
-            rect.transformation = T_2_3 * R_30
+            rect.set_transformation(T_2_3 * R_30)
             self.draw("rect")
 
-            rect.transformation = R_30 * T_2_3
+            rect.set_transformation(R_30 * T_2_3)
             self.draw("rect")
 
 

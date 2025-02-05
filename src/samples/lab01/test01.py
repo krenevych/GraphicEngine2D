@@ -2,7 +2,6 @@ from src.engine.Scene import Scene
 from src.engine.simple.SimplePolygon import SimplePolygon
 from src.math.Mat3x3 import Mat3x3
 
-
 if __name__ == '__main__':
     class SampleScene(Scene):
         def draw_figures(self):
@@ -30,15 +29,16 @@ if __name__ == '__main__':
             print("=== Transformation R * T ====")
             print(T1)
 
-            # rect.transformation = T_2_3
-            rect.transformation = R_30
+            # rect.set_transformation ( T_2_3)
+            rect.set_transformation(R_30)
             rect.color = "orange"
             rect.line_style = "-"
             rect.draw()
 
-            # rect.transformation = R_30 * T_2_3
-            rect.transformation = T_2_3 * R_30
+            # rect.set_transformation (R_30 * T_2_3)
+            rect.set_transformation(T_2_3 * R_30)
             rect.draw()
+
 
     scene = SampleScene(
         image_size=(5, 5),  # розмір зображення: 1 - 100 пікселів

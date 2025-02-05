@@ -50,7 +50,7 @@ def draw_arrow(p, u,
 
 if __name__ == '__main__':
     class SampleScene(Scene):
-        def draw_scene(self):
+        def draw_figures(self):
             p1 = np.array([0.2, .2])
             u1 = np.array([0.6, 0.2])
             draw_vector(p1, u1, color="green", label=r"$T$",
@@ -70,7 +70,7 @@ if __name__ == '__main__':
                        )
 
 
-    scene = Scene(
+    scene = SampleScene(
         coordinate_rect=(0, 0, 1, 1),
     ).prepare()
     scene.draw_figures()

@@ -36,7 +36,7 @@ class SceneSample(Scene):
 
         print(transformation_inv)
 
-        rect.transformation = transformation_inv
+        rect.set_transformation(transformation_inv)
         rect.color = "red"
         rect.line_style = "-"
         rect.draw()

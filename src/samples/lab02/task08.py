@@ -30,7 +30,7 @@ class SceneSample(Scene):
 
         rect.line_style = "solid"
         rect.color = "green"
-        rect.transformation = T_P_inv * S * T_P  # повертаємо опорну точку на її місце
+        rect.set_transformation (T_P_inv * S * T_P ) # повертаємо опорну точку на її місце
         rect.draw()
 
         print("зміщення P -> O")

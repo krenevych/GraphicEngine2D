@@ -37,12 +37,12 @@ if __name__ == '__main__':
             print("=== Rotation ====")
             print(R_45)
 
-            rect.transformation = S_2
+            rect.set_transformation(S_2)
             rect.color = "red"
             rect.line_style = ":"
             rect.draw()
 
-            rect.transformation = R_45 * S_2
+            rect.set_transformation(R_45 * S_2)
             rect.color = "blue"
             rect.line_style = "-"
             rect.draw()

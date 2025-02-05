@@ -4,7 +4,6 @@ from src.base.broken_line import draw_broken_line
 from src.engine.Scene import Scene
 from src.engine.simple.SimplePoint import SimplePoint
 from src.math.Mat3x3 import Mat3x3
-from src.math.Vec3 import vertex
 
 
 class SimplePolygon(SimplePoint):
@@ -14,7 +13,7 @@ class SimplePolygon(SimplePoint):
 
         self.line_style = "-"
 
-    def draw(self):
+    def draw_model(self):
         transformed_geometry = self.transformed_geometry
         ps = [el.xy for el in transformed_geometry]
         ps.append(transformed_geometry[0].xy)  # closed line
@@ -42,7 +41,7 @@ if __name__ == '__main__':
 
             rect.color = "red"  # колір ліній
             rect.line_style = "-"  # стиль ліній
-            rect.transformation = T * R * S
+            rect.set_transformation( T * R * S )
             rect.draw()
 
 

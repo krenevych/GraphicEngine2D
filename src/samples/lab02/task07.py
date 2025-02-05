@@ -18,27 +18,27 @@ class SceneSample(Scene):
         self["rect"].line_style = ":"
 
     def draw_figures(self):
-        rect : (SimplePolygon,) = self["rect"]
+        rect: (SimplePolygon,) = self["rect"]
         rect.draw()
 
         T_P = Mat3x3.translation(0.5, 0.5)
         T_P_inv = T_P.inverse()
 
-
         R = Mat3x3.rotation(60, False)
 
         rect.color = "red"
         # rect.transformation = R
-        rect.transformation = T_P_inv  # перенесли фігуру, щоб опорна точка потрапила в початок координат
+        rect.set_transformation(T_P_inv)  # перенесли фігуру, щоб опорна точка потрапила в початок координат
         rect.draw()
 
         rect.color = "orange"
-        rect.transformation = R * T_P_inv  # поворот навколо початку координат, з урахуванням перенесення у початок координат оп.точки
+        rect.set_transformation(
+            R * T_P_inv)  # поворот навколо початку координат, з урахуванням перенесення у початок координат оп.точки
         rect.draw()
 
         rect.line_style = "solid"
         rect.color = "green"
-        rect.transformation = T_P * R * T_P_inv  # повертаємо опорну точку на її місце
+        rect.set_transformation(T_P * R * T_P_inv)  # повертаємо опорну точку на її місце
         rect.draw()
 
 
@@ -58,5 +58,3 @@ if __name__ == '__main__':
     scene.draw_figures()
 
     scene.finalize()
-
-

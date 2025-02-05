@@ -57,7 +57,7 @@ if __name__ == '__main__':
 
 
 
-    scene = Scene(
+    scene = SampleScene(
         coordinate_rect=(-1, -1, 5, 5),
         grid_show=False,
         axis_show=True

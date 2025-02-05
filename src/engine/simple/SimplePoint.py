@@ -1,33 +1,21 @@
 import numpy as np
 
 from src.base.points import draw_points
+from src.engine.Base import Base
 from src.engine.Scene import Scene
 from src.math.Mat3x3 import Mat3x3
 from src.math.Vec3 import vertex
 
 
-class SimplePoint:
+class SimplePoint(Base):
 
     def __init__(self, *vertices):
+        super().__init__(*vertices)  # TODO:
+
         assert all(isinstance(item, (float, int)) for item in vertices) and len(vertices) % 2 == 0
-
         self._geometry = [vertex(vertices[i], vertices[i + 1]) for i in range(0, len(vertices), 2)]
-        self.transformation = Mat3x3()
-        self.color = "black"
 
-    def set_transformation(self, transformation):
-        self.transformation = transformation
-
-    @property
-    def transformed_geometry(self):
-        geom = [self.transformation * point for point in self._geometry]
-        return geom
-
-    def apply_transformation_to_geometry(self):
-        self._geometry = self.transformed_geometry
-        self.set_transformation(Mat3x3.identity())
-
-    def draw(self):
+    def draw_model(self):
         transformed_geometry = self.transformed_geometry
         ps = [el.xy for el in transformed_geometry]
 
@@ -47,7 +35,7 @@ if __name__ == '__main__':
             T = Mat3x3.translation(1, 1)
 
             point.color = "red"  # колір ліній
-            point.transformation = T * R * S
+            point.set_transformation( T * R * S )
             point.draw()
 
 

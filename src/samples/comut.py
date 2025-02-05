@@ -22,22 +22,22 @@ if __name__ == '__main__':
             S = Mat3x3.scale(2, 3)
             T = Mat3x3.translation(0.5, 0.9)
 
-            rect.transformation = S
+            rect.set_transformation(S)
             rect.color = "red"
             rect.line_style = "--"  # стиль ліній
             # малюємо полігон
             rect.draw()
 
             rect.line_style = "-"  # стиль ліній
-            rect.transformation = (R * S)
+            rect.set_transformation(R * S)
             rect.draw()
 
-            rect.transformation = R
+            rect.set_transformation(R)
             rect.color = "green"
             rect.line_style = "--"  # стиль ліній
             rect.draw()
 
-            rect.transformation = T * R * S
+            rect.set_transformation(T * R * S)
             rect.color = "orange"
             rect.line_style = "-."  # стиль ліній
             rect.draw()

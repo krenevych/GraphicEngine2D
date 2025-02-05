@@ -31,13 +31,13 @@ if __name__ == '__main__':
             print("=== Transform ====")
             print(TRS)
 
-            rect.transformation = TRS
+            rect.set_transformation(TRS)
             rect.color = "red"
             rect.line_style = "-"
             rect.draw()
 
             RST = R * S * T
-            rect.transformation = RST
+            rect.set_transformation(RST)
             rect.color = "blue"
             rect.line_style = "-"
             rect.draw()

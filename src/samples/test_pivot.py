@@ -5,7 +5,7 @@ from src.engine.Scene import Scene
 
 if __name__ == '__main__':
     class SampleScene(Scene):
-        def draw_scene(self):
+        def draw_figures(self):
             triangle = Polygon()
 
             # Задаємо геометрію - пара послідовних значень визначає вершину на площині

@@ -6,7 +6,7 @@ from src.math.Mat3x3 import Mat3x3
 
 if __name__ == '__main__':
     class SampleScene(Scene):
-        def draw_figures(self):
+        def draw_frames(self):
             rect = SimplePolygon(
                 0, 0,
                 1, 0,

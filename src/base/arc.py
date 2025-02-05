@@ -93,7 +93,7 @@ if __name__ == '__main__':
                                       vertex_color="yellow",
                                       )
 
-    scene = Scene(
+    scene = SampleScene(
         coordinate_rect=(-2, -2, 2, 2),
         # grid_show=False,
         base_axis_show=False,

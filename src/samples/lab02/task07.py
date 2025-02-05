@@ -2,23 +2,25 @@ from src.engine.model.SimplePolygon import SimplePolygon
 from src.engine.scene.Scene import Scene
 from src.math.Mat3x3 import Mat3x3
 
+FIGURE_KEY = "rect"
+
 
 class SceneSample(Scene):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
-        self["rect"] = SimplePolygon(
+        self[FIGURE_KEY] = SimplePolygon(
             0, 0,
             1, 0,
             1, 1,
             0, 1
         )
 
-        self["rect"].color = "blue"
-        self["rect"].line_style = ":"
+        self[FIGURE_KEY].color = "blue"
+        self[FIGURE_KEY].line_style = ":"
 
     def draw_figures(self):
-        rect: (SimplePolygon,) = self["rect"]
+        rect: (SimplePolygon,) = self[FIGURE_KEY]
         rect.draw()
 
         T_P = Mat3x3.translation(0.5, 0.5)
@@ -55,6 +57,7 @@ if __name__ == '__main__':
         keep_aspect_ratio=True,
     )
     scene.prepare()
+
     scene.draw()
 
     scene.finalize()

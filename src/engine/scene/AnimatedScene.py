@@ -51,16 +51,17 @@ class AnimatedScene(Scene, AnimationFinishedListener):
         self.finalize()
 
     def on_frame(self, frame):
+        def new_frame(scene_ : AnimatedScene):
+            if self._current_animation is not None:
+                transformation = self._current_animation.current_transformation(frame)
+                if self._current_animation.channel in self.figures:
+                    figure = self[self._current_animation.channel]
+                    figure.set_transformation(transformation)
 
-        if self._current_animation is not None:
+                self._current_animation.notify(self, frame)
 
-            transformation = self._current_animation.current_transformation(frame)
-            if self._current_animation.channel in self.figures:
-                figure = self[self._current_animation.channel]
-                figure.set_transformation(transformation)
-
-            self._current_animation.notify(self, frame)
-
+        self.frame_sequence = []
+        self.add_frames(new_frame)
 
     def __update(self, frame):
         self.figure.clear()  # Очищення фігури

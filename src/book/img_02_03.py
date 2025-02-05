@@ -29,37 +29,34 @@ def drawLineWithLength(p, u,
 
 
 if __name__ == '__main__':
-    class SampleScene(Scene):
-        def draw_figures(self):
-            p = np.array([0.2, .3])
-            u = np.array([0.6, 0.4])
+    def frame1(self):
+        p = np.array([0.2, .3])
+        u = np.array([0.6, 0.4])
 
-            edge_length = 0.05
-            drawLineWithLength(p, u, color="red", label=r'$\alpha v$',
-                               label_offset=(-0.07, 0.04),
-                               edge_length=edge_length,
-                               )
+        edge_length = 0.05
+        drawLineWithLength(p, u, color="red", label=r'$\alpha v$',
+                           label_offset=(-0.07, 0.04),
+                           edge_length=edge_length,
+                           )
 
-            p1 = np.array([0.6, 0.3])
-            u1 = 0.3 * u
+        p1 = np.array([0.6, 0.3])
+        u1 = 0.3 * u
 
-            drawLineWithLength(p1, u1, color="blue", label=r'$v$',
-                               label_offset=(-0.05, 0.03),
-                               edge_length=edge_length,
-                               )
+        drawLineWithLength(p1, u1, color="blue", label=r'$v$',
+                           label_offset=(-0.05, 0.03),
+                           edge_length=edge_length,
+                           )
 
-            ############
-
+        ############
 
 
-    scene = SampleScene(
+    scene = Scene(
         coordinate_rect=(-0.1, -0.1, 1, 1),
         # grid_show=False,
         # grid_line_linestyle="-.",
         # axis_show=True,
         # base_axis_show=False,
     ).prepare()
+    scene.add_frames(frame1)
     scene.draw()
     scene.finalize()
-
-

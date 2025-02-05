@@ -50,8 +50,7 @@ def draw_poly(x, y=None,
 
 
 if __name__ == '__main__':
-    class SampleScene(Scene):
-        def draw_figures(self):
+    def frame1(self):
             # Координати вершин багатокутника
             # x = [1, 3, 4, 2]
             # y = [1, 1, 3, 4]
@@ -83,8 +82,9 @@ if __name__ == '__main__':
             )
 
 
-    scene = SampleScene(
+    scene = Scene(
         coordinate_rect=(0, 0, 5, 5),
     ).prepare()
+    scene.add_frames(frame1)
     scene.draw()
     scene.finalize()

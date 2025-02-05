@@ -2,26 +2,22 @@ from src.engine.model.SimplePolygon import SimplePolygon
 from src.engine.scene.Scene import Scene
 from src.math.Mat3x3 import Mat3x3
 
+FIGURE_KEY = "rect"
+
 if __name__ == '__main__':
-    class SampleScene(Scene):
-        def draw_figures(self):
-            rect = SimplePolygon(
-                2, 2,
-                3, 2,
-                3, 3,
-                2, 3
-            )
-            rect.color = "blue"
-            rect.line_style = ":"
-            rect.draw()
-
-            R = Mat3x3.rotation(65, is_radians=False)
-
-            rect.set_transformation(R)
-            rect.draw()
+    def frame1(scene):
+        rect: SimplePolygon = scene[FIGURE_KEY]
+        rect.color = "blue"
+        rect.line_style = ":"
 
 
-    scene = SampleScene(
+    def frame2(scene):
+        rect: SimplePolygon = scene[FIGURE_KEY]
+        R = Mat3x3.rotation(65, is_radians=False)
+        rect.set_transformation(R)
+
+
+    scene = Scene(
         image_size=(5, 5),  # розмір зображення: 1 - 100 пікселів
         coordinate_rect=(-3, -1, 6, 6),  # розмірність системи координат
         title="Picture",  # заголовок рисунка
@@ -32,5 +28,17 @@ if __name__ == '__main__':
         axis_line_style="-.",  # стиль ліній осей координат
         keep_aspect_ratio=True,
     ).prepare()
+
+    scene[FIGURE_KEY] = SimplePolygon(
+        2, 2,
+        3, 2,
+        3, 3,
+        2, 3
+    )
+
+    scene.add_frames(
+        frame1,
+        frame2,
+    )
     scene.draw()
     scene.finalize()

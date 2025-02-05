@@ -15,21 +15,21 @@ def print_label(start,
 
 
 if __name__ == '__main__':
-    class TextScene(Scene):
-        def draw_figures(self):
-            print_label(start=(0.5, 0.5),
-                        label=r"Hello $R_2^4$", label_color="red", label_fontsize=22,
-                        label_offset=(-0.2, 0.1))
+    def frame1(scene):
+        print_label(start=(0.5, 0.5),
+                    label=r"Hello $R_2^4$", label_color="red", label_fontsize=22,
+                    label_offset=(-0.2, 0.1))
 
-            print_label(start=(0.5, 0.2),
-                        label=r"Water $H_20$", label_color="green", label_fontsize=13,
-                        label_offset=(-0.2, 0.1))
+        print_label(start=(0.5, 0.2),
+                    label=r"Water $H_20$", label_color="green", label_fontsize=13,
+                    label_offset=(-0.2, 0.1))
 
 
-    scene = TextScene(
+    scene = Scene(
         coordinate_rect=(0, 0, 1, 1),
         grid_show=True,
     ).prepare()
+    scene.add_frames(frame1)
     scene.draw()
     scene.finalize()
 

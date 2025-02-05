@@ -7,6 +7,8 @@ from src.engine.model.Polygon import Polygon
 from src.engine.scene.AnimatedScene import AnimatedScene
 from src.math.Vec3 import vertex
 
+FIGURE_KEY = "rect"
+
 
 class AnimatedSceneSample(AnimatedScene):
     def __init__(self, **kwargs):
@@ -26,7 +28,7 @@ class AnimatedSceneSample(AnimatedScene):
         polygon["color"] = "blue"
         polygon["line_style"] = "-"
 
-        self["rect"] = polygon
+        self[FIGURE_KEY] = polygon
 
 
 if __name__ == '__main__':
@@ -44,7 +46,7 @@ if __name__ == '__main__':
 
     translation = TranslationAnimation(
         end=vertex(2, 2),
-        channel="rect",
+        channel=FIGURE_KEY,
         frames=60,
         # animation_listener=finish,
     )
@@ -52,13 +54,13 @@ if __name__ == '__main__':
     scale = ScaleAnimation(
         end=(2, 3),
         frames=60,
-        channel="rect",
+        channel=FIGURE_KEY,
     )
 
     rotation = RotationAnimation(
         end=np.radians(60),
         frames=60,
-        channel="rect",
+        channel=FIGURE_KEY,
     )
 
     scene.add_animation(scale)

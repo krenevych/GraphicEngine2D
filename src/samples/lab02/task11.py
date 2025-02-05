@@ -4,23 +4,25 @@ from src.engine.model.SimplePolygon import SimplePolygon
 from src.engine.scene.Scene import Scene
 from src.math.Mat3x3 import Mat3x3
 
+FIGURE_KEY = "rect"
+
 
 class SceneSample(Scene):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
-        self["rect"] = SimplePolygon(
+        self[FIGURE_KEY] = SimplePolygon(
             2, 3.4,
             4.9, 4,
             4.5, 6,
             1.6, 5.4
         )
 
-        self["rect"].color = "blue"
-        self["rect"].line_style = ":"
+        self[FIGURE_KEY].color = "blue"
+        self[FIGURE_KEY].line_style = ":"
 
     def draw_figures(self):
-        rect = self["rect"]
+        rect = self[FIGURE_KEY]
         rect.draw()
 
         transformation = Mat3x3(2.934, -0.416, 2.000,

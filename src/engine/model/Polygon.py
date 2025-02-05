@@ -33,24 +33,12 @@ class Polygon(BaseModelTRS):
 
 
 if __name__ == '__main__':
-    class PolygonScene(Scene):
-        def draw_figures(self):
-            m = Polygon()
-            # m.set_geometry(
-            #     np.array((0, 0)),
-            #     np.array((2, 0)),
-            #     np.array((2, 1)),
-            #     np.array((1, 2)),
-            #     np.array((0, 1))
-            # )
+    scene_figure_key = "polygon"
 
-            # m.set_geometry(
-            #     np.array((0, 0)),
-            #     np.array((2, 0)),
-            #     np.array((2, 1)),
-            #     np.array((1, 2)),
-            #     np.array((0, 1))
-            # )
+    class PolygonScene(Scene):
+        def __init__(self, **kwargs):
+            super().__init__(**kwargs)
+            m = Polygon()
 
             m.set_geometry(
                 0, 0,
@@ -82,35 +70,25 @@ if __name__ == '__main__':
             #     vertex(0, 1)
             # )
 
-            m.pivot(0.5, 0.5)
-            m.show_pivot()
-            # m.show_local_frame()
+            # m.set_geometry(
+            #     np.array((0, 0)),
+            #     np.array((2, 0)),
+            #     np.array((2, 1)),
+            #     np.array((1, 2)),
+            #     np.array((0, 1))
+            # )
 
-            m["color"] = "green"
-            m["line_style"] = "--"
-            # m["vertex_color"] = "grey"
-            # m["vertices_show"] = True
-            # m["labels"] = [
-            #     (r'$P_1$', (-0.1, -0.3)),
-            #     (r'$P_2$', (-0.15, 0.2)),
-            #     (r'$P_3$', (-0.1, 0.1)),
-            #     r"$P_4$",
-            #     r"$P_5$",
-            # ]
+            # m.set_geometry(
+            #     np.array((0, 0)),
+            #     np.array((2, 0)),
+            #     np.array((2, 1)),
+            #     np.array((1, 2)),
+            #     np.array((0, 1))
+            # )
 
-            m.draw()
+            self[scene_figure_key] = m
 
-            m["color"] = "blue"
-            m["line_style"] = "solid"
-
-            # m.scale(2, 1)
-            # m.translation(Vec3.point(2, 2))
-            m.rotation(np.radians(45))
-
-            m.draw()
-
-
-    scene = PolygonScene(
+    polygon_scene = PolygonScene(
         coordinate_rect=(-1, -1, 3, 3),
         # grid_show=False,
         base_axis_show=False,
@@ -118,5 +96,38 @@ if __name__ == '__main__':
         axis_color="red",
         axis_line_style="-."
     ).prepare()
-    scene.draw()
-    scene.finalize()
+
+
+    def frame1(scene : Scene):
+        m: Polygon = scene[scene_figure_key]
+
+        m.pivot(0.5, 0.5)
+        m.show_pivot()
+        # m.show_local_frame()
+
+        m["color"] = "green"
+        m["line_style"] = "--"
+        # m["vertex_color"] = "grey"
+        # m["vertices_show"] = True
+        # m["labels"] = [
+        #     (r'$P_1$', (-0.1, -0.3)),
+        #     (r'$P_2$', (-0.15, 0.2)),
+        #     (r'$P_3$', (-0.1, 0.1)),
+        #     r"$P_4$",
+        #     r"$P_5$",
+        # ]
+
+    def frame2(scene: Scene):
+        m: Polygon = scene[scene_figure_key]
+        m["color"] = "blue"
+        m["line_style"] = "solid"
+
+        # m.scale(2, 1)
+        # m.translation(Vec3.point(2, 2))
+        m.rotation(np.radians(45))
+
+
+    polygon_scene.add_frames(frame1, frame2)
+
+    polygon_scene.draw()
+    polygon_scene.finalize()

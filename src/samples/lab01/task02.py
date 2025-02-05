@@ -4,48 +4,61 @@ from src.engine.model.SimplePolygon import SimplePolygon
 from src.engine.scene.Scene import Scene
 from src.math.Mat3x3 import Mat3x3
 
+FIGURE_KEY = "rect"
+
 if __name__ == '__main__':
     class SampleScene(Scene):
-        def draw_figures(self):
+
+        def __init__(self, **kwargs):
+            super().__init__(**kwargs)
             rect = SimplePolygon(
                 0, 0,
                 1, 0,
                 1, 1,
                 0, 1
             )
-            rect.color = "blue"
-            rect.line_style = ":"
-            rect.draw()
+            self[FIGURE_KEY] = rect
 
-            S_2 = Mat3x3(
-                2, 0, 0,
-                0, 1, 0,
-                0, 0, 1,
-            )
-            print("=== Scale (manual) ====")
-            print(S_2)
 
-            S_2 = Mat3x3.scale(2, 1)
-            print("=== Scale (from Mat3x3) ====")
-            print(S_2)
+    S_2 = Mat3x3(
+        2, 0, 0,
+        0, 1, 0,
+        0, 0, 1,
+    )
+    print("=== Scale (manual) ====")
+    print(S_2)
 
-            R_45 = Mat3x3(
-                np.cos(np.radians(45)), -np.sin(np.radians(45)), 0,
-                np.sin(np.radians(45)), np.cos(np.radians(45)), 0,
-                0, 0, 1
-            )
-            print("=== Rotation ====")
-            print(R_45)
+    S_2 = Mat3x3.scale(2, 1)
+    print("=== Scale (from Mat3x3) ====")
+    print(S_2)
 
-            rect.set_transformation(S_2)
-            rect.color = "red"
-            rect.line_style = ":"
-            rect.draw()
+    R_45 = Mat3x3(
+        np.cos(np.radians(45)), -np.sin(np.radians(45)), 0,
+        np.sin(np.radians(45)), np.cos(np.radians(45)), 0,
+        0, 0, 1
+    )
+    print("=== Rotation ====")
+    print(R_45)
 
-            rect.set_transformation(R_45 * S_2)
-            rect.color = "blue"
-            rect.line_style = "-"
-            rect.draw()
+
+    def frame1(scene):
+        rect: SimplePolygon = scene[FIGURE_KEY]
+        rect.color = "blue"
+        rect.line_style = ":"
+
+
+    def frame2(scene):
+        rect: SimplePolygon = scene[FIGURE_KEY]
+        rect.set_transformation(S_2)
+        rect.color = "red"
+        rect.line_style = ":"
+
+
+    def frame3(scene):
+        rect: SimplePolygon = scene[FIGURE_KEY]
+        rect.set_transformation(R_45 * S_2)
+        rect.color = "blue"
+        rect.line_style = "-"
 
 
     scene = SampleScene(
@@ -59,5 +72,10 @@ if __name__ == '__main__':
         axis_line_style="-.",  # стиль ліній осей координат
         keep_aspect_ratio=True,
     ).prepare()
+    scene.add_frames(
+        frame1,
+        frame2,
+        frame3,
+    )
     scene.draw()
     scene.finalize()

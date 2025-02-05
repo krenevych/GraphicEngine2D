@@ -70,9 +70,8 @@ def draw_points(
 
 if __name__ == '__main__':
 
-    class PointScene(Scene):
 
-        def draw_figures(self):
+    def frame1(scene):
             p1 = np.array([0.2, .2])
 
             draw_point(p1, size=100, color="blue", label=r"$R$", label_color="blue", label_offset=(-0.02, 0.05))
@@ -91,14 +90,15 @@ if __name__ == '__main__':
                                 ("H",)
                                 ],  # Підписи вершин
                         vertex_color="red",
-                        )
+                )
 
-    scene = PointScene(
+    scene = Scene(
         coordinate_rect=(-4, -4, 4, 4),
         # grid_show=False,
         grid_line_linestyle="-.",
         axis_show=True,
         base_axis_show=False,
     ).prepare()
+    scene.add_frames(frame1)
     scene.draw()
     scene.finalize()

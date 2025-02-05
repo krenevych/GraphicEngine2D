@@ -4,8 +4,7 @@ from src.base.arrow import draw_vector
 from src.engine.scene.Scene import Scene
 
 if __name__ == '__main__':
-    class SampleScene(Scene):
-        def draw_figures(self):
+    def frame1(self):
             P1 = np.array([0.5, 1.3])
             U1 = np.array([1.1, 0.5])
             draw_vector(P1, U1, color="blue",
@@ -20,10 +19,11 @@ if __name__ == '__main__':
                         label_offset=(-0.3, 0.10),
                         )
 
-    scene = SampleScene(
+    scene = Scene(
         coordinate_rect=(-1, -1, 3, 3),
         grid_show=False
     ).prepare()
+    scene.add_frames(frame1)
     scene.draw()
     scene.finalize()
 

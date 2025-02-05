@@ -47,23 +47,40 @@ class VectorModel(BaseModelTRS):
 
 
 if __name__ == '__main__':
+    scene_figure_key = "vector"
+
+
     class SampleScene(Scene):
-        def draw_figures(self):
+
+        def __init__(self, **kwargs):
+            super().__init__(**kwargs)
+
             v = VectorModel(1, 1)
-            v["color"] = "blue"
-            v["label"] = "v"
-            v["label_offset"] = -0.2, 0.1
-            v.draw()
-
-            v.translation(1, 2)
-            v.rotation(np.radians(20))
-            v.draw()
+            self[scene_figure_key] = v
 
 
-    scene = SampleScene(
+    def frame1(scene: Scene):
+        v = scene[scene_figure_key]
+
+        v["color"] = "blue"
+        v["label"] = "v"
+        v["label_offset"] = -0.2, 0.1
+
+
+    def frame2(scene: Scene):
+        v = scene[scene_figure_key]
+
+        v.translation(1, 2)
+        v.rotation(np.radians(20))
+
+
+    sample_scene = SampleScene(
         coordinate_rect=(-1, -1, 5, 5),
         grid_show=False,
         axis_show=True
     ).prepare()
-    scene.draw()
-    scene.finalize()
+
+    sample_scene.add_frames(frame1, frame2)
+
+    sample_scene.draw()
+    sample_scene.finalize()

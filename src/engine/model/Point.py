@@ -19,20 +19,30 @@ class SimplePoint(BaseModel):
 
 
 if __name__ == '__main__':
+    scene_figure_key = "point"
+
+
     class SimplePointScene(Scene):
-        def draw_figures(self):
+        def __init__(self, **kwargs):
+            super().__init__(**kwargs)
+
             point = SimplePoint(1, 1, 2, 2, 0, 1)
+            self[scene_figure_key] = point
 
-            point.color = "blue"  # колір ліній
-            point.draw()
 
-            R = Mat3x3.rotation(np.radians(45))
-            S = Mat3x3.scale(2, 3)
-            T = Mat3x3.translation(1, 1)
+    def frame1(scene: Scene):
+        point = scene[scene_figure_key]
+        point.color = "blue"  # колір ліній
 
-            point.color = "red"  # колір ліній
-            point.set_transformation(T * R * S)
-            point.draw()
+
+    def frame2(scene: Scene):
+        point = scene[scene_figure_key]
+        R = Mat3x3.rotation(np.radians(45))
+        S = Mat3x3.scale(2, 3)
+        T = Mat3x3.translation(1, 1)
+
+        point.color = "red"  # колір ліній
+        point.set_transformation(T * R * S)
 
 
     scene = SimplePointScene(
@@ -45,5 +55,8 @@ if __name__ == '__main__':
         axis_color=("red", "green"),  # колір осей координат
         axis_line_style="-."  # стиль ліній осей координат
     ).prepare()
+
+    scene.add_frames(frame1, frame2)
+
     scene.draw()
     scene.finalize()

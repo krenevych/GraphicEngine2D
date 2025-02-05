@@ -22,27 +22,41 @@ class SimplePolygon(BaseModel):
 
 
 if __name__ == '__main__':
+    scene_figure_key = "rect"
+
+
     class SimplePolygonScene(Scene):
 
-        def draw_figures(self):
+        def __init__(self, **kwargs):
+            super().__init__(**kwargs)
             rect = SimplePolygon(0, 0,
                                  1, 0,
                                  1, 1,
                                  0, 1,
                                  )
 
-            rect.color = "blue"  # колір ліній
-            rect.line_style = "--"  # стиль ліній
-            rect.draw()
+            self[scene_figure_key] = rect
 
-            R = Mat3x3.rotation(np.radians(45))
-            S = Mat3x3.scale(2, 3)
-            T = Mat3x3.translation(1, 1)
 
-            rect.color = "red"  # колір ліній
-            rect.line_style = "-"  # стиль ліній
-            rect.set_transformation( T * R * S )
-            rect.draw()
+    ############## Frame 1 ##################
+    def frame1(scene: Scene):
+        rect: SimplePolygon = scene[scene_figure_key]
+
+        rect.color = "blue"  # колір ліній
+        rect.line_style = "--"  # стиль ліній
+
+
+    ############## Frame 2 ##################
+    def frame2(scene: Scene):
+        rect: SimplePolygon = scene[scene_figure_key]
+
+        R = Mat3x3.rotation(np.radians(45))
+        S = Mat3x3.scale(2, 3)
+        T = Mat3x3.translation(1, 1)
+
+        rect.color = "red"  # колір ліній
+        rect.line_style = "-"  # стиль ліній
+        rect.set_transformation(T * R * S)
 
 
     scene = SimplePolygonScene(
@@ -55,5 +69,8 @@ if __name__ == '__main__':
         axis_color=("red", "green"),  # колір осей координат
         axis_line_style="-."  # стиль ліній осей координат
     ).prepare()
+
+    scene.add_frames(frame1, frame2) # додаємо кадри на сцену
+
     scene.draw()
     scene.finalize()

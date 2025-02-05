@@ -7,6 +7,7 @@ from src.engine.model.Polygon import Polygon
 from src.engine.scene.AnimatedScene import AnimatedScene
 from src.math.Vec3 import vertex
 
+FIGURE_KEY = "rect"
 
 class AnimatedSceneSample(AnimatedScene):
     def __init__(self, **kwargs):
@@ -24,7 +25,7 @@ class AnimatedSceneSample(AnimatedScene):
         polygon["color"] = "blue"  # колір ліній полігону
         polygon["line_style"] = ":"  # стиль ліній полігону
 
-        self["rect"] = polygon  # додати полігон з ключем "rect" на сцену
+        self[FIGURE_KEY] = polygon  # додати полігон з ключем "rect" на сцену
 
 
 if __name__ == '__main__':
@@ -42,50 +43,50 @@ if __name__ == '__main__':
 
     translation = TranslationAnimation(  # створюємо анімацію переміщення
         end=vertex(1, 1),  # значення точки у яку треба перемітити
-        channel="rect",  # ідентифікатор фігури до якої має застосовуватися анімація
+        channel=FIGURE_KEY,  # ідентифікатор фігури до якої має застосовуватися анімація
         frames=20,  # кількість кадрів анімації
     )
 
     translation2 = TranslationAnimation(
         end=vertex(-1, -1),
-        channel="rect",
+        channel=FIGURE_KEY,
         frames=20,
     )
 
     scale_before = ScaleAnimation(
         end=(1.2, 1.2),
         frames=20,
-        channel="rect",
+        channel=FIGURE_KEY,
     )
 
     scale_before2 = ScaleAnimation(
         end=(1, 1),
         frames=20,
-        channel="rect",
+        channel=FIGURE_KEY,
     )
 
     scale = ScaleAnimation(
         end=(2, 2),
         frames=20,
-        channel="rect",
+        channel=FIGURE_KEY,
     )
 
     scale2 = ScaleAnimation(
         end=(0.5, 0.5),
         frames=20,
-        channel="rect",
+        channel=FIGURE_KEY,
     )
 
     rotation = RotationAnimation(
         end=np.radians(30),
         frames=20,
-        channel="rect",
+        channel=FIGURE_KEY,
     )
 
     rotation2 = RotationAnimation(
         end=np.radians(-30),
         frames=20,
-        channel="rect",
+        channel=FIGURE_KEY,
     )
 
     # задаємо послідовність анімацій

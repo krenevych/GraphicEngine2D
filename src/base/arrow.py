@@ -49,29 +49,29 @@ def draw_arrow(p, u,
 
 
 if __name__ == '__main__':
-    class SampleScene(Scene):
-        def draw_figures(self):
-            p1 = np.array([0.2, .2])
-            u1 = np.array([0.6, 0.2])
-            draw_vector(p1, u1, color="green", label=r"$T$",
-                        label_color="red",
-                        label_offset=(-0.05, 0.02),
-                        )
+    def frame1(scene):
+        p1 = np.array([0.2, .2])
+        u1 = np.array([0.6, 0.2])
+        draw_vector(p1, u1, color="green", label=r"$T$",
+                    label_color="red",
+                    label_offset=(-0.05, 0.02),
+                    )
 
-            p2 = p1 - (0.0, 0.15)
+        p2 = p1 - (0.0, 0.15)
 
-            draw_arrow(p2, u1, color="green", label=r"$T$",
-                       label_color="red",
-                       label_offset=(-0.05, 0.02),
-                       linewidth=2,
-                       head_width=0.1,
-                       head_length=0.1,
-                       head_color="red"
-                       )
+        draw_arrow(p2, u1, color="green", label=r"$T$",
+                   label_color="red",
+                   label_offset=(-0.05, 0.02),
+                   linewidth=2,
+                   head_width=0.1,
+                   head_length=0.1,
+                   head_color="red"
+                   )
 
 
-    scene = SampleScene(
+    scene = Scene(
         coordinate_rect=(0, 0, 1, 1),
     ).prepare()
+    scene.add_frames(frame1)
     scene.draw()
     scene.finalize()

@@ -3,6 +3,7 @@ from abc import ABC
 from matplotlib import pyplot as plt
 
 from src.base.axes import draw_axes
+from src.engine.scene.Frame import Frame, FrameCallback
 
 
 class Scene(ABC):
@@ -29,6 +30,8 @@ class Scene(ABC):
 
         self.figure = plt.figure(figsize=self.image_size)
         self.figures = {}
+
+        self.frame_sequence: list[Frame] = []
 
     def add_figure(self, figure, name="default"):
         if name not in self.figures:
@@ -79,9 +82,19 @@ class Scene(ABC):
         else:
             raise KeyError("Figure {} doesn't exist to draw".format(name))
 
-    def draw_figures(self):
-        for name, figure in self.figures.items():
-            figure.draw()
+    def add_frames(self, *frames):
+        for frame in frames:
+            if isinstance(frame, Frame):
+                self.frame_sequence.append(frame)
+            elif callable(frame):
+                self.frame_sequence.append(FrameCallback(frame))
+
+    def draw_figures(self):  # TODO: rename into draw_frames()
+        for frame in self.frame_sequence:
+            frame.on_frame(self)
+
+            for name, figure in self.figures.items():
+                figure.draw()
 
     def prepare(self):
         self.set_title()

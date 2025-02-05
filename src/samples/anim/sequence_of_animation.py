@@ -22,6 +22,9 @@ class AnimatedSceneSample(AnimatedScene):
         self["rect"].color = "blue"
         self["rect"].line_style = "-"
 
+        self["rect"].show_local_frame()
+        self["rect"].show_pivot()
+
 
 if __name__ == '__main__':
     scene = AnimatedSceneSample(
@@ -40,7 +43,7 @@ if __name__ == '__main__':
         end=vertex(1, 1),
         channel="rect",
         frames=30,
-        apply_geometry_transformation_on_finish=True,
+        # apply_geometry_transformation_on_finish=True,
         # animation_listener=finish,
     )
 

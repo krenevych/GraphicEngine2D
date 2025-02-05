@@ -20,7 +20,7 @@ class AnimatedSceneSample(AnimatedScene):
             1, 2
         )
         polygon.show_local_frame()
-        polygon.pivot(0, 1)
+        polygon.pivot(1, 1)
         polygon.show_pivot()
         polygon["color"] = "blue"
         polygon["line_style"] = ":"
@@ -44,14 +44,54 @@ if __name__ == '__main__':
     translation = TranslationAnimation(
         end=vertex(1, 1),
         channel="rect",
-        # frames=100,
+        frames=20,
         # animation_listener=finish,
+        # apply_geometry_transformation_on_finish=True,
+    )
+
+    delay = TranslationAnimation(
+        end=vertex(0, 0),
+        channel="rect",
+        frames=320,
+        # animation_listener=finish,
+        # apply_geometry_transformation_on_finish=True,
+    )
+
+    translation2 = TranslationAnimation(
+        end=vertex(-1, -1),
+        channel="rect",
+        frames=20,
+        # animation_listener=finish,
+        # apply_geometry_transformation_on_finish=True,
+    )
+
+    scale_before = ScaleAnimation(
+        end=(1.2, 1.2),
+        frames=20,
+        channel="rect",
+        # animation_listener=rotation
+        # apply_geometry_transformation_on_finish=True,
+    )
+
+    scale_before2 = ScaleAnimation(
+        end=(1, 1),
+        frames=20,
+        channel="rect",
+        # animation_listener=rotation
         # apply_geometry_transformation_on_finish=True,
     )
 
     scale = ScaleAnimation(
         end=(2, 2),
-        # frames=100,
+        frames=20,
+        channel="rect",
+        # animation_listener=rotation
+        # apply_geometry_transformation_on_finish=True,
+    )
+
+    scale2 = ScaleAnimation(
+        end=(0.5, 0.5),
+        frames=20,
         channel="rect",
         # animation_listener=rotation
         # apply_geometry_transformation_on_finish=True,
@@ -59,13 +99,27 @@ if __name__ == '__main__':
 
     rotation = RotationAnimation(
         end=np.radians(30),
-        # frames=100,
+        frames=20,
         channel="rect",
         # animation_listener=translation
         # apply_geometry_transformation_on_finish=True,
     )
 
+    rotation2 = RotationAnimation(
+        end=np.radians(-30),
+        frames=20,
+        channel="rect",
+        # animation_listener=translation
+        # apply_geometry_transformation_on_finish=True,
+    )
+
+    scene.add_animation(delay)
+    scene.add_animation(scale_before)
+    scene.add_animation(scale_before2)
     scene.add_animation(scale)
     scene.add_animation(rotation)
     scene.add_animation(translation)
+    scene.add_animation(scale2)
+    scene.add_animation(translation2)
+    scene.add_animation(rotation2)
     scene.animate()

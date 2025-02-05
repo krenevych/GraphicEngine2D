@@ -32,5 +32,5 @@ if __name__ == '__main__':
         axis_line_style="-.",  # стиль ліній осей координат
         keep_aspect_ratio=True,
     ).prepare()
-    scene.draw_figures()
+    scene.draw()
     scene.finalize()

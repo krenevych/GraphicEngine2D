@@ -55,6 +55,6 @@ if __name__ == '__main__':
         keep_aspect_ratio=True,
     )
     scene.prepare()
-    scene.draw_figures()
+    scene.draw()
 
     scene.finalize()

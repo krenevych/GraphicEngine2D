@@ -100,5 +100,5 @@ if __name__ == '__main__':
         axis_show=True,
         base_axis_show=False,
     ).prepare()
-    scene.draw_figures()
+    scene.draw()
     scene.finalize()

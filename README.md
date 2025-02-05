@@ -98,7 +98,7 @@ scene["rect"] = polygon  # додати полігон з ключем "rect" н
 ```python
 
 scene.prepare()  # налаштовує та зображує базові елементи сцени (розмірність, глобальна система координат, тощо.)
-scene.draw_figures()
+scene.draw()
 scene.finalize()
 ```
 

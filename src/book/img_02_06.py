@@ -60,6 +60,6 @@ if __name__ == '__main__':
         coordinate_rect=(-3, -1, 3, 4),
         grid_show=False
     ).prepare()
-    scene.draw_figures()
+    scene.draw()
     scene.finalize()
 

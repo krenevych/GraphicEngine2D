@@ -101,5 +101,5 @@ if __name__ == '__main__':
         axis_color="red",
         axis_line_style="-."
     ).prepare()
-    scene.draw_figures()
+    scene.draw()
     scene.finalize()

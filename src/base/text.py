@@ -30,6 +30,6 @@ if __name__ == '__main__':
         coordinate_rect=(0, 0, 1, 1),
         grid_show=True,
     ).prepare()
-    scene.draw_figures()
+    scene.draw()
     scene.finalize()
 

@@ -55,5 +55,5 @@ if __name__ == '__main__':
         axis_color=("red", "green"),  # колір осей координат
         axis_line_style="-."  # стиль ліній осей координат
     ).prepare()
-    scene.draw_figures()
+    scene.draw()
     scene.finalize()

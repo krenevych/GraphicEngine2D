@@ -36,5 +36,5 @@ if __name__ == '__main__':
         base_axis_show=False,
         axis_show=True
     ).prepare()
-    scene.draw_figures()
+    scene.draw()
     scene.finalize()

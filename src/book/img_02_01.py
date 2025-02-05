@@ -20,5 +20,5 @@ if __name__ == '__main__':
         coordinate_rect=(-1, -1, 3, 5),
         grid_show=False
     ).prepare()
-    scene.draw_figures()
+    scene.draw()
     scene.finalize()

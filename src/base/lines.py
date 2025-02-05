@@ -55,5 +55,5 @@ if __name__ == '__main__':
     scene = SampleScene(
         coordinate_rect=(0, 0, 1, 1),
     ).prepare()
-    scene.draw_figures()
+    scene.draw()
     scene.finalize()

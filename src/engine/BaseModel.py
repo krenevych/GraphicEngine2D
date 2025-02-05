@@ -101,11 +101,8 @@ class BaseModel(Base, ABC):
     def transformed_geometry(self):
         P = self.pivot_transform
         P_inv = P.inverse()
-        M = P * self.transformation * P_inv
-        transformed_data = []
-        for point in self._geometry:
-            _p = M * point
-            transformed_data.append(_p)
+        transformation = P * self.transformation * P_inv
+        transformed_data = [transformation * point for point in self._geometry]
 
         return transformed_data
 

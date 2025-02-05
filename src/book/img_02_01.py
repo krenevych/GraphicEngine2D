@@ -5,7 +5,7 @@ from src.engine.Scene import Scene
 
 if __name__ == '__main__':
     class SampleScene(Scene):
-        def draw_scene(self):
+        def draw_figures(self):
             U = np.array((1, 1))
             P1 = np.array((0, 0))
             P2 = np.array((0.5, 1))

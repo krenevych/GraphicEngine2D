@@ -60,6 +60,10 @@ class BaseModel(ABC):
     def set_transformation(self, transformation):
         self.__translation, self.__rotation, self.__scale = Mat3x3.decompose_affine(transformation)
 
+    def apply_transformation_to_geometry(self):
+        self.__geometry = self.transformed_geometry
+        self.set_transformation(Mat3x3.identity())
+
     @property
     def pivot_transform(self):
         pivot_tr = Mat3x3.translation(self.__pivot)

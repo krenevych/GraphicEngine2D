@@ -2,26 +2,17 @@ import numpy as np
 
 from src.base.broken_line import draw_broken_line
 from src.engine.Scene import Scene
+from src.engine.simple.SimplePoint import SimplePoint
 from src.math.Mat3x3 import Mat3x3
 from src.math.Vec3 import vertex
 
 
-class SimplePolygon:
+class SimplePolygon(SimplePoint):
 
     def __init__(self, *vertices):
-        assert all(isinstance(item, (float, int)) for item in vertices) and len(vertices) % 2 == 0
+        super().__init__(*vertices)
 
-        self.__geometry = [vertex(vertices[i], vertices[i + 1]) for i in range(0, len(vertices), 2)]
-        self.transformation = Mat3x3()
-        self.color = "black"
         self.line_style = "-"
-
-    def set_transformation(self, transformation):
-        self.transformation = transformation
-
-    @property
-    def transformed_geometry(self):
-        return [self.transformation * point for point in self.__geometry]
 
     def draw(self):
         transformed_geometry = self.transformed_geometry

@@ -7,7 +7,6 @@ ANIMATION_STOPPED = "ANIMATION_STOPED"
 ANIMATION_PLAYED = "ANIMATION_FINISHED"
 
 
-
 class Animation(ABC):
 
     def __init__(self,
@@ -16,6 +15,7 @@ class Animation(ABC):
                  frames=60,  # Кількість кадрів анімації 60 (при інтервалі 16 мілісекунд буде 1 секунда)
                  interval=16,  # Час в мілісекундах між кадрами анімації
                  repeat=False,  # Чи циклічна анімація
+                 apply_geometry_transformation_on_finish=False,  # Чи трансформує анімація всі вертекси на фініші
                  animation_listener=None,  # спостерігач
                  ):
         self.start = Mat3x3.identity()
@@ -28,6 +28,13 @@ class Animation(ABC):
         self.__animation_listeners = []
 
         self.add_animation_listener(animation_listener)
+
+        if apply_geometry_transformation_on_finish:
+            def apply_transformation_callback(animated_scene):
+                print("Applied transformation to geometry")
+                animated_scene[self.channel].apply_transformation_to_geometry()
+
+            self.add_animation_listener(apply_transformation_callback)
 
     def add_animation_listener(self, animation_listener):
         if animation_listener is not None:
@@ -57,9 +64,9 @@ class Animation(ABC):
         start_translation, start_angle, start_scales = Mat3x3.decompose_affine(self.start)
         end_translation, end_angle, end_scales = Mat3x3.decompose_affine(self.end)
 
-        translation = start_translation + (end_translation - start_translation) *  (frame / self.frames)
-        angle = start_angle + (end_angle - start_angle) *  (frame / self.frames)
-        scales = start_scales + (end_scales - start_scales) *  (frame / self.frames)
+        translation = start_translation + (end_translation - start_translation) * (frame / self.frames)
+        angle = start_angle + (end_angle - start_angle) * (frame / self.frames)
+        scales = start_scales + (end_scales - start_scales) * (frame / self.frames)
 
         T = Mat3x3.translation(translation)
         R = Mat3x3.rotation(angle)

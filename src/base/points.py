@@ -15,7 +15,7 @@ def draw_point(start, size=50, color="black",
 
 def draw_points(
         x, y=None,
-        vertices_show=False, vertex_color="black", vertex_size=50,
+        vertices_show=True, vertex_color="black", vertex_size=50,
         labels=(), labels_color="black", labels_font_size=DEFAULT_LABEL_FONT_SIZE,
 ):
     if y is None:

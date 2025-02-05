@@ -1,6 +1,6 @@
 import numpy as np
 
-from src.base.points import draw_point
+from src.base.points import draw_points
 from src.engine.Scene import Scene
 from src.math.Mat3x3 import Mat3x3
 from src.math.Vec3 import vertex
@@ -8,23 +8,37 @@ from src.math.Vec3 import vertex
 
 class SimplePoint:
 
-    def __init__(self, x=0, y=0):
-        self.vertex = vertex(x, y)
+    def __init__(self, *vertices):
+        assert all(isinstance(item, (float, int)) for item in vertices) and len(vertices) % 2 == 0
+
+        self.__geometry = [vertex(vertices[i], vertices[i + 1]) for i in range(0, len(vertices), 2)]
         self.transformation = Mat3x3()
         self.color = "black"
 
-    def draw(self):
-        ps = self.transformation * self.vertex
-        draw_point(ps.xy, color=self.color)
-
     def set_transformation(self, transformation):
         self.transformation = transformation
+
+    @property
+    def transformed_geometry(self):
+        geom =  [self.transformation * point for point in self.__geometry]
+        return geom
+
+    def apply_transformation_to_geometry(self):
+        self.__geometry = self.transformed_geometry
+        self.set_transformation(Mat3x3.identity())
+        pass
+
+    def draw(self):
+        transformed_geometry = self.transformed_geometry
+        ps = [el.xy for el in transformed_geometry]
+
+        draw_points(ps, vertex_color=self.color)
 
 
 if __name__ == '__main__':
     class SimplePointScene(Scene):
         def draw_figures(self):
-            point = SimplePoint(1, 1)
+            point = SimplePoint(1, 1, 2, 2, 0, 1)
 
             point.color = "blue"  # колір ліній
             point.draw()

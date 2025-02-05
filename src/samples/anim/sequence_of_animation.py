@@ -40,6 +40,7 @@ if __name__ == '__main__':
         end=vertex(3, 3),
         channel="rect",
         frames=30,
+        # apply_geometry_transformation_on_finish=True,
         # animation_listener=finish,
     )
 
@@ -47,6 +48,7 @@ if __name__ == '__main__':
         end=(2, 3),
         frames=50,
         channel="rect",
+        apply_geometry_transformation_on_finish=True,
         # animation_listener=rotation
     )
 
@@ -54,6 +56,7 @@ if __name__ == '__main__':
         end=np.radians(30),
         frames=50,
         channel="rect",
+        # apply_geometry_transformation_on_finish=True,
         # animation_listener=translation
     )
 

@@ -68,6 +68,6 @@ class AnimatedScene(Scene, AnimationFinishedListener):
         self.prepare()
 
         self.on_frame(frame)
-        self.draw_figures()
+        self.draw_frames()
 
         return self.figure,

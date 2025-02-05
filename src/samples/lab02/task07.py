@@ -19,7 +19,7 @@ class SceneSample(Scene):
         self[FIGURE_KEY].color = "blue"
         self[FIGURE_KEY].line_style = ":"
 
-    def draw_figures(self):
+    def draw_frames(self):
         rect: (SimplePolygon,) = self[FIGURE_KEY]
         rect.draw()
 

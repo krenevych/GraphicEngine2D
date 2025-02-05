@@ -76,7 +76,7 @@ class Scene(ABC):
 
     def draw(self, name=None):
         if name is None:
-            self.draw_figures()
+            self.draw_frames()
         elif name in self.figures:
             self[name].draw()
         else:
@@ -89,7 +89,7 @@ class Scene(ABC):
             elif callable(frame):
                 self.frame_sequence.append(FrameCallback(frame))
 
-    def draw_figures(self):  # TODO: rename into draw_frames()
+    def draw_frames(self):
         for frame in self.frame_sequence:
             frame.on_frame(self)
 

@@ -22,10 +22,10 @@ class AnimatedSceneSample(AnimatedScene):
         polygon.show_local_frame()  # відмальовувати локальну систему координат
         polygon.set_local_frame_parameters(
             line_style="-.",
-            color=("orange", "blue"),
+            color=("brown", "orange"),
             line_width=1
         )
-        polygon.pivot(1, 1)  # задати координати опорної точки
+        polygon.pivot(2, 2)  # задати координати опорної точки
         polygon.show_pivot()  # відмальовувати опорну точку
         polygon["color"] = "blue"  # колір ліній полігону
         polygon["line_style"] = "-"  # стиль ліній полігону
@@ -54,7 +54,7 @@ if __name__ == '__main__':
     )
 
     translation2 = TranslationAnimation(
-        end=vertex(-1, -1),
+        end=vertex(0, 0),
         channel=FIGURE_KEY,
         frames=20,
     )
@@ -83,6 +83,12 @@ if __name__ == '__main__':
         channel=FIGURE_KEY,
     )
 
+    scale3 = ScaleAnimation(
+        end=(1, 1),
+        frames=20,
+        channel=FIGURE_KEY,
+    )
+
     rotation = RotationAnimation(
         end=np.radians(30),
         frames=20,
@@ -91,6 +97,12 @@ if __name__ == '__main__':
 
     rotation2 = RotationAnimation(
         end=np.radians(-30),
+        frames=20,
+        channel=FIGURE_KEY,
+    )
+
+    rotation3 = RotationAnimation(
+        end=np.radians(0),
         frames=20,
         channel=FIGURE_KEY,
     )
@@ -104,4 +116,6 @@ if __name__ == '__main__':
     scene.add_animation(scale2)
     scene.add_animation(translation2)
     scene.add_animation(rotation2)
+    scene.add_animation(scale3)
+    scene.add_animation(rotation3)
     scene.animate()

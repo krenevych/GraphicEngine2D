@@ -12,7 +12,8 @@ def draw_vector(p, u,
     plt.quiver(p[0], p[1], u[0], u[1],
                angles='xy',
                scale_units='xy',
-               scale=1, color=color, )
+               scale=1,
+               color=color, )
 
     print_label(start=np.array(p) + u * 0.5,
                 label=label,

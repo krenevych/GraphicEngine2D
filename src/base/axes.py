@@ -2,15 +2,25 @@ from matplotlib import pyplot as plt
 
 
 def draw_axis(start, end,
-              color="black", linewidth=1.0, linestyle="--", ):
+              color="black", linewidth=1.0, linestyle=":", ):
     plt.plot([start[0], end[0]], [start[1], end[1]],
              color=color,
              linestyle=linestyle,
              linewidth=linewidth
              )
 
+    u, v = end[0] - start[0], end[1] - start[1]
 
-def draw_axes(coordinate_rect, axis_color, axis_line_style):
+    plt.arrow(
+        end[0], end[1], u * 0.015, v * 0.015,
+        head_width=linewidth * 0.1,
+        head_length=linewidth * 0.1,
+        fc=color, ec=color,
+        linewidth=linewidth
+    )
+
+
+def draw_axes(coordinate_rect, axis_color, axis_line_style, linewidth=1.0):
     shift_offset = 0.1
 
     y_len = coordinate_rect[3] - coordinate_rect[1]
@@ -32,11 +42,11 @@ def draw_axes(coordinate_rect, axis_color, axis_line_style):
             axis_x_color = axis_color[0]
             axis_y_color = axis_color[1]
 
-    draw_axis(start_x, end_x, color=axis_y_color, linestyle=axis_line_style)
+    draw_axis(start_x, end_x, color=axis_y_color, linestyle=axis_line_style, linewidth=linewidth)
 
     x_len = coordinate_rect[2] - coordinate_rect[0]
     x_shift = x_len * shift_offset / 2
 
     start_x = (coordinate_rect[0] + x_shift, 0.0)
     end_x = (coordinate_rect[2] - x_shift, 0.0)
-    draw_axis(start_x, end_x, color=axis_x_color, linestyle=axis_line_style)
+    draw_axis(start_x, end_x, color=axis_x_color, linestyle=axis_line_style, linewidth=linewidth)

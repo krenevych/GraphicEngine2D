@@ -35,7 +35,7 @@ class AnimatedSceneSample(AnimatedScene):
 if __name__ == '__main__':
     scene = AnimatedSceneSample(
         image_size=(5, 5),  # розмір зображення: 1 - 100 пікселів
-        coordinate_rect=(-1, -1, 4, 4),  # розмірність системи координат
+        coordinate_rect=(-2, -1, 4, 4),  # розмірність системи координат
         title="Picture",  # заголовок рисунка
         # grid_show=False,  # чи показувати координатну сітку
         base_axis_show=False,  # чи показувати базові осі зображення
@@ -46,9 +46,9 @@ if __name__ == '__main__':
     ).prepare()
 
     translation = TranslationAnimation(
-        end=vertex(3, 3),
+        end=vertex(2, 2),
         channel=FIGURE_KEY,
-        frames=100,
+        frames=30,
         # animation_listener=finish,
     )
 
@@ -59,15 +59,15 @@ if __name__ == '__main__':
 
 
     scale = ScaleAnimation(
-        end=(2, 3),
-        frames=180,
+        end=(1, 2),
+        frames=30,
         channel=FIGURE_KEY,
         animation_listener=scale_finish_listener
     )
 
     rotation = RotationAnimation(
         end=np.radians(60),
-        frames=180,
+        frames=30,
         channel=FIGURE_KEY,
         # animation_listener=translation
     )

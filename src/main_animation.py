@@ -14,16 +14,21 @@ class AnimatedSceneSample(AnimatedScene):
         super().__init__(**kwargs)
 
         polygon = Polygon(  # створюємо полігон з заданою геометрією
-            0, 1,
-            1, 0,
-            2, 1,
-            1, 2
+            0, 2,
+            2, 0,
+            4, 2,
+            2, 4
         )
         polygon.show_local_frame()  # відмальовувати локальну систему координат
+        polygon.set_local_frame_parameters(
+            line_style="-.",
+            color=("orange", "blue"),
+            line_width=1
+        )
         polygon.pivot(1, 1)  # задати координати опорної точки
         polygon.show_pivot()  # відмальовувати опорну точку
         polygon["color"] = "blue"  # колір ліній полігону
-        polygon["line_style"] = ":"  # стиль ліній полігону
+        polygon["line_style"] = "-"  # стиль ліній полігону
 
         self[FIGURE_KEY] = polygon  # додати полігон з ключем "rect" на сцену
 
@@ -31,13 +36,14 @@ class AnimatedSceneSample(AnimatedScene):
 if __name__ == '__main__':
     scene = AnimatedSceneSample(
         image_size=(5, 5),  # розмір зображення: 1 - 100 пікселів
-        coordinate_rect=(-1, -1, 5, 5),  # розмірність системи координат
+        coordinate_rect=(-1, -1, 6, 6),  # розмірність системи координат
         title="Animated scene",  # заголовок рисунка
         # grid_show=False,  # чи показувати координатну сітку
         base_axis_show=False,  # чи показувати базові осі зображення
         axis_show=True,  # чи показувати осі координат
         axis_color=("red", "green"),  # колір осей координат
-        axis_line_style="-.",  # стиль ліній осей координат
+        axis_line_width=2.0, # товщина осей координат
+        axis_line_style="--",  # стиль ліній осей координат
         keep_aspect_ratio=True,
     ).prepare()
 
@@ -66,7 +72,7 @@ if __name__ == '__main__':
     )
 
     scale = ScaleAnimation(
-        end=(2, 2),
+        end=(1.5, 1.5),
         frames=20,
         channel=FIGURE_KEY,
     )

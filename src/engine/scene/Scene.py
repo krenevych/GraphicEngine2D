@@ -13,7 +13,7 @@ class Scene(ABC):
                  coordinate_rect=(-1, -1, 1, 1),
                  title="Picture",
                  base_axis_show=True,
-                 axis_show=False, axis_color=("red", "green"), axis_line_style="-.",
+                 axis_show=False, axis_color=("red", "green"), axis_line_style="-.", axis_line_width = 1.0,
                  grid_show=True, grid_line_linestyle="solid", greed_alpha=1.0,
                  keep_aspect_ratio=True, ):
         self.image_size = image_size
@@ -23,6 +23,7 @@ class Scene(ABC):
         self.axis_show = axis_show
         self.axis_color = axis_color
         self.axis_line_style = axis_line_style
+        self.axis_line_width = axis_line_width
         self.grid_show = grid_show
         self.grid_line_linestyle = grid_line_linestyle
         self.greed_alpha = greed_alpha
@@ -50,7 +51,7 @@ class Scene(ABC):
 
     def show_axes(self):
         if self.axis_show:
-            draw_axes(self.coordinate_rect, self.axis_color, self.axis_line_style)
+            draw_axes(self.coordinate_rect, self.axis_color, self.axis_line_style, self.axis_line_width)
 
         plt.xlim(self.coordinate_rect[0], self.coordinate_rect[2])
         plt.ylim(self.coordinate_rect[1], self.coordinate_rect[3])

@@ -21,6 +21,10 @@ class BaseModel(metaclass=ABCMeta):
         self.__is_draw_pivot = False
         self.__is_draw_local_frame = False
 
+        self.__axis_color = ("red", "green")  # колір осей координат
+        self.__axis_line_width = 1.0  # товщина осей координат
+        self.__axis_line_style = "--"  # стиль ліній осей координат
+
         self._parameters = {}
         self._availible_parameters = BaseModel.AVAILABLE_PARAMETERS
 
@@ -89,6 +93,22 @@ class BaseModel(metaclass=ABCMeta):
         pivot_tr = Mat3x3.translation(self.__pivot)
         return pivot_tr
 
+    def set_local_frame_parameters(self,
+                                   color=None,
+                                   line_width=None,
+                                   line_style=None
+                                   ):
+        if color is not None:
+            if isinstance(color, str):
+                self.__axis_color = (color, color)
+            elif isinstance(color, (tuple, list)) and len(color) == 2:
+                self.__axis_color = tuple(color)  # колір осей координат
+
+        if line_width is not None:
+            self.__axis_line_width = line_width  # товщина осей координат
+        if line_style is not None:
+            self.__axis_line_style = line_style  # стиль ліній осей координат
+
     def _draw_local_frame(self):
         if self.__is_draw_local_frame:
             P = self.pivot_transform
@@ -100,8 +120,15 @@ class BaseModel(metaclass=ABCMeta):
             ox = self.__pivot + self.transformation * vertex(1, 0)
             oy = self.__pivot + self.transformation * vertex(0, 1)
 
-            draw_axis(origin, ox, color="red", linewidth=2.)
-            draw_axis(origin, oy, color="green", linewidth=2.)
+            draw_axis(origin, ox,
+                      color=self.__axis_color[0],
+                      linewidth=self.__axis_line_width,
+                      linestyle=self.__axis_line_style)
+
+            draw_axis(origin, oy,
+                      color=self.__axis_color[1],
+                      linewidth=self.__axis_line_width,
+                      linestyle=self.__axis_line_style)
 
     def _draw_pivot(self):
         if self.__is_draw_pivot:

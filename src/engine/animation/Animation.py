@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 
 from src.engine.animation.AnimationListener import AnimationListener, FinishCallback
-from src.math.Mat3x3 import Mat3x3
+from src.math.Mat4x4 import Mat4x4
 
 ANIMATION_STOPPED = "ANIMATION_STOPED"
 ANIMATION_PLAYED = "ANIMATION_FINISHED"
@@ -18,7 +18,7 @@ class Animation(ABC):
                  apply_geometry_transformation_on_finish=False,  # Чи трансформує анімація всі вертекси на фініші
                  animation_listener=None,  # спостерігач
                  ):
-        self.start = Mat3x3.identity()
+        self.start = Mat4x4.identity()
         self.end = end
         self.channel = channel
         self.frames = frames

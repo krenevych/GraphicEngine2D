@@ -44,7 +44,7 @@ if __name__ == '__main__':
 
                                     )
             self[RECT_KEY] = polygon
-            # polygon.show_pivot()
+            polygon.show_pivot()
             # polygon.show_local_frame()
 
 

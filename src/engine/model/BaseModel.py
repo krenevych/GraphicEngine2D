@@ -17,7 +17,7 @@ class BaseModel(metaclass=ABCMeta):
         self._geometry = self.build_geometry(*vertices)
 
         self._transformation = Mat4x4()
-        self.color = "black"
+        self.color = "grey"
         self.alpha = 1.0
 
         self.__pivot = Vec4.point()
@@ -157,9 +157,9 @@ class BaseModel(metaclass=ABCMeta):
             draw_point(pivot.xy, color="red")
 
     def draw(self):
-        self.draw_model()
         self._draw_pivot()
         self._draw_local_frame()
+        self.draw_model()
 
     @abstractmethod
     def draw_model(self):

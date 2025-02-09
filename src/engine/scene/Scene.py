@@ -16,7 +16,7 @@ class Scene(ABC):
                  coordinate_rect=(-1, -1, 1, 1),
                  title="Picture",
                  base_axis_show=False,
-                 grid_show=True,
+                 grid_show=False,
                  axis_show=True,
                  axis_show_from_origin=True,
                  axis_color=("red", "green", "blue"),

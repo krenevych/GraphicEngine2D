@@ -1,5 +1,5 @@
 import numpy as np
-from scipy.spatial.transform import Rotation as R
+
 
 def rotation_matrix_x(phi):
     """
@@ -55,6 +55,10 @@ def rotation_matrix_z(phi):
     ])
 
 
+
+
+
+
 # Приклад використання:
 if __name__ == "__main__":
     euler_angles_45_45_30 = [45, 15, 30]
@@ -72,7 +76,8 @@ if __name__ == "__main__":
     print(Rx @ Ry @ Rz)
 
     # Створення об'єкта обертання
-    rotation = R.from_euler("XYZ", euler_angles_45_45_30, degrees=True)
-    rotation_matrix_45_45_30 = rotation.as_matrix()
+    rotation1 = R.from_euler("XYZ", euler_angles_45_45_30, degrees=True)
+    rotation_matrix_45_45_30 = rotation1.as_matrix()
     print("\nМатриця обертання через scipy:")
     print(rotation_matrix_45_45_30)
+

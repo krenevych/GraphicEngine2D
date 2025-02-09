@@ -90,12 +90,14 @@ class Mat4x4:
         Реалізує множення матриці на іншу Matrix3x3, numpy.ndarray 3x3, або Vector3.
         """
         if not isinstance(other, (Mat4x4, np.ndarray, Vec4)):
-            raise TypeError("Множення можливе лише з іншими об'єктами Matrix3x3 або numpy.ndarray 3x3.")
+            raise TypeError("Множення можливе лише з іншими об'єктами Matrix4x4 або numpy.ndarray 4x4.")
         if isinstance(other, Mat4x4):
             return Mat4x4(np.dot(self.data, other.data))
         if isinstance(other, Mat4x4):
             return Mat4x4(np.dot(self.data, other.data))
         elif isinstance(other, Vec4):
+            # v = Vec4(np.dot(self.data, other.data))
+            # return v
             return Vec4(np.dot(self.data, other.data))
         return Mat4x4(np.dot(self.data, other))
 
@@ -151,6 +153,38 @@ class Mat4x4:
         return Mat4x4(m)
 
     @staticmethod
+    def rotation(psi, v):
+        if isinstance(v, (Vec3, Vec4)):
+            v = v.xyz
+        elif isinstance(v, (np.ndarray,)):
+            v = v[:3]
+
+        norm = np.linalg.norm(v)
+
+        # Нормалізований вектор
+        if norm != 0:
+            normalized_v = v.data / norm
+        else:
+            normalized_v = v  # Для нульового вектора нормалізація не визначена
+
+        ux, uy, uz = normalized_v
+
+        phy = np.arctan2(ux, uz)
+        print(np.degrees(phy))
+        len_ux_uz = np.linalg.norm((ux, uz))
+        theta = np.arctan2(uy, len_ux_uz)
+        print(np.degrees(theta))
+
+        Ry = Mat4x4.rotation_y(-phy)
+        Rx = Mat4x4.rotation_x(theta)
+        Rz = Mat4x4.rotation_z(psi)
+
+        Ry_1 = Ry.inverse()
+        Rx_1 = Rx.inverse()
+
+        return Ry_1 * Rx_1 * Rz * Rx * Ry
+
+    @staticmethod
     def translation(tx, ty=None, tz=None):
         if ty is None and isinstance(tx, Vec4):
             m = translation_matrix(*tx.xyz)
@@ -173,6 +207,39 @@ class Mat4x4:
         else:
             raise ValueError("Недостатньо даних, щоб сформувати матрицю розтягу")
         return Mat4x4(m)
+
+
+    @staticmethod
+    def decompose_affine(transition):
+
+        if not isinstance(transition, (np.ndarray, Mat4x4)):
+            raise TypeError("Transformation error.")
+
+        if isinstance(transition, Mat4x4):
+            transition = transition.data
+
+        if transition.shape != (4, 4):
+            raise ValueError("Матриця повинна бути розміром 4x4.")
+
+        # Виділення переносу
+        translation = transition[:3, 3]
+
+        # Виділення матриці RS
+        rs = transition[:3, :3]
+
+        # Обчислення масштабу
+        scale_x = np.linalg.norm(rs[:, 0])
+        scale_y = np.linalg.norm(rs[:, 1])
+        scale_z = np.linalg.norm(rs[:, 2])
+        scales = np.array([scale_x, scale_y, scale_z])
+
+        # Обчислення повороту
+        rotation = rs / scales
+
+        # angle = get_rotation_angle(rotation)
+
+        return translation, rotation, scales
+
 
 # Приклад використання
 if __name__ == "__main__":

@@ -64,7 +64,7 @@ class AnimatedScene(Scene, AnimationFinishedListener):
         self.add_frames(new_frame)
 
     def __update(self, frame):
-        self.figure.clear()  # Очищення фігури
+        self.plt_axis.clear()  # Очищення фігури
         self.prepare()
 
         self.on_frame(frame)

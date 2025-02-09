@@ -8,7 +8,7 @@ def draw_axis(plt_axis, start, end,
                   linewidth=linewidth,
                   linestyle=linestyle, )
 
-    u = np.array((end[0] - start[0], end[1] - start[1], end[2] - start[2])) * 0.05
+    u = np.array((end[0] - start[0], end[1] - start[1], end[2] - start[2])) * 0.15
     plt_axis.quiver(*end[:3], *u,
                     color=color,
                     linewidth=linewidth,

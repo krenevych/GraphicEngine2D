@@ -14,8 +14,10 @@ class ScaleAnimation(Animation):
         scales = start_scales + (end_scales - start_scales) *  (frame / self.frames)
 
         T = Mat4x4.translation(start_translation)
-        R = Mat4x4.rotation(start_angle)
+        # R = Mat4x4.rotation(start_angle)
+        R = Mat4x4(start_angle)
         S = Mat4x4.scale(*scales)
 
-        transformation = T * R * S
+        # transformation = T * R * S
+        transformation = S
         return transformation

@@ -131,7 +131,7 @@ class Vec4:
 
 
 def vertex(x, y, z):
-    return Vec4.point(x, y)
+    return Vec4.point(x, y, z)
 
 
 if __name__ == '__main__':

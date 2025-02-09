@@ -14,8 +14,10 @@ class TranslationAnimation(Animation):
         translation = start_translation + (end_translation - start_translation) *  (frame / self.frames)
 
         T = Mat4x4.translation(*translation)
-        R = Mat4x4.rotation(start_angle)
+        # R = Mat4x4.rotation(start_angle)
+        R = Mat4x4(start_angle)
         S = Mat4x4.scale(start_scales)
 
-        transformation = T * R * S
+        # transformation = T * R * S
+        transformation = T
         return transformation

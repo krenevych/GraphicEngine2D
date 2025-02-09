@@ -14,6 +14,14 @@ if __name__ == '__main__':
 
         def __init__(self, **kwargs):
             super().__init__(**kwargs)
+            polygon = SimplePolygon(self.plt_axis,
+                                    1, 0, 0,
+                                    1, 1, 0,
+                                    1, 1, 1,
+                                    1, 0, 1,
+                                    edgecolor="red",
+
+                                    )
             # polygon = SimplePolygon(self.plt_axis,
             #                         0, 0, 0,
             #                         1, 0, 0,
@@ -22,30 +30,32 @@ if __name__ == '__main__':
             #                         edgecolor="red",
             #
             #                         )
-            polygon = SimplePolygon(self.plt_axis,
-                                    0, 0, 0,
-                                    0.557, 0.500, 0.663,
-                                    # 1, 1, 0,
-                                    0, 1, 0,
-                                    edgecolor="red",
-
-                                    )
+            # polygon = SimplePolygon(self.plt_axis,
+            #                         0, 0, 0,
+            #                         0.557, 0.500, 0.663,
+            #                         # 1, 1, 0,
+            #                         0, 1, 0,
+            #                         edgecolor="red",
+            #
+            #                         )
             self[RECT_KEY] = polygon
 
 
             vector = Vector(self.plt_axis,
-                            0, 0, 0,
-                            0.557, 0.500, 0.663
+                            1, 1, 0,
+                            # 1 + 0.557, 1 + 0.500, 0.663
+                            2, 1, 0.8
                             )
             self[VECT_KEY] = vector
             vector.color = "brown"
 
 
-    Rz = Mat4x4.rotation_z(np.radians(45))
-    Ry = Mat4x4.rotation_y(np.radians(30))
-    Rx = Mat4x4.rotation_x(np.radians(15))
+    # Rz = Mat4x4.rotation_z(np.radians(45))
+    # Ry = Mat4x4.rotation_y(np.radians(30))
+    # Rx = Mat4x4.rotation_x(np.radians(15))
     # T = Mat4x4.translation(1, 0, 0)
-    T = Mat4x4.translation(0.557, 0.500, 0.663,)
+    # T = Mat4x4.translation(0.557, 0.500, 0.663,)
+    T = Mat4x4.translation(1, 1, 0,)
     T1 = T.inverse()
 
 
@@ -62,7 +72,22 @@ if __name__ == '__main__':
         rect: SimplePolygon = scene[RECT_KEY]
         vect: Vector = scene[VECT_KEY]
 
-        u = vect.transformed_geometry[1].xyz
+        u = (vect.transformed_geometry[1] - vect.transformed_geometry[0]).xyz
+        ux, uy, uz = u
+        print(*u)
+
+        R1 = Mat4x4.rotation(np.radians(-20), u)
+        R = T * R1 * T1
+
+        rect.color = "blue"  # колір ліній
+        rect.set_transformation(R)
+
+    ############## Frame 3 ##################
+    def frame3(scene: Scene):
+        rect: SimplePolygon = scene[RECT_KEY]
+        vect: Vector = scene[VECT_KEY]
+
+        u = (vect.transformed_geometry[1] - vect.transformed_geometry[0]).xyz
         ux, uy, uz = u
         print(*u)
 
@@ -70,7 +95,36 @@ if __name__ == '__main__':
         R = T * R1 * T1
 
         rect.color = "blue"  # колір ліній
-        # rect.set_transformation(T * R * S)
+        rect.set_transformation(R)
+
+    ############## Frame 4 ##################
+    def frame4(scene: Scene):
+        rect: SimplePolygon = scene[RECT_KEY]
+        vect: Vector = scene[VECT_KEY]
+
+        u = (vect.transformed_geometry[1] - vect.transformed_geometry[0]).xyz
+        ux, uy, uz = u
+        print(*u)
+
+        R1 = Mat4x4.rotation(np.radians(180), u)
+        R = T * R1 * T1
+
+        rect.color = "blue"  # колір ліній
+        rect.set_transformation(R)
+
+    ############## Frame 5 ##################
+    def frame5(scene: Scene):
+        rect: SimplePolygon = scene[RECT_KEY]
+        vect: Vector = scene[VECT_KEY]
+
+        u = (vect.transformed_geometry[1] - vect.transformed_geometry[0]).xyz
+        ux, uy, uz = u
+        print(*u)
+
+        R1 = Mat4x4.rotation(np.radians(230), u)
+        R = T * R1 * T1
+
+        rect.color = "blue"  # колір ліній
         rect.set_transformation(R)
 
 
@@ -88,6 +142,9 @@ if __name__ == '__main__':
     simple_scene.add_frames(
         frame1,
         frame2,
+        frame3,
+        frame4,
+        frame5,
     )  # додаємо кадри на сцену
 
     simple_scene.draw()

@@ -1,8 +1,4 @@
-import matplotlib
-
 from src.engine.scene.Scene import Scene
-
-matplotlib.use("TkAgg")
 
 if __name__ == '__main__':
     FIGURE_KEY = "polygon"

@@ -1,9 +1,12 @@
 from abc import ABC
 
+import matplotlib
 from matplotlib import pyplot as plt
 
 from src.base.axes import draw_axes
 from src.engine.scene.Frame import Frame, FrameCallback
+
+matplotlib.use("TkAgg")
 
 
 class Scene(ABC):

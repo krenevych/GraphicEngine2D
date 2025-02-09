@@ -121,6 +121,18 @@ class Vec4:
     def z(self):
         return self.data[2]
 
+    @staticmethod
+    def point(x=0, y=0, z=0):
+        return Vec4(x, y, z, 1)
+
+    @staticmethod
+    def vect(x=0, y=0, z=0):
+        return Vec4(x, y, z, 0)
+
+
+def vertex(x, y, z):
+    return Vec4.point(x, y)
+
 
 if __name__ == '__main__':
     v1 = Vec4()

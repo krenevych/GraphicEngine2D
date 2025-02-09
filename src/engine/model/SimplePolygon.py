@@ -1,76 +1,116 @@
 import numpy as np
 
-from src.base.broken_line import draw_broken_line
+from src.base.poligon import draw_poly
 from src.engine.model.BaseModel import BaseModel
 from src.engine.scene.Scene import Scene
-from src.math.Mat3x3 import Mat3x3
+from src.math.Mat4x4 import Mat4x4
 
 
 class SimplePolygon(BaseModel):
 
-    def __init__(self, *vertices):
-        super().__init__(*vertices)
+    def __init__(self, plt_axis, *vertices, edgecolor="black"):
+        super().__init__(plt_axis, *vertices)
 
         self.line_style = "-"
+        self.edgecolor = edgecolor
 
     def draw_model(self):
         transformed_geometry = self.transformed_geometry
-        ps = [el.xy for el in transformed_geometry]
-        ps.append(transformed_geometry[0].xy)  # closed line
+        ps = [el.xyz for el in transformed_geometry]
 
-        draw_broken_line(ps, color=self.color, line_style=self.line_style)
+        draw_poly(
+            self.plt_axis,
+            ps,
+            alpha=self.alpha,
+            edgecolor=self.edgecolor,
+            facecolor=self.color
+        )
 
 
 if __name__ == '__main__':
-    scene_figure_key = "rect"
+    RECT_KEY = "rect"
 
 
     class SimplePolygonScene(Scene):
 
         def __init__(self, **kwargs):
             super().__init__(**kwargs)
-            rect = SimplePolygon(0, 0,
-                                 1, 0,
-                                 1, 1,
-                                 0, 1,
-                                 )
+            polygon = SimplePolygon(self.plt_axis,
+                                    0, 0, 0,
+                                    0.5, 0, 0,
+                                    0.5, 0.5, 0,
+                                    0, 0.5, 0,
+                                    edgecolor="red",
 
-            self[scene_figure_key] = rect
+                                    )
+            self[RECT_KEY] = polygon
+            # polygon.show_pivot()
+            # polygon.show_local_frame()
 
 
     ############## Frame 1 ##################
     def frame1(scene: Scene):
-        rect: SimplePolygon = scene[scene_figure_key]
+        rect: SimplePolygon = scene[RECT_KEY]
 
         rect.color = "blue"  # колір ліній
         rect.line_style = "--"  # стиль ліній
+        rect.alpha = 0.3
 
+        # T = Mat4x4.translation(1, 1, 1)
+        # rect.set_transformation(T)
+        rect.show_local_frame()
+
+
+    ##############################################
+    ##############################################
+
+    Rz = Mat4x4.rotation_z(np.radians(45))
+    Rx = Mat4x4.rotation_x(np.radians(15))
+    S = Mat4x4.scale(2)
+    T = Mat4x4.translation(1, 0, 0)
 
     ############## Frame 2 ##################
     def frame2(scene: Scene):
-        rect: SimplePolygon = scene[scene_figure_key]
+        rect: SimplePolygon = scene[RECT_KEY]
 
-        R = Mat3x3.rotation(np.radians(45))
-        S = Mat3x3.scale(2, 3)
-        T = Mat3x3.translation(1, 1)
+        rect.show_local_frame()
 
-        rect.color = "red"  # колір ліній
-        rect.line_style = "-"  # стиль ліній
+
+        R = Rz
+        # R = Rx * Rz
+        S = Mat4x4.scale(2)
+
+        rect.color = "yellow"  # колір ліній
+        rect.alpha = 1.0
+        rect.set_transformation(T * R * S)
+
+    ############## Frame 3 ##################
+    def frame3(scene: Scene):
+
+        rect: SimplePolygon = scene[RECT_KEY]
+
+
+        R = Rx * Rz
+
         rect.set_transformation(T * R * S)
 
 
-    scene = SimplePolygonScene(
+    simple_scene = SimplePolygonScene(
         image_size=(5, 5),  # розмір зображення: 1 - 100 пікселів
-        coordinate_rect=(-2, -2, 6, 6),  # розмірність системи координат
+        coordinate_rect=(-1, -1, -1, 2, 2, 2),  # розмірність системи координатps
         title="Picture",  # заголовок рисунка
         grid_show=False,  # чи показувати координатну сітку
         base_axis_show=False,  # чи показувати базові осі зображення
         axis_show=True,  # чи показувати осі координат
-        axis_color=("red", "green"),  # колір осей координат
+        axis_color="grey",  # колір осей координат
         axis_line_style="-."  # стиль ліній осей координат
     ).prepare()
 
-    scene.add_frames(frame1, frame2) # додаємо кадри на сцену
+    simple_scene.add_frames(
+        frame1,
+        frame2,
+        frame3,
+    )  # додаємо кадри на сцену
 
-    scene.draw()
-    scene.finalize()
+    simple_scene.draw()
+    simple_scene.finalize()

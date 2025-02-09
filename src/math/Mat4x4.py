@@ -1,6 +1,10 @@
 import numpy as np
 
 from src.math.Mat3x3 import Mat3x3
+from src.math.Rotations import rotation_matrix_z, rotation_matrix_x, rotation_matrix_y
+from src.math.Scale import scale_matrix
+from src.math.Translation import translation_matrix
+from src.math.Vec3 import Vec3
 from src.math.Vec4 import Vec4
 
 
@@ -107,13 +111,9 @@ class Mat4x4:
 
     def __mul__(self, other):
         """
-        Реалізує поелементне множення двох матриць Matrix3x3 або numpy.ndarray 3x3.
+        Реалізує множення матриці на іншу Matrix3x3, numpy.ndarray 3x3, або Vector3.
         """
-        if not isinstance(other, (Mat4x4, np.ndarray)):
-            raise TypeError("Поелементне множення можливе лише з іншими об'єктами Matrix3x3 або numpy.ndarray 3x3.")
-        if isinstance(other, Mat4x4):
-            return Mat4x4(self.data * other.data)
-        return Mat4x4(self.data * other)
+        return self.__matmul__(other)
 
     def inverse(self):
         """
@@ -123,6 +123,56 @@ class Mat4x4:
             raise ValueError("Матриця не має оберненої (визначник дорівнює нулю).")
         return Mat4x4(np.linalg.inv(self.data))
 
+
+    @staticmethod
+    def identity():
+        return Mat4x4()
+
+    @staticmethod
+    def rotation_x(angle, is_radians=True):
+        if not is_radians:
+            angle = np.radians(angle)
+        m = rotation_matrix_x(angle)
+        return Mat4x4(m)
+
+    @staticmethod
+    def rotation_y(angle, is_radians=True):
+        if not is_radians:
+            angle = np.radians(angle)
+        m = rotation_matrix_y(angle)
+        return Mat4x4(m)
+
+    @staticmethod
+    def rotation_z(angle, is_radians=True):
+        if not is_radians:
+            angle = np.radians(angle)
+
+        m = rotation_matrix_z(angle)
+        return Mat4x4(m)
+
+    @staticmethod
+    def translation(tx, ty=None, tz=None):
+        if ty is None and isinstance(tx, Vec4):
+            m = translation_matrix(*tx.xyz)
+        elif ty is None and isinstance(tx, np.ndarray):
+            m = translation_matrix(tx[0], tx[1], tx[2])
+        else:
+            m = translation_matrix(tx, ty, tz)
+        return Mat4x4(m)
+
+    @staticmethod
+    def scale(sx, sy=None, sz=None):
+        if sy is None and isinstance(sx, (int, float)):
+            m = scale_matrix(sx, sx, sx)
+        elif sy is None and isinstance(sx, (Vec3, Vec4)):
+            m = scale_matrix(*sx.xyz)
+        elif sy is None and isinstance(sx, np.ndarray) and len(sx) == 3:
+            m = scale_matrix(sx[0], sx[1], sx[2])
+        elif isinstance(sx, (int, float)) and isinstance(sy, (int, float)) and isinstance(sz, (int, float)):
+            m = scale_matrix(sx, sy, sz)
+        else:
+            raise ValueError("Недостатньо даних, щоб сформувати матрицю розтягу")
+        return Mat4x4(m)
 
 # Приклад використання
 if __name__ == "__main__":

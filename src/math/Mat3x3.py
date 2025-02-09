@@ -1,8 +1,6 @@
 import numpy as np
 
-from src.math.Rotations import rotation_matrix_x, rotation_matrix_y, rotation_matrix_z, get_rotation_angle
-from src.math.Scale import scaleMatrix2d
-from src.math.Translation import translationMatrix2d
+from src.math.Rotations import rotation_matrix_x, rotation_matrix_y, rotation_matrix_z
 from src.math.Vec3 import Vec3
 
 

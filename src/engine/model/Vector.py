@@ -1,9 +1,9 @@
 from src.base.axes import draw_axis
-from src.engine.model.BaseModel import BaseModel
+from src.engine.model.Model import Model
 from src.engine.scene.Scene import Scene
 
 
-class Vector(BaseModel):
+class Vector(Model):
 
     def __init__(self, plt_axis, *vertices):
         super().__init__(plt_axis, *vertices)

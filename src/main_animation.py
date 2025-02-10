@@ -1,9 +1,11 @@
 import numpy as np
 
 from src.engine.animation.RotationAnimation import RotationAnimation
+from src.engine.animation.TranslationAnimation import TranslationAnimation
 from src.engine.model.SimplePolygon import SimplePolygon
 from src.engine.scene.AnimatedScene import AnimatedScene
 from src.math.Mat4x4 import Mat4x4
+from src.math.Vec4 import vertex
 
 FIGURE_KEY = "rect"
 
@@ -13,11 +15,11 @@ class AnimatedSceneSample(AnimatedScene):
         super().__init__(**kwargs)
 
         polygon = SimplePolygon(self.plt_axis,  # створюємо полігон з заданою геометрією
-            0, 0, 0,
-            0.5, 0, 0,
-            0.5, 0.5, 0,
-            0, 0.5, 0,
-        )
+                                0, 0, 0,
+                                0.5, 0, 0,
+                                0.5, 0.5, 0,
+                                0, 0.5, 0,
+                                )
         polygon.show_local_frame()  # відмальовувати локальну систему координат
         polygon.set_local_frame_parameters(
             line_style="-.",
@@ -43,17 +45,20 @@ if __name__ == '__main__':
         axis_line_style="--",  # стиль ліній осей координат
     ).prepare()
 
+
     def frame1(scene):
         fig = scene[FIGURE_KEY]
         fig.set_transformation(Mat4x4.translation(1, 1, 0))
 
+
     animated_scene.add_frames(frame1)
 
-    # translation = TranslationAnimation(  # створюємо анімацію переміщення
-    #     end=vertex(1, 1, 0),  # значення точки у яку треба перемітити
-    #     channel=FIGURE_KEY,  # ідентифікатор фігури до якої має застосовуватися анімація
-    #     frames=120,  # кількість кадрів анімації
-    # )
+    translation = TranslationAnimation(  # створюємо анімацію переміщення
+        end=vertex(1, 1, 0),  # значення точки у яку треба перемітити
+        channel=FIGURE_KEY,  # ідентифікатор фігури до якої має застосовуватися анімація
+        frames=120,  # кількість кадрів анімації
+        apply_geometry_transformation_on_finish=True,
+    )
     #
     # translation2 = TranslationAnimation(
     #     end=vertex(0, 0),
@@ -130,7 +135,3 @@ if __name__ == '__main__':
     animated_scene.add_animation(rotation_y)
     animated_scene.add_animation(rotation_z)
     animated_scene.animate()
-
-
-    # animated_scene.draw()
-    # animated_scene.finalize()

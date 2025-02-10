@@ -1,18 +1,19 @@
 import numpy as np
 
 from src.base.poligon import draw_poly
-from src.engine.model.BaseModel import BaseModel
+from src.engine.model.Model import Model
 from src.engine.scene.Scene import Scene
 from src.math.Mat4x4 import Mat4x4
 
 
-class SimplePolygon(BaseModel):
+class SimplePolygon(Model):
 
     def __init__(self, plt_axis, *vertices, edgecolor="black"):
         super().__init__(plt_axis, *vertices)
 
         self.line_style = "-"
         self.edgecolor = edgecolor
+        self.alpha = 1.0
 
     def draw_model(self):
         transformed_geometry = self.transformed_geometry
@@ -45,7 +46,7 @@ if __name__ == '__main__':
                                     )
             self[RECT_KEY] = polygon
             polygon.show_pivot()
-            # polygon.show_local_frame()
+            polygon.show_local_frame()
 
 
     ############## Frame 1 ##################
@@ -69,12 +70,12 @@ if __name__ == '__main__':
     S = Mat4x4.scale(2)
     T = Mat4x4.translation(1, 0, 0)
 
+
     ############## Frame 2 ##################
     def frame2(scene: Scene):
         rect: SimplePolygon = scene[RECT_KEY]
 
         rect.show_local_frame()
-
 
         R = Rz
         # R = Rx * Rz
@@ -84,11 +85,10 @@ if __name__ == '__main__':
         rect.alpha = 1.0
         rect.set_transformation(T * R * S)
 
+
     ############## Frame 3 ##################
     def frame3(scene: Scene):
-
         rect: SimplePolygon = scene[RECT_KEY]
-
 
         R = Rx * Rz
 

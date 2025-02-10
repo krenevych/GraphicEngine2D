@@ -12,11 +12,11 @@ if __name__ == '__main__':
 
         def __init__(self, **kwargs):
             super().__init__(**kwargs)
-            polygon = CoordinateFrame(self.plt_axis,
-                                    )
-            self[RECT_KEY] = polygon
-            polygon.show_pivot()
-            # polygon.show_local_frame()
+            coord_frame = CoordinateFrame(self.plt_axis,
+                                          )
+            self[RECT_KEY] = coord_frame
+            # coord_frame.show_pivot()
+            # coord_frame.show_local_frame()
 
 
     ############## Frame 1 ##################
@@ -39,12 +39,12 @@ if __name__ == '__main__':
     S = Mat4x4.scale(1)
     T = Mat4x4.translation(0, 0, 0)
 
+
     ############## Frame 2 ##################
     def frame2(scene: Scene):
         rect: CoordinateFrame = scene[RECT_KEY]
 
-        rect.show_local_frame()
-
+        # rect.show_local_frame()
 
         R = Rz
         # R = Rx * Rz
@@ -52,11 +52,10 @@ if __name__ == '__main__':
         rect.alpha = 1.0
         rect.set_transformation(T * R * S)
 
+
     ############## Frame 3 ##################
     def frame3(scene: Scene):
-
         rect: CoordinateFrame = scene[RECT_KEY]
-
 
         R = Rx * Rz
 

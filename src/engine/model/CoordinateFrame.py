@@ -5,31 +5,42 @@ from src.engine.model.BaseModel import BaseModel
 class CoordinateFrame(BaseModel):
 
     def __init__(self, plt_axis):
-
         super().__init__(plt_axis,
-            1,0,0,
-            0,1,0,
-            0,0,1,
-        )
+                         0, 0, 0,
+                         1, 0, 0,
+                         0, 1, 0,
+                         0, 0, 1,
+                         )
 
+        self.color = ("red", "green", "blue")
         self.line_style = "-"
         self.line_width = 1.0
-        self.color = ("red", "green", "blue")
+
+    def set_parameters(self,
+                       color=None,
+                       line_width=None,
+                       line_style=None
+                       ):
+
+        if color is not None:
+            if isinstance(color, str):
+                self.color = (color, color, color)
+            elif isinstance(color, (tuple, list)) and len(color) == 3:
+                self.color = tuple(color)  # колір осей координат
+
+        if line_width is not None:
+            self.line_width = line_width  # товщина осей координат
+        if line_style is not None:
+            self.line_style = line_style  # стиль ліній осей координат
 
     def draw_model(self):
-        P = self.pivot_transform
-        P_inv = P.inverse()
-
-        M = P * self.transformation * P_inv
-
-        origin = M * self._pivot
-
         transformed_geometry = self.transformed_geometry
         ps = [el.xyz for el in transformed_geometry]
 
-        ox = ps[0]
-        oy = ps[1]
-        oz = ps[2]
+        origin = ps[0]
+        ox = ps[1]
+        oy = ps[2]
+        oz = ps[3]
 
         draw_axis(
             self.plt_axis,
@@ -54,4 +65,3 @@ class CoordinateFrame(BaseModel):
             linewidth=self.line_width,
             linestyle=self.line_style
         )
-

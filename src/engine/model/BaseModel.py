@@ -34,9 +34,8 @@ class BaseModel(metaclass=ABCMeta):
     def set_geometry(self, *vertices):
         self._geometry = self.build_geometry(*vertices)
 
-    @property
-    def geometry(self):
-        return self._geometry
+    def __getitem__(self, item):
+        return Vec4(self._geometry[item])
 
     def build_geometry(self, *vertices):
         if len(vertices) == 0:

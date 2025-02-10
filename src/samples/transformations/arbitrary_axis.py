@@ -4,7 +4,6 @@ from src.engine.model.SimplePolygon import SimplePolygon
 from src.engine.model.Vector import Vector
 from src.engine.scene.Scene import Scene
 from src.math.Mat4x4 import Mat4x4
-from src.math.Vec4 import Vec4
 
 if __name__ == '__main__':
     RECT_KEY = "rect"
@@ -24,14 +23,12 @@ if __name__ == '__main__':
                                     )
             self[RECT_KEY] = polygon
 
-
             vector = Vector(self.plt_axis,
                             1, 1, 1,
                             1 + 0.557, 1 + 0.500, 1 + 0.663
                             )
             self[VECT_KEY] = vector
             vector.color = "brown"
-
 
 
     ############## Frame 1 ##################
@@ -46,25 +43,26 @@ if __name__ == '__main__':
     def frame2(scene: Scene):
         rect: SimplePolygon = scene[RECT_KEY]
         vect: Vector = scene[VECT_KEY]
-        p = vect.geometry[0].xyz
-        Tp = Mat4x4.translation(p)
+
+        Tp = Mat4x4.translation(vect[0])
         Tp_1 = Tp.inverse()
 
         rect.set_transformation(Tp_1)
         vect.set_transformation(Tp_1)
+
 
     ############## Frame 3 ##################
     def frame3(scene: Scene):
         rect: SimplePolygon = scene[RECT_KEY]
         rect.color = "blue"
         vect: Vector = scene[VECT_KEY]
-        p = vect.geometry[0].xyz
-        Tp = Mat4x4.translation(p)
-        Tp_1 = Tp.inverse()
 
-        O = Vec4(vect.geometry[0])
-        v1 = Vec4(vect.geometry[1])
+        O = vect[0]
+        v1 = vect[1]
         v = v1 - O
+
+        Tp = Mat4x4.translation(O)
+        Tp_1 = Tp.inverse()
 
         phy = np.arctan2(v.x, v.z)
         R_phy_oy = Mat4x4.rotation_y(-phy)
@@ -75,18 +73,17 @@ if __name__ == '__main__':
         vect.set_transformation(R)
 
 
-
     ############## Frame 4 ##################
     def frame4(scene: Scene):
         rect: SimplePolygon = scene[RECT_KEY]
         rect.color = "blue"
         vect: Vector = scene[VECT_KEY]
 
-        O = Vec4(vect.geometry[0])
-        v1 = Vec4(vect.geometry[1])
+        O = vect[0]
+        v1 = vect[1]
         v = v1 - O
 
-        Tp = Mat4x4.translation(O.xyz)
+        Tp = Mat4x4.translation(O)
         Tp_1 = Tp.inverse()
 
         phy = np.arctan2(v.x, v.z)
@@ -103,15 +100,14 @@ if __name__ == '__main__':
         vect.set_transformation(R)
 
 
-
     ############## Frame 5 ##################
     def frame5(scene: Scene):
         rect: SimplePolygon = scene[RECT_KEY]
         rect.color = "red"
         vect: Vector = scene[VECT_KEY]
 
-        O = Vec4(vect.geometry[0])
-        v1 = Vec4(vect.geometry[1])
+        O = vect[0]
+        v1 = vect[1]
         v = v1 - O
 
         Tp = Mat4x4.translation(O.xyz)
@@ -139,11 +135,11 @@ if __name__ == '__main__':
         rect.color = "red"
         vect: Vector = scene[VECT_KEY]
 
-        O = Vec4(vect.geometry[0])
-        v1 = Vec4(vect.geometry[1])
+        O = vect[0]
+        v1 = vect[1]
         v = v1 - O
 
-        Tp = Mat4x4.translation(O.xyz)
+        Tp = Mat4x4.translation(O)
         Tp_1 = Tp.inverse()
 
         phy = np.arctan2(v.x, v.z)
@@ -162,8 +158,6 @@ if __name__ == '__main__':
         vect.set_transformation(R)
 
 
-
-
     simple_scene = SimplePolygonScene(
         image_size=(5, 5),  # розмір зображення: 1 - 100 пікселів
         coordinate_rect=(-1, -1, -1, 2, 2, 2),  # розмірність системи координатps
@@ -177,10 +171,10 @@ if __name__ == '__main__':
 
     simple_scene.add_frames(
         frame1,
-        # frame2,
-        # frame3,
-        # frame4,
-        # frame5,
+        frame2,
+        frame3,
+        frame4,
+        frame5,
         frame6,
     )  # додаємо кадри на сцену
 

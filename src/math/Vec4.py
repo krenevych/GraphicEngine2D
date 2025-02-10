@@ -114,6 +114,10 @@ class Vec4:
         return self.data[0]
 
     @property
+    def xz(self):
+        return np.array((self.data[0], self.data[2]))
+
+    @property
     def y(self):
         return self.data[1]
 

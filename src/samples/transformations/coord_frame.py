@@ -15,20 +15,12 @@ if __name__ == '__main__':
             coord_frame = CoordinateFrame(self.plt_axis,
                                           )
             self[RECT_KEY] = coord_frame
-            # coord_frame.show_pivot()
-            # coord_frame.show_local_frame()
 
 
     ############## Frame 1 ##################
     def frame1(scene: Scene):
         rect: CoordinateFrame = scene[RECT_KEY]
-
         rect.line_style = "--"  # стиль ліній
-        # rect.alpha = 0.3
-
-        # T = Mat4x4.translation(1, 1, 1)
-        # rect.set_transformation(T)
-        # rect.show_local_frame()
 
 
     ##############################################
@@ -47,7 +39,6 @@ if __name__ == '__main__':
         # rect.show_local_frame()
 
         R = Rz
-        # R = Rx * Rz
 
         rect.alpha = 1.0
         rect.set_transformation(T * R * S)

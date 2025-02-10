@@ -93,14 +93,6 @@ class Vec4:
             return Vec4(np.cross(self.data, other.data))
         return Vec4(np.cross(self.data, other))
 
-    # def __matmul__(self, other):
-    #     """
-    #     Реалізує множення вектора на матрицю Matrix3x3.
-    #     """
-    #     if not isinstance(other, Matrix3x3):
-    #         raise TypeError("Множення можливе лише з об'єктами Matrix3x3.")
-    #     return Vector3(np.dot(self.data, other.data))
-
     @property
     def xy(self):
         return self.data[:2]
@@ -116,6 +108,10 @@ class Vec4:
     @property
     def xz(self):
         return np.array((self.data[0], self.data[2]))
+
+    @property
+    def yz(self):
+        return np.array((self.data[1], self.data[2]))
 
     @property
     def y(self):

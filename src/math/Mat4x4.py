@@ -1,10 +1,8 @@
 import numpy as np
 
-from src.math.Mat3x3 import Mat3x3
 from src.math.Rotations import rotation_matrix_z, rotation_matrix_x, rotation_matrix_y
 from src.math.Scale import scale_matrix
 from src.math.Translation import translation_matrix
-from src.math.Vec3 import Vec3
 from src.math.Vec4 import Vec4
 
 
@@ -41,9 +39,6 @@ class Mat4x4:
             if isinstance(data, Mat4x4):
                 # Якщо переданий об'єкт Matrix4x4
                 self.data = np.copy(data.data)
-            elif isinstance(data, Mat3x3):
-                self.data = np.eye(4, dtype=float)
-                self.data[:3, :3] = data
             elif isinstance(data, (list, tuple, np.ndarray)):
                 data = np.array(data)
                 if data.shape == (4, 4):
@@ -154,9 +149,9 @@ class Mat4x4:
 
     @staticmethod
     def rotation(psi, v):
-        if isinstance(v, (Vec3, Vec4)):
+        if isinstance(v, (Vec4,)):
             v = v.xyz
-        elif isinstance(v, (np.ndarray,tuple, list,)):
+        elif isinstance(v, (np.ndarray, tuple, list,)):
             v = np.array(v)
             if v.shape == (3,):
                 v = v.astype(float)

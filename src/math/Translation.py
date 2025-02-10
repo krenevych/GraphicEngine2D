@@ -2,13 +2,12 @@ import numpy as np
 
 
 def translation_matrix(t_x, t_y, t_z):
-    translation_matrix_3d = np.array([
+    return np.array([
         [1, 0, 0, t_x],
         [0, 1, 0, t_y],
         [0, 0, 1, t_z],
         [0, 0, 0,   1]
     ])
-    return translation_matrix_3d
 
 
 if __name__ == '__main__':

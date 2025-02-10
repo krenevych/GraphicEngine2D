@@ -11,7 +11,7 @@ class BaseModel(metaclass=ABCMeta):
     def __init__(self, plt_axis, *vertices):
         self.plt_axis = plt_axis
 
-        self._pivot = Vec4.point()
+        self._pivot = vertex()
         self._geometry = self.build_geometry(*vertices)
         self._transformation = Mat4x4()
 

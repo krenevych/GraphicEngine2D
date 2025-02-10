@@ -4,13 +4,15 @@ from src.engine.animation.RotationAnimation1 import RotationAnimation1
 from src.engine.model.SimplePolygon import SimplePolygon
 from src.engine.model.Vector import Vector
 from src.engine.scene.AnimatedScene import AnimatedScene
+from src.math.Vec4 import Vec4, vertex
 
 if __name__ == '__main__':
     RECT_KEY = "rect"
     VECT_KEY = "vector"
-    ax = (0.557, 0.500, 0.663)
-    O = (1, 1, 1)
-    # ax = (0.557, 1.500, 0)
+    ax = Vec4(0.557, 0.500, 0.663)
+    O = vertex(0, 0, 0)
+    pass
+
 
 
     class SimplePolygonScene(AnimatedScene):
@@ -21,16 +23,18 @@ if __name__ == '__main__':
             polygon = SimplePolygon(self.plt_axis,
                                     O[0], O[1], O[2],
                                     O[0] + ax[0], O[1] + ax[1], O[2] + ax[2],
-                                    O[0], O[1] + 1, O[2],
+                                    # O[0], O[1] + 1, O[2],
+                                    0, 1, 0,
                                     edgecolor="red",
                                     )
             self[RECT_KEY] = polygon
-            polygon.show_local_frame()
+            # polygon.show_local_frame()
 
-            vector = Vector(self.plt_axis,
-                            O[0], O[1], O[2],
-                            O[0] + ax[0], O[1] + ax[1], O[2] + ax[2],
-                            )
+            vector = Vector(
+                self.plt_axis,
+                O[0], O[1], O[2],
+                O[0] + ax[0], O[1] + ax[1], O[2] + ax[2],
+            )
             self[VECT_KEY] = vector
             vector.color = "brown"
 

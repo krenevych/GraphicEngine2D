@@ -13,11 +13,15 @@ class RotationAnimation(Animation):
         self.start_angle = 0.0
 
     def current_transformation(self, frame):
-        angle = self.start_angle + (self.end_angle - self.start_angle) * (frame / self.frames)
+        cur = (frame) / self.frames
 
-        T = Mat4x4.translation(self.start_translation)
+        print(f"{cur=}")
+        angle = self.start_angle + (self.end_angle - self.start_angle) * cur
+
+        # T = Mat4x4.translation(self.start_translation)
         R = Mat4x4.rotation(angle, self.axis)
-        S = Mat4x4.scale(self.start_scales)
+        # S = Mat4x4.scale(self.start_scales)
 
-        transformation = T * R * S
-        return transformation
+        # transformation = T * R * S
+        # return transformation
+        return R

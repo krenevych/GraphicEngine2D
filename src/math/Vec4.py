@@ -13,6 +13,8 @@ class Vec4:
         """
         if len(data) == 0:
             self.data = np.zeros(4, dtype=float)
+        elif len(data) == 3:
+            self.data = np.array((*data, 0.0), dtype=float)
         elif len(data) == 4:
             self.data = np.array(data, dtype=float)
         elif len(data) == 1:
@@ -47,6 +49,9 @@ class Vec4:
         Повертає строкове представлення вектора.
         """
         return np.array2string(self.data, formatter={'float_kind': lambda x: f"{x:8.3f}"})
+
+    def __repr__(self):
+        return str(self)
 
     def __add__(self, other):
         """
@@ -121,17 +126,9 @@ class Vec4:
     def z(self):
         return self.data[2]
 
-    @staticmethod
-    def point(x=0, y=0, z=0):
-        return Vec4(x, y, z, 1)
 
-    @staticmethod
-    def vect(x=0, y=0, z=0):
-        return Vec4(x, y, z, 0)
-
-
-def vertex(x, y, z):
-    return Vec4.point(x, y, z)
+def vertex(x=0, y=0, z=0, w=1):
+    return Vec4(x, y, z, w)
 
 
 if __name__ == '__main__':

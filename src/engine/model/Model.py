@@ -4,7 +4,7 @@ from src.base.points import draw_point
 from src.engine.model.BaseModel import BaseModel
 from src.engine.model.CoordinateFrame import CoordinateFrame
 from src.math.Mat4x4 import Mat4x4
-from src.math.Vec4 import Vec4
+from src.math.Vec4 import vertex
 
 
 class Model(BaseModel, ABC):
@@ -12,7 +12,7 @@ class Model(BaseModel, ABC):
     def __init__(self, plt_axis, *vertices):
         super().__init__(plt_axis, *vertices)
 
-        self._pivot = Vec4.point()
+        self._pivot = vertex()
         self._is_draw_pivot = False
 
         self._coord_frame = CoordinateFrame(self.plt_axis)

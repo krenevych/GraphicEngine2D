@@ -1,6 +1,5 @@
 from src.engine.animation.Animation import Animation
 from src.math.Mat4x4 import Mat4x4
-from src.math.Vec4 import vertex
 
 
 class RotationAnimation1(Animation):
@@ -13,7 +12,7 @@ class RotationAnimation1(Animation):
         self.end_angle = end
         self.start_angle = 0.0
 
-        self.pivot = vertex(*P)
+        self.pivot = P
 
     def current_transformation(self, frame):
         angle = self.start_angle + (self.end_angle - self.start_angle) * (frame / self.frames)

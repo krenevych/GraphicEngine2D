@@ -169,10 +169,10 @@ class Mat4x4:
         ux, uy, uz = normalized_v
 
         phy = np.arctan2(ux, uz)
-        print(np.degrees(phy))
+        # print(np.degrees(phy))
         len_ux_uz = np.linalg.norm((ux, uz))
         theta = np.arctan2(uy, len_ux_uz)
-        print(np.degrees(theta))
+        # print(np.degrees(theta))
 
         Ry = Mat4x4.rotation_y(-phy)
         Rx = Mat4x4.rotation_x(theta)
@@ -197,7 +197,7 @@ class Mat4x4:
     def scale(sx, sy=None, sz=None):
         if sy is None and isinstance(sx, (int, float)):
             m = scale_matrix(sx, sx, sx)
-        elif sy is None and isinstance(sx, (Vec3, Vec4)):
+        elif sy is None and isinstance(sx, (Vec4,)):
             m = scale_matrix(*sx.xyz)
         elif sy is None and isinstance(sx, np.ndarray) and len(sx) == 3:
             m = scale_matrix(sx[0], sx[1], sx[2])

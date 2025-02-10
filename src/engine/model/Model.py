@@ -26,6 +26,10 @@ class Model(BaseModel, ABC):
     def show_pivot(self, enabled=True):
         self._is_draw_pivot = enabled
 
+    def pivot(self, tx, ty=None, tz=None):
+        super().pivot(tx, ty, tz)
+        self._coord_frame.pivot(tx, ty, tz)
+
     def show_local_frame(self, enabled=True):
         self._is_draw_local_frame = enabled
 
@@ -48,10 +52,8 @@ class Model(BaseModel, ABC):
     def _draw_pivot(self):
         if self._is_draw_pivot:
             p = Mat4x4.translation(self._pivot)
-            p_inv = p.inverse()
-
-            pivot = p * self.transformation * p_inv * self._pivot
-            draw_point(pivot.xy, color="red")
+            pivot = p * self.transformation * p.inverse() * self._pivot
+            draw_point(self.plt_axis, pivot.xyz, color="red")
 
     def apply_transformation_to_geometry(self):
         super().apply_transformation_to_geometry()
@@ -59,6 +61,6 @@ class Model(BaseModel, ABC):
         self._coord_frame.apply_transformation_to_geometry()
 
     def draw(self):
-        self._draw_pivot()
         self._draw_local_frame()
         self.draw_model()
+        self._draw_pivot()

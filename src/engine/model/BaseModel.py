@@ -57,9 +57,9 @@ class BaseModel(metaclass=ABCMeta):
         self._geometry = self.transformed_geometry
         self.set_transformation(Mat4x4.identity())
 
-    def pivot(self, tx, ty, tz):
+    def pivot(self, tx, ty=None, tz=None):
         if ty is None and isinstance(tx, Vec4):
-            self._pivot = Vec4(tx.xyz)
+            self._pivot = tx
         else:
             self._pivot = Vec4(tx, ty, tz, 1)
 

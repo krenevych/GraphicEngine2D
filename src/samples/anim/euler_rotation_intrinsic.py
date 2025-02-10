@@ -9,10 +9,12 @@ from src.math.Vec4 import Vec4, vertex
 if __name__ == '__main__':
     RECT_KEY = "rect"
     RECT_0_KEY = "rect_0"
-    VECT_KEY = "vector"
     O = vertex(0, 0, 0)
     t1 = Vec4(1, 0, 0)
     t2 = Vec4(1, 1, 0)
+    # p = vertex(1 * 0.5, 0.5, 0 * 0.5)
+    # p = vertex(1, 2 * 0.5, 0 * 0.5)
+    p = vertex()
 
     angle_x = 35
     angle_y = 33
@@ -80,7 +82,9 @@ if __name__ == '__main__':
                                     edgecolor="red",
                                     )
             self[RECT_KEY] = polygon
+            polygon.pivot(p)
             polygon.show_local_frame()
+            polygon.show_pivot()
 
             polygon0 = SimplePolygon(self.plt_axis,
                                     *O.xyz,
@@ -91,6 +95,7 @@ if __name__ == '__main__':
             self[RECT_0_KEY] = polygon0
             polygon0.set_transformation(R_final)
             polygon0.alpha = 0.3
+            polygon0.pivot(p)
             polygon0.show_local_frame()
 
 
@@ -104,7 +109,6 @@ if __name__ == '__main__':
         axis_show=True,  # чи показувати осі координат
         axis_color=("#f00000", "#00f000", "#000088"),  # колір осей координат
         axis_line_width=0.5,
-        # axis_color=("grey",),  # колір осей координат
         axis_line_style="-."  # стиль ліній осей координат
     ).prepare()
 

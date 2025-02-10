@@ -25,6 +25,8 @@ class Vec4:
                 data = np.array(data)
                 if data.shape == (4,):
                     self.data = data.astype(float)
+                elif data.shape == (3,):
+                    self.data = np.array((*data.astype(float), 0.0))
                 else:
                     raise ValueError("Вектор повинен містити рівно 3 елементи.")
             else:
@@ -74,7 +76,10 @@ class Vec4:
         return Vec4(self.data - other)
 
     def __mul__(self, other):
+        if isinstance(other, (float, int)):
+            return Vec4(self.x * other, self.y * other, self.z * other, self.w * other)
         return self.dot(other)
+
 
     def dot(self, other):
         """

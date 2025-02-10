@@ -74,10 +74,6 @@ class Scene(ABC):
 
     def setup_base_parameters(self):
 
-        # self.plt_axis.view_init(elev=110,
-        #                         azim=205,
-        #                         roll=-65)
-
         self.plt_axis.view_init(elev=110,
                                 azim=225,
                                 roll=-45)

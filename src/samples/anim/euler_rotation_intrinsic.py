@@ -17,7 +17,7 @@ if __name__ == '__main__':
     p = vertex()
 
     angle_x = 35
-    angle_y = 33
+    angle_y = 133
     angle_z = 34
 
     Rx = Mat4x4.rotation_x(angle_x, False)
@@ -29,7 +29,6 @@ if __name__ == '__main__':
     X = Vec4(1, 0, 0)
     Y = Vec4(0, 1, 0)
     Z = Vec4(0, 0, 1)
-
 
     time = 180
     animation_x = RotationAnimation(
@@ -70,15 +69,16 @@ if __name__ == '__main__':
         apply_geometry_transformation_on_finish=True,
     )
 
+
     class SimplePolygonScene(AnimatedScene):
 
         def __init__(self, **kwargs):
             super().__init__(**kwargs)
 
             polygon = SimplePolygon(self.plt_axis,
-                                    *O.xyz,
-                                    *(O + t1).xyz,
-                                    *(O + t2).xyz,
+                                    O,
+                                    O + t1,
+                                    O + t2,
                                     edgecolor="red",
                                     )
             self[RECT_KEY] = polygon
@@ -87,17 +87,16 @@ if __name__ == '__main__':
             polygon.show_pivot()
 
             polygon0 = SimplePolygon(self.plt_axis,
-                                    *O.xyz,
-                                    *(O + t1).xyz,
-                                    *(O + t2).xyz,
-                                    edgecolor="red",
-                                    )
+                                     O,
+                                     O + t1,
+                                     O + t2,
+                                     edgecolor="red",
+                                     )
             self[RECT_0_KEY] = polygon0
             polygon0.set_transformation(R_final)
             polygon0.alpha = 0.3
             polygon0.pivot(p)
             polygon0.show_local_frame()
-
 
 
     animated_scene = SimplePolygonScene(
@@ -111,8 +110,6 @@ if __name__ == '__main__':
         axis_line_width=0.5,
         axis_line_style="-."  # стиль ліній осей координат
     ).prepare()
-
-
 
     animated_scene.add_animation(animation_x)
     animated_scene.add_animation(animation_y)

@@ -63,18 +63,18 @@ if __name__ == '__main__':
             super().__init__(**kwargs)
 
             polygon = SimplePolygon(self.plt_axis,
-                                    *O.xyz,
-                                    *(O + t1).xyz,
-                                    *(O + t2).xyz,
+                                    O,
+                                    O + t1,
+                                    O + t2,
                                     edgecolor="red",
                                     )
             self[RECT_KEY] = polygon
             polygon.show_local_frame()
 
             polygon0 = SimplePolygon(self.plt_axis,
-                                    *O.xyz,
-                                    *(O + t1).xyz,
-                                    *(O + t2).xyz,
+                                     O,
+                                     O + t1,
+                                     O + t2,
                                     edgecolor="red",
                                     )
             self[RECT_0_KEY] = polygon0

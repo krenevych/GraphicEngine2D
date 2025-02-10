@@ -4,18 +4,25 @@ from src.math.Mat4x4 import Mat4x4
 
 class RotationAnimation(Animation):
 
-    def __init__(self, end, **kwargs):
-        super().__init__(Mat4x4.rotation(end), **kwargs)
+    def __init__(self, end, axis, **kwargs):
+        super().__init__(end, **kwargs)
+
+        self.start_translation, start_angle, self.start_scales = Mat4x4.decompose_affine(self.start)
+        self.axis = axis
+        self.end_angle = end
+        self.start_angle = 0.0
+
 
     def current_transformation(self, frame):
-        start_translation, start_angle, start_scales = Mat4x4.decompose_affine(self.start)
-        end_translation, end_angle, end_scales = Mat4x4.decompose_affine(self.end)
 
-        angle = start_angle + (end_angle - start_angle) *  (frame / self.frames)
 
-        T = Mat4x4.translation(start_translation)
-        R = Mat4x4.rotation(angle)
-        S = Mat4x4.scale(start_scales)
+        angle = self.start_angle + (self.end_angle - self.start_angle) *  (frame / self.frames)
+
+        print(f"{angle=}")
+
+        T = Mat4x4.translation(self.start_translation)
+        R = Mat4x4.rotation(angle, self.axis)
+        S = Mat4x4.scale(self.start_scales)
 
         transformation = T * R * S
         return transformation

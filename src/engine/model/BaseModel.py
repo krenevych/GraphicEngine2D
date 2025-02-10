@@ -20,7 +20,7 @@ class BaseModel(metaclass=ABCMeta):
         self.color = "grey"
         self.alpha = 1.0
 
-        self.__pivot = Vec4.point()
+        self._pivot = Vec4.point()
         self.__is_draw_pivot = False
         self.__is_draw_local_frame = False
 
@@ -81,9 +81,9 @@ class BaseModel(metaclass=ABCMeta):
 
     def pivot(self, tx, ty, tz):
         if ty is None and isinstance(tx, Vec4):
-            self.__pivot = Vec4(tx.xyz)
+            self._pivot = Vec4(tx.xyz)
         else:
-            self.__pivot = Vec4(tx, ty, tz, 1)
+            self._pivot = Vec4(tx, ty, tz, 1)
 
     def show_pivot(self, enabled=True):
         self.__is_draw_pivot = enabled
@@ -93,7 +93,7 @@ class BaseModel(metaclass=ABCMeta):
 
     @property
     def pivot_transform(self):
-        pivot_tr = Mat4x4.translation(self.__pivot)
+        pivot_tr = Mat4x4.translation(self._pivot)
         return pivot_tr
 
     def set_local_frame_parameters(self,
@@ -119,7 +119,7 @@ class BaseModel(metaclass=ABCMeta):
 
             M = P * self.transformation * P_inv
 
-            origin = M * self.__pivot
+            origin = M * self._pivot
             ox = origin + self.transformation * Vec4.vect(1, 0, 0)
             oy = origin + self.transformation * Vec4.vect(0, 1, 0)
             oz = origin + self.transformation * Vec4.vect(0, 0, 1)
@@ -153,7 +153,7 @@ class BaseModel(metaclass=ABCMeta):
             P = self.pivot_transform
             P_inv = P.inverse()
 
-            pivot = P * self.transformation * P_inv * self.__pivot
+            pivot = P * self.transformation * P_inv * self._pivot
             draw_point(pivot.xy, color="red")
 
     def draw(self):

@@ -1,9 +1,9 @@
-from src.engine.animation.ScaleAnimation import ScaleAnimation
-from src.engine.animation.TranslationAnimation import TranslationAnimation
+import numpy as np
+
+from src.engine.animation.RotationAnimation import RotationAnimation
 from src.engine.model.SimplePolygon import SimplePolygon
 from src.engine.scene.AnimatedScene import AnimatedScene
 from src.math.Mat4x4 import Mat4x4
-from src.math.Vec4 import vertex
 
 FIGURE_KEY = "rect"
 
@@ -13,10 +13,10 @@ class AnimatedSceneSample(AnimatedScene):
         super().__init__(**kwargs)
 
         polygon = SimplePolygon(self.plt_axis,  # створюємо полігон з заданою геометрією
-            0, 2, 0,
-            2, 0, 0,
-            4, 2, 0,
-            2, 4, 0,
+            0, 0, 0,
+            0.5, 0, 0,
+            0.5, 0.5, 0,
+            0, 0.5, 0,
         )
         polygon.show_local_frame()  # відмальовувати локальну систему координат
         polygon.set_local_frame_parameters(
@@ -33,7 +33,7 @@ class AnimatedSceneSample(AnimatedScene):
 if __name__ == '__main__':
     animated_scene = AnimatedSceneSample(
         image_size=(5, 5),  # розмір зображення: 1 - 100 пікселів
-        coordinate_rect=(-1, -1, -1, 6, 6, 6),  # розмірність системи координат
+        coordinate_rect=(-1, -1, -1, 1, 1, 1),  # розмірність системи координат
         title="Animated scene",  # заголовок рисунка
         grid_show=False,  # чи показувати координатну сітку
         base_axis_show=False,  # чи показувати базові осі зображення
@@ -49,11 +49,11 @@ if __name__ == '__main__':
 
     animated_scene.add_frames(frame1)
 
-    translation = TranslationAnimation(  # створюємо анімацію переміщення
-        end=vertex(1, 1, 0),  # значення точки у яку треба перемітити
-        channel=FIGURE_KEY,  # ідентифікатор фігури до якої має застосовуватися анімація
-        frames=120,  # кількість кадрів анімації
-    )
+    # translation = TranslationAnimation(  # створюємо анімацію переміщення
+    #     end=vertex(1, 1, 0),  # значення точки у яку треба перемітити
+    #     channel=FIGURE_KEY,  # ідентифікатор фігури до якої має застосовуватися анімація
+    #     frames=120,  # кількість кадрів анімації
+    # )
     #
     # translation2 = TranslationAnimation(
     #     end=vertex(0, 0),
@@ -73,12 +73,12 @@ if __name__ == '__main__':
     #     channel=FIGURE_KEY,
     # )
 
-    scale = ScaleAnimation(
-        end=(1.5, 1.5, 1.5),
-        frames=120,
-        channel=FIGURE_KEY,
-        apply_geometry_transformation_on_finish=True,
-    )
+    # scale = ScaleAnimation(
+    #     end=(1.5, 1.5, 1.5),
+    #     frames=120,
+    #     channel=FIGURE_KEY,
+    #     apply_geometry_transformation_on_finish=True,
+    # )
     #
     # scale2 = ScaleAnimation(
     #     end=(0.5, 0.5, 0.5),
@@ -92,35 +92,43 @@ if __name__ == '__main__':
     #     channel=FIGURE_KEY,
     # )
     #
-    # rotation = RotationAnimation(
-    #     end=np.radians(30),
-    #     frames=20,
-    #     channel=FIGURE_KEY,
-    # )
-    #
-    # rotation2 = RotationAnimation(
-    #     end=np.radians(-30),
-    #     frames=20,
-    #     channel=FIGURE_KEY,
-    # )
-    #
-    # rotation3 = RotationAnimation(
-    #     end=np.radians(0),
-    #     frames=20,
-    #     channel=FIGURE_KEY,
-    # )
+    rotation_x = RotationAnimation(
+        end=np.radians(30),
+        axis=(1, 0, 0),
+        frames=180,
+        channel=FIGURE_KEY,
+        apply_geometry_transformation_on_finish=True,
+    )
+
+    rotation_y = RotationAnimation(
+        end=np.radians(30),
+        axis=(0, 1, 0),
+        frames=180,
+        channel=FIGURE_KEY,
+        apply_geometry_transformation_on_finish=True,
+    )
+
+    rotation_z = RotationAnimation(
+        end=np.radians(30),
+        axis=(0, 0, 1),
+        frames=180,
+        channel=FIGURE_KEY,
+        apply_geometry_transformation_on_finish=True,
+    )
 
     # задаємо послідовність анімацій
     # animated_scene.add_animation(scale_before)
     # animated_scene.add_animation(scale_before2)
-    animated_scene.add_animation(scale)
+    # animated_scene.add_animation(scale)
     # animated_scene.add_animation(rotation)
-    animated_scene.add_animation(translation)
+    # animated_scene.add_animation(translation)
     # animated_scene.add_animation(scale2)
     # animated_scene.add_animation(translation2)
     # animated_scene.add_animation(rotation2)
     # animated_scene.add_animation(scale3)
-    # animated_scene.add_animation(rotation3)
+    animated_scene.add_animation(rotation_x)
+    animated_scene.add_animation(rotation_y)
+    animated_scene.add_animation(rotation_z)
     animated_scene.animate()
 
 

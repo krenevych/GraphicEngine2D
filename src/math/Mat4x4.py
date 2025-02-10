@@ -156,8 +156,12 @@ class Mat4x4:
     def rotation(psi, v):
         if isinstance(v, (Vec3, Vec4)):
             v = v.xyz
-        elif isinstance(v, (np.ndarray,)):
-            v = v[:3]
+        elif isinstance(v, (np.ndarray,tuple, list,)):
+            v = np.array(v)
+            if v.shape == (3,):
+                v = v.astype(float)
+            else:
+                raise ValueError("Вектор повороту повинен містити рівно 3 дійсних елементи.")
 
         norm = np.linalg.norm(v)
 

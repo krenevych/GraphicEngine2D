@@ -1,7 +1,6 @@
 import numpy as np
 
 from src.engine.animation.RotationAnimation import RotationAnimation
-from src.engine.animation.TrsTransformationAnimation import TrsTransformationAnimation
 from src.engine.model.SimplePolygon import SimplePolygon
 from src.engine.scene.AnimatedScene import AnimatedScene
 from src.math.Mat4x4 import Mat4x4
@@ -22,16 +21,63 @@ if __name__ == '__main__':
     Ry = Mat4x4.rotation_y(angle_y, False)
     Rz = Mat4x4.rotation_z(angle_z, False)
 
-    # R_final = (
+    # R_final = (  # для extrinsic rotation використовуємо прямий порядок множень матриць
     #         Rz *
     #         Ry *
     #         Rx
     # )
 
-    R_final = (
+    R_final = (  # для intrinsic rotation досить розвернути порядок матриць
             Rx *
             Ry *
             Rz
+    )
+
+    OX = Vec4(1, 0, 0)
+    OY = Vec4(0, 1, 0)
+    OZ = Vec4(0, 0, 1)
+
+    frames_num = 180
+    interval = 5
+
+    animation_x = RotationAnimation(  # Rx
+        end=np.radians(angle_x),
+        axis=OX,
+        frames=frames_num,
+        interval=interval,
+        channel=RECT_KEY,
+        apply_geometry_transformation_on_finish=True,
+    )
+
+    OY1 = Rx * OY
+    OZ1 = Rx * OZ
+
+    Ry1 = Mat4x4.rotation(angle_y, OY1, False)
+
+    animation_y = RotationAnimation(  # Ry1
+        end=np.radians(angle_y),
+        axis=OY1,
+        frames=frames_num,
+        interval=interval,
+        channel=RECT_KEY,
+        apply_geometry_transformation_on_finish=True,
+    )
+
+    OZ2 = Mat4x4.rotation(angle_y, OY1, False) * OZ1
+
+    Rz2 = Mat4x4.rotation(angle_z, OZ2, False)
+
+    # R_final = {
+    #     Rz2 * Ry1 * Rx
+    # }
+
+    animation_z = RotationAnimation(
+        end=np.radians(angle_z),
+        axis=OZ2,
+        frames=frames_num,
+        interval=interval,
+        channel=RECT_KEY,
+        apply_geometry_transformation_on_finish=True,
     )
 
 
@@ -60,55 +106,6 @@ if __name__ == '__main__':
             polygon0.alpha = 0.2
             polygon0.show_local_frame()
 
-
-
-
-    OX = Vec4(1, 0, 0)
-    OY = Vec4(0, 1, 0)
-    OZ = Vec4(0, 0, 1)
-
-    frames_num = 180
-    interval = 5
-
-    animation_x = RotationAnimation(   # Rx
-        end=np.radians(angle_x),
-        axis=OX,
-        frames=frames_num,
-        interval=interval,
-        channel=RECT_KEY,
-        apply_geometry_transformation_on_finish=True,
-    )
-
-    OY1 = Rx * OY
-    OZ1 = Rx * OZ
-
-    Ry1 = Mat4x4.rotation(angle_y, OY1, False)
-
-    animation_y = RotationAnimation(  # Ry1
-        end=np.radians(angle_y),
-        axis=OY1,
-        frames=frames_num,
-        interval=interval,
-        channel=RECT_KEY,
-        apply_geometry_transformation_on_finish=True,
-    )
-
-    OZ2 = Mat4x4.rotation(angle_z, OY1, False) * OZ1
-
-    Rz2 = Mat4x4.rotation(angle_z, OZ2)
-
-    # R_final = {
-    #     Rz2 * Ry1 * Rx
-    # }
-
-    animation_z = RotationAnimation(
-        end=np.radians(angle_z),
-        axis=OZ2,
-        frames=frames_num,
-        interval=interval,
-        channel=RECT_KEY,
-        apply_geometry_transformation_on_finish=True,
-    )
 
     animated_scene = SimplePolygonScene(
         image_size=(7, 7),  # розмір зображення: 1 - 100 пікселів

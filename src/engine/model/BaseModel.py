@@ -51,9 +51,6 @@ class BaseModel(metaclass=ABCMeta):
         transformation = p * self.transformation * p_inv
         transformed_data = [transformation * point for point in self._geometry]
 
-        print(" ===  Transformed geometry === ")
-        print(*transformed_data, sep="\n")
-
         return transformed_data
 
     def apply_transformation_to_geometry(self):

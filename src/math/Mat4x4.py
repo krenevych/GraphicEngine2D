@@ -149,7 +149,10 @@ class Mat4x4:
         return Mat4x4(m)
 
     @staticmethod
-    def rotation(psi, v):
+    def rotation(angle, v, is_radians=True):
+        if not is_radians:
+            angle = np.radians(angle)
+
         if isinstance(v, (Vec4,)):
             v = v.xyz
         elif isinstance(v, (np.ndarray, tuple, list,)):
@@ -177,7 +180,7 @@ class Mat4x4:
 
         Ry = Mat4x4.rotation_y(-phy)
         Rx = Mat4x4.rotation_x(theta)
-        Rz = Mat4x4.rotation_z(psi)
+        Rz = Mat4x4.rotation_z(angle)
 
         Ry_1 = Ry.inverse()
         Rx_1 = Rx.inverse()

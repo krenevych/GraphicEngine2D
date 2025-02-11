@@ -15,9 +15,12 @@ if __name__ == '__main__':
     t1 = Vec4(1, 0, 0)
     t2 = Vec4(1, 1, 0)
 
-    angle_x = 125
-    angle_y = 83
-    angle_z = 52
+    # angle_x = 125
+    # angle_y = 83
+    # angle_z = 52
+    angle_x = 30
+    angle_y = 45
+    angle_z = 60
 
     Rx = Mat4x4.rotation_x(angle_x, False)
     Ry = Mat4x4.rotation_y(angle_y, False)

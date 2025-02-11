@@ -1,6 +1,7 @@
 import numpy as np
 
 from src.engine.animation.RotationAnimation import RotationAnimation
+from src.engine.animation.TrsTransformationAnimation import TrsTransformationAnimation
 from src.engine.model.SimplePolygon import SimplePolygon
 from src.engine.scene.AnimatedScene import AnimatedScene
 from src.math.Mat4x4 import Mat4x4
@@ -12,9 +13,6 @@ if __name__ == '__main__':
     O = vertex(0, 0, 0)
     t1 = Vec4(1, 0, 0)
     t2 = Vec4(1, 1, 0)
-    # p = vertex(1 * 0.5, 0.5, 0 * 0.5)
-    # p = vertex(1, 2 * 0.5, 0 * 0.5)
-    p = vertex()
 
     angle_x = 30
     angle_y = 45
@@ -24,49 +22,16 @@ if __name__ == '__main__':
     Ry = Mat4x4.rotation_y(angle_y, False)
     Rz = Mat4x4.rotation_z(angle_z, False)
 
-    R_final = Rx * Ry * Rz
+    # R_final = (
+    #         Rz *
+    #         Ry *
+    #         Rx
+    # )
 
-    X = Vec4(1, 0, 0)
-    Y = Vec4(0, 1, 0)
-    Z = Vec4(0, 0, 1)
-
-    time = 180
-    animation_x = RotationAnimation(
-        end=np.radians(angle_x),
-        axis=X,
-        frames=time,
-        interval=3,
-        channel=RECT_KEY,
-        apply_geometry_transformation_on_finish=True,
-    )
-
-    y1 = Rx * Y
-    z1 = Rx * Z
-    rot_y = Mat4x4.rotation(np.radians(angle_y), y1)
-
-    rot = rot_y * Rx
-
-    z2 = rot_y * z1
-    rot_z = Mat4x4.rotation(np.radians(angle_z), z2)
-
-    rot = rot_z * rot
-
-    animation_y = RotationAnimation(
-        end=np.radians(angle_y),
-        axis=y1,
-        frames=time,
-        interval=5,
-        channel=RECT_KEY,
-        apply_geometry_transformation_on_finish=True,
-    )
-
-    animation_z = RotationAnimation(
-        end=np.radians(angle_z),
-        axis=z2,
-        frames=time,
-        interval=5,
-        channel=RECT_KEY,
-        apply_geometry_transformation_on_finish=True,
+    R_final = (
+            Rx *
+            Ry *
+            Rz
     )
 
 
@@ -82,9 +47,7 @@ if __name__ == '__main__':
                                     edgecolor="red",
                                     )
             self[RECT_KEY] = polygon
-            polygon.pivot(p)
             polygon.show_local_frame()
-            polygon.show_pivot()
 
             polygon0 = SimplePolygon(self.plt_axis,
                                      O,
@@ -94,24 +57,89 @@ if __name__ == '__main__':
                                      )
             self[RECT_0_KEY] = polygon0
             polygon0.set_transformation(R_final)
-            polygon0.alpha = 0.3
-            polygon0.pivot(p)
+            polygon0.alpha = 0.2
             polygon0.show_local_frame()
 
 
+
+
+    OX = Vec4(1, 0, 0)
+    OY = Vec4(0, 1, 0)
+    OZ = Vec4(0, 0, 1)
+
+    frames_num = 180
+    interval = 5
+
+    animation_x = RotationAnimation(   # Rx
+        end=np.radians(angle_x),
+        axis=OX,
+        frames=frames_num,
+        interval=interval,
+        channel=RECT_KEY,
+        apply_geometry_transformation_on_finish=True,
+    )
+
+    OY1 = Rx * OY
+    OZ1 = Rx * OZ
+
+    Ry1 = Mat4x4.rotation(angle_y, OY1, False)
+
+    animation_y = RotationAnimation(  # Ry1
+        end=np.radians(angle_y),
+        axis=OY1,
+        frames=frames_num,
+        interval=interval,
+        channel=RECT_KEY,
+        apply_geometry_transformation_on_finish=True,
+    )
+
+    OZ2 = Mat4x4.rotation(angle_z, OY1, False) * OZ1
+
+    Rz2 = Mat4x4.rotation(angle_z, OZ2)
+
+    # R_final = {
+    #     Rz2 * Ry1 * Rx
+    # }
+
+    animation_z = RotationAnimation(
+        end=np.radians(angle_z),
+        axis=OZ2,
+        frames=frames_num,
+        interval=interval,
+        channel=RECT_KEY,
+        apply_geometry_transformation_on_finish=True,
+    )
+
     animated_scene = SimplePolygonScene(
-        image_size=(8, 8),  # розмір зображення: 1 - 100 пікселів
+        image_size=(7, 7),  # розмір зображення: 1 - 100 пікселів
         coordinate_rect=(-1, -1, -1, 1, 1, 1),  # розмірність системи координатps
         title="Picture",  # заголовок рисунка
         grid_show=False,  # чи показувати координатну сітку
         base_axis_show=False,  # чи показувати базові осі зображення
         axis_show=True,  # чи показувати осі координат
-        axis_color=("#f00000", "#00f000", "#000088"),  # колір осей координат
-        axis_line_width=0.5,
+        axis_color="grey",  # колір осей координат
         axis_line_style="-."  # стиль ліній осей координат
     ).prepare()
 
     animated_scene.add_animation(animation_x)
     animated_scene.add_animation(animation_y)
     animated_scene.add_animation(animation_z)
+
+    # animated_scene.add_animation(animation)
+
     animated_scene.animate()
+
+    # def frame1(scene):
+    #     pass
+    #
+    #
+    # #
+    # # def frame2(scene):
+    # #     pass
+    #
+    # animated_scene.add_frames(
+    #     frame1,
+    #     # frame2
+    # )
+    # animated_scene.draw()
+    # animated_scene.finalize()

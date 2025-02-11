@@ -26,45 +26,43 @@ if __name__ == '__main__':
 
     R_final = Rx * Ry * Rz
 
-    X = Vec4(1, 0, 0)
-    Y = Vec4(0, 1, 0)
-    Z = Vec4(0, 0, 1)
+    OX = Vec4(1, 0, 0)
+    OY = Vec4(0, 1, 0)
+    OZ = Vec4(0, 0, 1)
 
-    time = 180
+    frames_num = 180
+    interval = 5
+
     animation_x = RotationAnimation(
         end=np.radians(angle_x),
-        axis=X,
-        frames=time,
-        interval=3,
+        axis=OX,
+        frames=frames_num,
+        interval=interval,
         channel=RECT_KEY,
         apply_geometry_transformation_on_finish=True,
     )
 
-    y1 = Rx * Y
-    z1 = Rx * Z
-    rot_y = Mat4x4.rotation(np.radians(angle_y), y1)
-
-    rot = rot_y * Rx
-
-    z2 = rot_y * z1
-    rot_z = Mat4x4.rotation(np.radians(angle_z), z2)
-
-    rot = rot_z * rot
+    OY1 = Rx * OY
+    OZ1 = Rx * OZ
 
     animation_y = RotationAnimation(
         end=np.radians(angle_y),
-        axis=y1,
-        frames=time,
-        interval=5,
+        axis=OY1,
+        frames=frames_num,
+        interval=interval,
         channel=RECT_KEY,
         apply_geometry_transformation_on_finish=True,
     )
 
+    rot_y = Mat4x4.rotation(np.radians(angle_y), OY1)
+    OZ2 = rot_y * OZ1
+
+
     animation_z = RotationAnimation(
         end=np.radians(angle_z),
-        axis=z2,
-        frames=time,
-        interval=5,
+        axis=OZ2,
+        frames=frames_num,
+        interval=interval,
         channel=RECT_KEY,
         apply_geometry_transformation_on_finish=True,
     )

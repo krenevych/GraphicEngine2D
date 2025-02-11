@@ -1,12 +1,12 @@
 import numpy as np
 
 from src.base.broken_line import draw_broken_line
-from src.engine.model.BaseModel import BaseModel
+from src.engine.model.Model import Model
 from src.engine.scene.Scene import Scene
 from src.math.Mat3x3 import Mat3x3
 
 
-class SimplePolygon(BaseModel):
+class SimplePolygon(Model):
 
     def __init__(self, *vertices):
         super().__init__(*vertices)

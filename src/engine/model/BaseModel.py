@@ -2,34 +2,27 @@ from abc import abstractmethod, ABCMeta
 
 import numpy as np
 
-from src.base.axes import draw_axis
-from src.base.points import draw_point
 from src.math.Mat3x3 import Mat3x3
 from src.math.Vec3 import vertex, Vec3
 
 
 class BaseModel(metaclass=ABCMeta):
-    AVAILABLE_PARAMETERS = []
 
     def __init__(self, *vertices):
+        self._pivot = Vec3.point(0, 0)
         self._geometry = self.build_geometry(*vertices)
-
         self._transformation = Mat3x3()
-        self.color = "black"
-
-        self.__pivot = Vec3.point(0, 0)
-        self.__is_draw_pivot = False
-        self.__is_draw_local_frame = False
-
-        self.__axis_color = ("red", "green")  # колір осей координат
-        self.__axis_line_width = 1.0  # товщина осей координат
-        self.__axis_line_style = "--"  # стиль ліній осей координат
 
         self._parameters = {}
-        self._availible_parameters = BaseModel.AVAILABLE_PARAMETERS
+        self._availible_parameters = []
 
     def set_geometry(self, *vertices):
         self._geometry = self.build_geometry(*vertices)
+
+    def __getitem__(self, item):
+        if isinstance(item, int):
+            return Vec3(self._geometry[item])
+        return None
 
     def build_geometry(self, *vertices):
         if len(vertices) == 0:
@@ -52,9 +45,13 @@ class BaseModel(metaclass=ABCMeta):
             self[key] = value
 
     def __setitem__(self, param, value):
-        if param not in self._availible_parameters:
+        if param in self._availible_parameters:
+            self._parameters[param] = value
+            return
+        elif isinstance(param, int):
+            pass # TODO:
+        else:
             raise ValueError("Недопустимий параметер")
-        self._parameters[param] = value
 
     def set_transformation(self, transformation):
         self._transformation = transformation
@@ -65,9 +62,9 @@ class BaseModel(metaclass=ABCMeta):
 
     @property
     def transformed_geometry(self):
-        P = self.pivot_transform
-        P_inv = P.inverse()
-        transformation = P * self.transformation * P_inv
+        p = Mat3x3.translation(self._pivot)
+        p_inv = p.inverse()
+        transformation = p * self.transformation * p_inv
         transformed_data = [transformation * point for point in self._geometry]
 
         return transformed_data
@@ -78,70 +75,13 @@ class BaseModel(metaclass=ABCMeta):
 
     def pivot(self, tx, ty):
         if ty is None and isinstance(tx, Vec3):
-            self.__pivot = Vec3(tx.xy)
+            self._pivot = Vec3(tx.xy)
         else:
-            self.__pivot = Vec3(tx, ty, 1)
+            self._pivot = Vec3(tx, ty, 1)
 
-    def show_pivot(self, enabled=True):
-        self.__is_draw_pivot = enabled
-
-    def show_local_frame(self, enabled=True):
-        self.__is_draw_local_frame = enabled
-
-    @property
-    def pivot_transform(self):
-        pivot_tr = Mat3x3.translation(self.__pivot)
-        return pivot_tr
-
-    def set_local_frame_parameters(self,
-                                   color=None,
-                                   line_width=None,
-                                   line_style=None
-                                   ):
-        if color is not None:
-            if isinstance(color, str):
-                self.__axis_color = (color, color)
-            elif isinstance(color, (tuple, list)) and len(color) == 2:
-                self.__axis_color = tuple(color)  # колір осей координат
-
-        if line_width is not None:
-            self.__axis_line_width = line_width  # товщина осей координат
-        if line_style is not None:
-            self.__axis_line_style = line_style  # стиль ліній осей координат
-
-    def _draw_local_frame(self):
-        if self.__is_draw_local_frame:
-            P = self.pivot_transform
-            P_inv = P.inverse()
-
-            M = P * self.transformation * P_inv
-
-            origin = M * self.__pivot
-            ox = self.__pivot + self.transformation * vertex(1, 0)
-            oy = self.__pivot + self.transformation * vertex(0, 1)
-
-            draw_axis(origin, ox,
-                      color=self.__axis_color[0],
-                      linewidth=self.__axis_line_width,
-                      linestyle=self.__axis_line_style)
-
-            draw_axis(origin, oy,
-                      color=self.__axis_color[1],
-                      linewidth=self.__axis_line_width,
-                      linestyle=self.__axis_line_style)
-
-    def _draw_pivot(self):
-        if self.__is_draw_pivot:
-            P = self.pivot_transform
-            P_inv = P.inverse()
-
-            pivot = P * self.transformation * P_inv * self.__pivot
-            draw_point(pivot.xy, color="red")
 
     def draw(self):
         self.draw_model()
-        self._draw_pivot()
-        self._draw_local_frame()
 
     @abstractmethod
     def draw_model(self):

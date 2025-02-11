@@ -133,7 +133,7 @@ class Vec3:
         return self.data[2]
 
 
-def vertex(x, y):
+def vertex(x=0, y=0):
     return Vec3.point(x, y)
 
 

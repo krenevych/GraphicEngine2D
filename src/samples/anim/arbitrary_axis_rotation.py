@@ -1,6 +1,7 @@
 import numpy as np
 
 from src.engine.animation.RotationAnimation import RotationAnimation
+from src.engine.animation.TranslationAnimation import TranslationAnimation
 from src.engine.model.SimplePolygon import SimplePolygon
 from src.engine.model.Vector import Vector
 from src.engine.scene.AnimatedScene import AnimatedScene
@@ -53,15 +54,24 @@ if __name__ == '__main__':
         axis_line_style="-."  # стиль ліній осей координат
     ).prepare()
 
+    frames_num = 180
     animation = RotationAnimation(
         end=np.radians(90),
         axis=ax,
-        frames=180,
+        frames=frames_num,
+        channel=RECT_KEY,
+        apply_geometry_transformation_on_finish=True,
+    )
+
+    animation_trans = TranslationAnimation(
+        vertex(1, 1, 1),
+        frames=frames_num,
         channel=RECT_KEY,
         apply_geometry_transformation_on_finish=True,
     )
 
     animated_scene.add_animation(animation)
+    animated_scene.add_animation(animation_trans)
     animated_scene.animate()
 
     # animated_scene.add_frames(frame1)

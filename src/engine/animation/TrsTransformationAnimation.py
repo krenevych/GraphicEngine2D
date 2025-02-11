@@ -5,15 +5,15 @@ from src.math.Mat4x4 import Mat4x4
 class TrsTransformationAnimation(Animation):
 
     def current_transformation(self, frame):
-        start_translation, start_angle, start_scales = Mat4x4.decompose_affine(self.start)
-        end_translation, end_angle, end_scales = Mat4x4.decompose_affine(self.end)
+        start_translation, start_scale, start_rotation, start_axis, start_angle = Mat4x4.decompose_affine(self.start)
+        end_translation, end_scale, end_rotation, end_axis, end_angle = Mat4x4.decompose_affine(self.end)
 
         translation = start_translation + (end_translation - start_translation) * (frame / self.frames)
         angle = start_angle + (end_angle - start_angle) * (frame / self.frames)
-        scales = start_scales + (end_scales - start_scales) * (frame / self.frames)
+        scales = start_scale + (end_scale - start_scale) * (frame / self.frames)
 
         T = Mat4x4.translation(translation)
-        R = Mat4x4.rotation(angle)
+        R = Mat4x4.rotation(angle, end_axis)
         S = Mat4x4.scale(scales)
 
         transformation = T * R * S

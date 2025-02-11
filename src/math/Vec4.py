@@ -80,6 +80,15 @@ class Vec4:
             return Vec4(self.x * other, self.y * other, self.z * other, self.w * other)
         return self.dot(other)
 
+    def norm(self):
+        return np.linalg.norm(self.xyz)
+
+    def normalize(self):
+        n = self.norm()
+        if n != 0:
+            return Vec4(self) * (1 / n)
+        else:
+            return Vec4()
 
     def dot(self, other):
         """
@@ -124,12 +133,16 @@ class Vec4:
         return np.array((self.data[1], self.data[2]))
 
     @property
+    def z(self):
+        return self.data[2]
+
+    @property
     def y(self):
         return self.data[1]
 
     @property
-    def z(self):
-        return self.data[2]
+    def w(self):
+        return self.data[3]
 
 
 def vertex(x=0, y=0, z=0, w=1):

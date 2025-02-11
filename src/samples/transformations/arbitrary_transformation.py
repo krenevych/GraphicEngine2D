@@ -1,17 +1,15 @@
-import numpy as np
-
-from src.engine.animation.RotationAnimation import RotationAnimation
 from src.engine.model.SimplePolygon import SimplePolygon
-from src.engine.model.Vector import Vector
 from src.engine.scene.AnimatedScene import AnimatedScene
+from src.math.Mat4x4 import Mat4x4
 from src.math.Vec4 import Vec4, vertex
 
 if __name__ == '__main__':
     RECT_KEY = "rect"
-    VECT_KEY = "vector"
-    ax = Vec4(0.557, 0.500, 0.663)
     O = vertex(0, 0, 0)
-    t = vertex(0, 1, 0)
+    t1 = Vec4(1, 0, 0)
+    t2 = Vec4(1, 1, 0)
+    t3 = Vec4(0, 1, 0)
+
 
 
     class SimplePolygonScene(AnimatedScene):
@@ -21,24 +19,15 @@ if __name__ == '__main__':
 
             polygon = SimplePolygon(self.plt_axis,
                                     O,
-                                    O + ax,
-                                    O + t,
+                                    O + t1,
+                                    O + t2,
+                                    O + t3,
                                     edgecolor="red",
                                     )
             self[RECT_KEY] = polygon
-            # polygon.show_local_frame()
+            polygon.show_local_frame()
+            print(polygon.transformed_geometry)
 
-            vector = Vector(
-                self.plt_axis,
-                O,
-                O + ax,
-            )
-            self[VECT_KEY] = vector
-            vector.color = "brown"
-
-
-    def frame1(scene):
-        pass
 
 
     animated_scene = SimplePolygonScene(
@@ -52,18 +41,17 @@ if __name__ == '__main__':
         axis_line_style="-."  # стиль ліній осей координат
     ).prepare()
 
-    frames_num = 180
-    animation = RotationAnimation(
-        end=np.radians(90),
-        axis=ax,
-        frames=frames_num,
-        channel=RECT_KEY,
-        apply_geometry_transformation_on_finish=True,
-    )
+    T = Mat4x4.translation(1, 1, 0)
 
-    animated_scene.add_animation(animation)
-    animated_scene.animate()
+    def frame1(scene):
+        obj: SimplePolygon = scene[RECT_KEY]
+        pass
 
-    # animated_scene.add_frames(frame1)
-    # animated_scene.draw()
-    # animated_scene.finalize()
+    def frame2(scene):
+        obj: SimplePolygon = scene[RECT_KEY]
+        obj.set_transformation(T)
+
+
+    animated_scene.add_frames(frame1, frame2)
+    animated_scene.draw()
+    animated_scene.finalize()

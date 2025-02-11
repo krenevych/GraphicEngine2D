@@ -1,4 +1,5 @@
 import numpy as np
+from fontTools.misc.cython import returns
 from scipy.spatial.transform import Rotation
 
 from src.math.Rotations import rotation_matrix_z, rotation_matrix_x, rotation_matrix_y
@@ -87,14 +88,13 @@ class Mat4x4:
         """
         if not isinstance(other, (Mat4x4, np.ndarray, Vec4)):
             raise TypeError("Множення можливе лише з іншими об'єктами Matrix4x4 або numpy.ndarray 4x4.")
-        if isinstance(other, Mat4x4):
-            return Mat4x4(np.dot(self.data, other.data))
+
         if isinstance(other, Mat4x4):
             return Mat4x4(np.dot(self.data, other.data))
         elif isinstance(other, Vec4):
-            # v = Vec4(np.dot(self.data, other.data))
-            # return v
-            return Vec4(np.dot(self.data, other.data))
+            v = Vec4(np.dot(self.data, other.data))
+            # print(v)
+            return v
         return Mat4x4(np.dot(self.data, other))
 
     def __add__(self, other):
@@ -280,7 +280,7 @@ class Mat4x4:
         # axis, angle = rot.as_rotvec(), np.degrees(rot.magnitude())
         axis, angle = rot.as_rotvec(), rot.magnitude()
 
-        return T, S, R, axis, angle
+        return T, R, S, axis, angle
 
 
 # Приклад використання

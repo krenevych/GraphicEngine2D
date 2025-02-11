@@ -6,7 +6,7 @@ class RotationAnimation(Animation):
 
     def __init__(self, end, axis, **kwargs):
         super().__init__(end, **kwargs)
-        self.start_translation, self.start_scale, start_rotation, start_axis, start_angle = Mat4x4.decompose_affine(self.start)
+        self.start_translation,  start_rotation, self.start_scale, start_axis, start_angle = Mat4x4.decompose_affine(self.start)
         self.axis = axis
         self.end_angle = end
         self.start_angle = 0.0

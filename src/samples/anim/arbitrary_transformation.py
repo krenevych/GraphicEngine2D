@@ -1,0 +1,119 @@
+import numpy as np
+
+from src.engine.animation.RotationAnimation import RotationAnimation
+from src.engine.animation.ScaleAnimation import ScaleAnimation
+from src.engine.animation.TranslationAnimation import TranslationAnimation
+from src.engine.animation.TrsTransformationAnimation import TrsTransformationAnimation
+from src.engine.model.SimplePolygon import SimplePolygon
+from src.engine.model.Vector import Vector
+from src.engine.scene.AnimatedScene import AnimatedScene
+from src.math.Mat4x4 import Mat4x4
+from src.math.Vec4 import Vec4, vertex
+
+if __name__ == '__main__':
+    RECT_KEY = "rect"
+    RECT_2_KEY = "rect_2"
+    VECT_KEY = "vector"
+    O = vertex(0, 0, 0)
+    t1 = Vec4(1, 0, 0)
+    t2 = Vec4(1, 1, 0)
+    t3 = Vec4(0, 1, 0)
+    ax = Vec4(0.557, 0.500, 0.663).normalize()
+
+
+    class SimplePolygonScene(AnimatedScene):
+
+        def __init__(self, **kwargs):
+            super().__init__(**kwargs)
+
+            polygon = SimplePolygon(self.plt_axis,
+                                    O,
+                                    O + t1,
+                                    O + t2,
+                                    O + t3,
+                                    edgecolor="red",
+                                    )
+            self[RECT_KEY] = polygon
+            polygon.show_local_frame()
+            polygon.color = "blue"
+            polygon.alpha = 0.2
+
+            polygon2 = SimplePolygon(self.plt_axis,
+                                     O,
+                                     O + t1,
+                                     O + t2,
+                                     O + t3,
+                                     edgecolor="black",
+                                     )
+            self[RECT_2_KEY] = polygon2
+            polygon2.show_local_frame()
+            polygon2.color = "blue"
+            polygon2.alpha = 0.2
+
+            vector = Vector(
+                self.plt_axis,
+                O,
+                O + ax,
+            )
+            self[VECT_KEY] = vector
+            vector.color = "brown"
+
+
+    animated_scene = SimplePolygonScene(
+        image_size=(10, 10),  # розмір зображення: 1 - 100 пікселів
+        coordinate_rect=(-1, -1, -1, 2, 2, 2),  # розмірність системи координатps
+        title="Picture",  # заголовок рисунка
+        grid_show=False,  # чи показувати координатну сітку
+        base_axis_show=False,  # чи показувати базові осі зображення
+        axis_show=True,  # чи показувати осі координат
+        # axis_color="grey",  # колір осей координат
+        axis_line_style="-."  # стиль ліній осей координат
+    ).prepare()
+
+    frames_num = 60
+
+    angle = np.radians(45)
+    translation_vector = Vec4(1, 1, 1)
+    scales = vertex(2, 2, 2)
+
+    T = Mat4x4.translation(translation_vector)
+    R = Mat4x4.rotation(angle, ax)
+    S = Mat4x4.scale(scales)
+    R_final = T * R * S
+
+    animation_rotation = RotationAnimation(
+        end=angle,
+        axis=ax,
+        frames=frames_num,
+        channel=RECT_KEY,
+        apply_geometry_transformation_on_finish=True,
+    )
+
+    animation_trans = TranslationAnimation(
+        translation_vector,
+        frames=frames_num,
+        channel=RECT_KEY,
+        apply_geometry_transformation_on_finish=True,
+    )
+
+    animation_scale = ScaleAnimation(
+        scales,
+        frames=frames_num,
+        channel=RECT_KEY,
+        apply_geometry_transformation_on_finish=True,
+    )
+
+    common_animation = TrsTransformationAnimation(
+        end=R_final,
+        frames=frames_num,
+        interval=5,
+        channel=RECT_2_KEY,
+        apply_geometry_transformation_on_finish=True,
+    )
+
+    animated_scene.add_animation(animation_scale)
+    animated_scene.add_animation(animation_rotation)
+    animated_scene.add_animation(animation_trans)
+
+    animated_scene.add_animation(common_animation)
+    animated_scene.animate()

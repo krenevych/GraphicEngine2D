@@ -38,8 +38,12 @@ if __name__ == '__main__':
             vector.color = "brown"
 
 
+    def frame1(scene):
+        pass
+
+
     animated_scene = SimplePolygonScene(
-        image_size=(5, 5),  # розмір зображення: 1 - 100 пікселів
+        image_size=(10, 10),  # розмір зображення: 1 - 100 пікселів
         coordinate_rect=(-1, -1, -1, 2, 2, 2),  # розмірність системи координатps
         title="Picture",  # заголовок рисунка
         grid_show=False,  # чи показувати координатну сітку
@@ -59,3 +63,7 @@ if __name__ == '__main__':
 
     animated_scene.add_animation(animation)
     animated_scene.animate()
+
+    # animated_scene.add_frames(frame1)
+    # animated_scene.draw()
+    # animated_scene.finalize()

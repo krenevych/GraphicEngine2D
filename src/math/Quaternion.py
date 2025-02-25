@@ -74,6 +74,11 @@ class Quaternion:
             raise ZeroDivisionError("Неможливо нормалізувати нульовий кватерніон")
         self.q = self.q / float(norm_squared)
 
+    def normalized(self):
+        normalized = Quaternion(self)
+        normalized.normalize()
+        return normalized
+
     def inverse(self):
         """Повертає обернений кватерніон."""
         norm_squared = np.dot(self.q, self.q)
@@ -159,3 +164,8 @@ if __name__ == "__main__":
     print("q7:", q7)
     print("||q7||^2 =  ", q7.norm2())
     print("||q7|| =  ", q7.norm())
+
+    q8 = Quaternion(q6)
+    print("q8:", q8)
+    print("q8.normalized:", q8.normalized())
+

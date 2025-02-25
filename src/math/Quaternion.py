@@ -37,6 +37,23 @@ class Quaternion:
             q0 * p3 + q1 * p2 - q2 * p1 + q3 * p0
         )
 
+    def conjugate(self):
+        """Повертає спряжений кватерніон."""
+        return Quaternion(self.q[0], -self.q[1], -self.q[2], -self.q[3])
+
+    @staticmethod
+    def rotate_vector(u, v, theta):
+        """Поворот 3D-вектора u навколо осі v на кут theta за допомогою кватерніона."""
+        theta_rad = np.radians(theta / 2)
+        cos_theta = np.cos(theta_rad)
+        sin_theta = np.sin(theta_rad)
+        v = v / np.linalg.norm(v)  # Нормалізація осі обертання
+        rotation_quaternion = Quaternion(cos_theta, *(v * sin_theta))
+        rotation_conjugate = rotation_quaternion.conjugate()
+        vector_quaternion = Quaternion(0, *u)
+        rotated_vector = rotation_quaternion * vector_quaternion * rotation_conjugate
+        return np.array([rotated_vector.q[1], rotated_vector.q[2], rotated_vector.q[3]])
+
     def __repr__(self):
         """Повертає строкове представлення кватерніона."""
         return f"({self.q[0]} + {self.q[1]}i + {self.q[2]}j + {self.q[3]}k)"
@@ -50,6 +67,12 @@ if __name__ == "__main__":
     q5 = Quaternion([9, 10, 11, 12])  # Ініціалізація зі списку
     q6 = Quaternion(np.array([13, 14, 15, 16]))  # Ініціалізація з numpy
 
+    u = np.array([1, 0, 0])
+    v = np.array([0, 0, 1])
+    theta = 90
+    rotated_u = Quaternion.rotate_vector(u, v, theta)
+    print("Повернутий вектор:", rotated_u)
+
     print("q1:", q1)
     print("q2:", q2)
     print("q3 (копія q1):", q3)
@@ -58,8 +81,4 @@ if __name__ == "__main__":
     print("q6 (ініціалізований з numpy-масиву):", q6)
     print("q1 + q2:", q1 + q2)
     print("q1 * q2:", q1 * q2)
-
-    i = Quaternion(0, 1, 0, 0)
-    j = Quaternion(0, 0, 1, 0)
-    print(f"{i*j=}")
-    print(f"{j*i=}")
+    print("Спряжений q1:", q1.conjugate())

@@ -1,5 +1,4 @@
 import numpy as np
-from fontTools.misc.cython import returns
 from scipy.spatial.transform import Rotation
 
 from src.math.Rotations import rotation_matrix_z, rotation_matrix_x, rotation_matrix_y

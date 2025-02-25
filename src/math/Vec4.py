@@ -113,6 +113,10 @@ class Vec4:
         return Vec4(np.cross(self.data, other))
 
     @property
+    def xyzw(self):
+        return self.data[:]
+
+    @property
     def xy(self):
         return self.data[:2]
 

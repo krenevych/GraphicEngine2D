@@ -1,5 +1,8 @@
 import numpy as np
 
+from src.math.Vec4 import Vec4
+
+
 class Quaternion:
     def __init__(self, *a):
         """
@@ -12,6 +15,8 @@ class Quaternion:
         if len(a) == 1:
             if isinstance(a[0], Quaternion):
                 self.q = np.array(a[0].q)
+            elif isinstance(a[0], Vec4):
+                self.q = np.array(a[0].xyzw)
             elif isinstance(a[0], (list, tuple, np.ndarray)) and len(a[0]) == 4:
                 self.q = np.array(a[0])
             else:
@@ -20,6 +25,22 @@ class Quaternion:
             self.q = np.array(a)
         else:
             self.q = np.array([1, 0, 0, 0])  # Тривіальний кватерніон
+
+    @property
+    def w(self):
+        return self.q[0]
+
+    @property
+    def x(self):
+        return self.q[1]
+
+    @property
+    def y(self):
+        return self.q[2]
+
+    @property
+    def z(self):
+        return self.q[3]
 
     def __add__(self, other):
         """Додавання двох кватерніонів."""
@@ -39,24 +60,77 @@ class Quaternion:
 
     def conjugate(self):
         """Повертає спряжений кватерніон."""
-        return Quaternion(self.q[0], -self.q[1], -self.q[2], -self.q[3])
+        return Quaternion(self.w, -self.x, -self.y, -self.z)
+
+    def norm2(self):
+        return np.dot(self.q, self.q)
+
+    def norm(self):
+        return self.norm2() ** 0.5
+
+    def normalize(self):
+        norm_squared = self.norm()
+        if norm_squared == 0:
+            raise ZeroDivisionError("Неможливо нормалізувати нульовий кватерніон")
+        self.q = self.q / float(norm_squared)
+
+    def inverse(self):
+        """Повертає обернений кватерніон."""
+        norm_squared = np.dot(self.q, self.q)
+        if norm_squared == 0:
+            raise ZeroDivisionError("Неможливо обернути нульовий кватерніон")
+        return Quaternion(self.conjugate().q / norm_squared)
 
     @staticmethod
-    def rotate_vector(u, v, theta):
+    def rotation(axis, theta):
+        """Створює кватерніон для обертання на кут theta навколо заданої осі."""
+        cos_theta = np.cos(theta / 2)
+        sin_theta = np.sin(theta / 2)
+        axis = axis / np.linalg.norm(axis)  # Нормалізація осі
+        return Quaternion(cos_theta, *(axis * sin_theta))
+
+    @staticmethod
+    def rotation_x(theta):
+        """Створює кватерніон для обертання на кут theta навколо заданої осі."""
+        cos_theta = np.cos(theta / 2)
+        sin_theta = np.sin(theta / 2)
+        axis = np.array((1, 0, 0))
+        return Quaternion(cos_theta, *(axis * sin_theta))
+
+    @staticmethod
+    def rotation_y(theta):
+        """Створює кватерніон для обертання на кут theta навколо заданої осі."""
+        cos_theta = np.cos(theta / 2)
+        sin_theta = np.sin(theta / 2)
+        axis = np.array((0, 1, 0))
+        return Quaternion(cos_theta, *(axis * sin_theta))
+
+    @staticmethod
+    def rotation_z(theta):
+        """Створює кватерніон для обертання на кут theta навколо заданої осі."""
+        cos_theta = np.cos(theta / 2)
+        sin_theta = np.sin(theta / 2)
+        axis = np.array((0, 0, 1))
+        return Quaternion(cos_theta, *(axis * sin_theta))
+
+    def rotate_vector(self, u):
         """Поворот 3D-вектора u навколо осі v на кут theta за допомогою кватерніона."""
-        theta_rad = np.radians(theta / 2)
-        cos_theta = np.cos(theta_rad)
-        sin_theta = np.sin(theta_rad)
-        v = v / np.linalg.norm(v)  # Нормалізація осі обертання
-        rotation_quaternion = Quaternion(cos_theta, *(v * sin_theta))
-        rotation_conjugate = rotation_quaternion.conjugate()
-        vector_quaternion = Quaternion(0, *u)
-        rotated_vector = rotation_quaternion * vector_quaternion * rotation_conjugate
-        return np.array([rotated_vector.q[1], rotated_vector.q[2], rotated_vector.q[3]])
+        if isinstance(u, Vec4):
+            vector_quaternion = Quaternion(0, *u.xyz)
+        elif isinstance(u, (tuple, list, np.ndarray)) and len(u) == 3:
+            vector_quaternion = Quaternion(0, *u)
+        else:
+            vector_quaternion = Quaternion()
+
+        rotated = self * vector_quaternion * self.conjugate()
+        return Vec4(rotated.x, rotated.y, rotated.z)
+
+    def __str__(self):
+        """Повертає строкове представлення кватерніона."""
+        return f"({self.w} + {self.x}i + {self.y}j + {self.z}k)"
 
     def __repr__(self):
-        """Повертає строкове представлення кватерніона."""
-        return f"({self.q[0]} + {self.q[1]}i + {self.q[2]}j + {self.q[3]}k)"
+        return str(self)
 
 if __name__ == "__main__":
     # Приклад використання
@@ -67,12 +141,6 @@ if __name__ == "__main__":
     q5 = Quaternion([9, 10, 11, 12])  # Ініціалізація зі списку
     q6 = Quaternion(np.array([13, 14, 15, 16]))  # Ініціалізація з numpy
 
-    u = np.array([1, 0, 0])
-    v = np.array([0, 0, 1])
-    theta = 90
-    rotated_u = Quaternion.rotate_vector(u, v, theta)
-    print("Повернутий вектор:", rotated_u)
-
     print("q1:", q1)
     print("q2:", q2)
     print("q3 (копія q1):", q3)
@@ -82,3 +150,12 @@ if __name__ == "__main__":
     print("q1 + q2:", q1 + q2)
     print("q1 * q2:", q1 * q2)
     print("Спряжений q1:", q1.conjugate())
+
+    q7 = Quaternion(q6)
+    print("||q7||^2 =  ", q7.norm2())
+    print("||q7|| =  ", q7.norm())
+    print()
+    q7.normalize()
+    print("q7:", q7)
+    print("||q7||^2 =  ", q7.norm2())
+    print("||q7|| =  ", q7.norm())

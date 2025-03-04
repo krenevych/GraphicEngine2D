@@ -2,6 +2,7 @@ import numpy as np
 from scipy.spatial.transform import Rotation as R
 from scipy.spatial.transform import Rotation
 
+from src.math.Quaternion import Quaternion
 from src.math.Rotations import rotation_matrix_z, rotation_matrix_x, rotation_matrix_y
 from src.math.Scale import scale_matrix
 from src.math.Translation import translation_matrix
@@ -283,6 +284,8 @@ class Mat4x4:
 
         # 5. Конвертація матриці обертання у кватерніон
         quaternion = R.from_matrix(R_matrix).as_quat()  # Вихід: [x, y, z, w]
+
+        quaternion = Quaternion(quaternion[3], *quaternion[:3])
 
         return translation, scale, quaternion
 

@@ -42,9 +42,17 @@ class Quaternion:
     def z(self):
         return self.q[3]
 
+    @z.setter
+    def z(self, z):
+        self.q[3] = z
+
     def __add__(self, other):
         """Додавання двох кватерніонів."""
         return Quaternion(self.q + other.q)
+
+    def __sub__(self, other):
+        """Додавання двох кватерніонів."""
+        return Quaternion(self.q - other.q)
 
     def __mul__(self, other):
         """Множення двох кватерніонів."""
@@ -96,7 +104,7 @@ class Quaternion:
 
     @staticmethod
     def rotation_x(theta):
-        """Створює кватерніон для обертання на кут theta навколо заданої осі."""
+        """Створює кватерніон для обертання на кут theta навколо осі OX."""
         cos_theta = np.cos(theta / 2)
         sin_theta = np.sin(theta / 2)
         axis = np.array((1, 0, 0))
@@ -104,7 +112,7 @@ class Quaternion:
 
     @staticmethod
     def rotation_y(theta):
-        """Створює кватерніон для обертання на кут theta навколо заданої осі."""
+        """Створює кватерніон для обертання на кут theta навколо осі OY."""
         cos_theta = np.cos(theta / 2)
         sin_theta = np.sin(theta / 2)
         axis = np.array((0, 1, 0))
@@ -112,7 +120,7 @@ class Quaternion:
 
     @staticmethod
     def rotation_z(theta):
-        """Створює кватерніон для обертання на кут theta навколо заданої осі."""
+        """Створює кватерніон для обертання на кут theta навколо осі OZ."""
         cos_theta = np.cos(theta / 2)
         sin_theta = np.sin(theta / 2)
         axis = np.array((0, 0, 1))
@@ -132,7 +140,7 @@ class Quaternion:
 
     def __str__(self):
         """Повертає строкове представлення кватерніона."""
-        return f"({self.w} + {self.x}i + {self.y}j + {self.z}k)"
+        return f"({self.w:0.5f} + {self.x:0.5f}i + {self.y:0.5f}j + {self.z:0.5f}k)"
 
     def __repr__(self):
         return str(self)
@@ -169,3 +177,5 @@ if __name__ == "__main__":
     print("q8:", q8)
     print("q8.normalized:", q8.normalized())
 
+    q8.z = 8888
+    print("q8 (changed):", q8)

@@ -19,7 +19,7 @@ class Animation(ABC):
                  animation_listener=None,  # спостерігач
                  ):
         self.start = Mat4x4.identity()
-        self.end = end
+        self.end_rotation = end
         self.channel = channel
         self.frames = frames
         self.interval = interval

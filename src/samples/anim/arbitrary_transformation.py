@@ -18,7 +18,7 @@ if __name__ == '__main__':
     t1 = Vec4(1, 0, 0)
     t2 = Vec4(1, 1, 0)
     t3 = Vec4(0, 1, 0)
-    ax = Vec4(0.557, 0.500, 0.663).normalize()
+    ax = Vec4(0.557, 0.500, 0.663).normalized()
 
 
     class SimplePolygonScene(AnimatedScene):

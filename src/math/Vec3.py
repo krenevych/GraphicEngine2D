@@ -1,9 +1,7 @@
 import numpy as np
 
-from src.math.Vec3 import Vec3
 
-
-class Vec4:
+class Vec3:
 
     def __init__(self, *data):
         """
@@ -14,29 +12,25 @@ class Vec4:
         - інший об'єкт Vector3.
         """
         if len(data) == 0:
-            self.data = np.zeros(4, dtype=float)
+            self.data = np.zeros(3, dtype=float)
         elif len(data) == 3:
-            self.data = np.array((*data, 0.0), dtype=float)
-        elif len(data) == 4:
-            self.data = np.array(data, dtype=float)
+            self.data = np.array( (data), dtype=float)
         elif len(data) == 1:
             data = data[0]
-            if isinstance(data, Vec4):
+            if isinstance(data, Vec3):
                 self.data = np.copy(data.data)
-            elif isinstance(data, Vec3):
-                self.data = np.array((*data.data, 0.0))
             elif isinstance(data, (list, tuple, np.ndarray)):
                 data = np.array(data)
-                if data.shape == (4,):
-                    self.data = data.astype(float)
-                elif data.shape == (3,):
-                    self.data = np.array((*data.astype(float), 0.0))
+                if data.shape == (3,):
+                    data = data.astype(float)
+                    self.data = np.array(data)
                 else:
                     raise ValueError("Вектор повинен містити рівно 3 елементи.")
             else:
                 raise TypeError("Непідтриманий тип даних для ініціалізації.")
         else:
             raise TypeError("Непідтриманий тип даних для ініціалізації.")
+        pass
 
     def __getitem__(self, index):
         """
@@ -51,7 +45,7 @@ class Vec4:
         self.data[index] = value
 
     def __len__(self):
-        return 4
+        return 3
 
     def __str__(self):
         """
@@ -64,35 +58,34 @@ class Vec4:
 
     def __add__(self, other):
         if isinstance(other, (float, int)):
-            return Vec4(self.x + other, self.y + other, self.z + other, self.w + other)
-        elif isinstance(other, (Vec4, np.ndarray, list, tuple)):
-            return Vec4(self.data + Vec4(other).data)
+            return Vec3(self.x + other, self.y + other, self.z + other)
+        elif isinstance(other, (Vec3, np.ndarray, list, tuple)):
+            return Vec3(self.data + Vec3(other).data)
         else:
-            raise TypeError("Правий операнд має бути число, список або Vec4.")
+            raise TypeError("Правий операнд має бути число, список або Vec3.")
 
     def __sub__(self, other):
         if isinstance(other, (float, int)):
-            return Vec4(self.x - other, self.y - other, self.z - other, self.w - other)
-        elif isinstance(other, (Vec4, np.ndarray, list, tuple)):
-            return self + (-Vec4(other))
+            return Vec3(self.x - other, self.y - other, self.z - other)
+        elif isinstance(other, (Vec3, np.ndarray, list, tuple)):
+            return self + (-Vec3(other))
         else:
-            raise TypeError("Правий операнд має бути число, список або Vec4.")
+            raise TypeError("Правий операнд має бути число, список або Vec3.")
 
     def __mul__(self, other):
         if isinstance(other, (float, int)):
-            return Vec4(self.x * other, self.y * other, self.z * other, self.w * other)
-        elif isinstance(other, (Vec4, np.ndarray, tuple, list)):
-            return np.dot(self.data, Vec4(other).data)
+            return Vec3(self.x * other, self.y * other, self.z * other)
+        elif isinstance(other, (Vec3, np.ndarray, tuple, list)):
+            return np.dot(self.data, Vec3(other).data)
         else:
-            raise TypeError("Правий операнд має бути число, список або Vec4.")
+            raise TypeError("Правий операнд має бути число, список або Vec3.")
 
     def __iter__(self):
         """Оператор *obj працює через цей метод"""
         return iter(self.data)  # Повертаємо ітератор списку
 
     def __neg__(self):
-        return Vec4(-self.data)
-
+        return Vec3(-self.data)
 
     def norm2(self):
         return self * self
@@ -105,10 +98,10 @@ class Vec4:
         if n != 0:
             self.data = self.data / n
         else:
-            return Vec4()
+            return Vec3()
 
     def normalized(self):
-        normalized = Vec4(self)
+        normalized = Vec3(self)
         normalized.normalize()
         return normalized
 
@@ -116,11 +109,11 @@ class Vec4:
         """
         Обчислює векторний добуток з іншим вектором Vector3 або numpy.ndarray з 3 елементів.
         """
-        if not (isinstance(other, (Vec4, np.ndarray, tuple, list)) and len(other) == 4):
-            raise TypeError("Потрібен Vec4 або список із 4 елементів.")
+        if isinstance(other, (Vec3, np.ndarray, tuple, list)) and len(other) == 3:
+            other = Vec3(other)
+            return Vec3(np.cross(self.data, other.data))
 
-        other = Vec4(other)
-        return Vec4(np.cross(self.data, other.data))
+        raise TypeError("Потрібен Vec3 або список із 4 елементів.")
 
     @property
     def x(self):
@@ -147,14 +140,6 @@ class Vec4:
         self.data[2] = value
 
     @property
-    def w(self):
-        return self.data[3]
-
-    @w.setter
-    def w(self, value):
-        self.data[3] = value
-
-    @property
     def xy(self):
         return self.data[:2]
 
@@ -170,32 +155,21 @@ class Vec4:
     def xyz(self):
         return self.data[:3]
 
-    @property
-    def xyzw(self):
-        return self.data[:]
-
-
-def vertex(x=0, y=0, z=0, w=1):
-    return Vec4(x, y, z, w)
 
 
 if __name__ == '__main__':
-    # v1 = Vec4()
+    v1 = Vec3()
     # print(v1)
 
-    # print(v1 + Vec4([1, 2, 3, 4]))
+    v3 = Vec3([1, 2, 3])
+    print(v3)
 
-    # v1 += 4
-    # print(v1 + (1, 2, 4, 5))
-    # print(v1 - (1, 2, 4, 5))
-    #
-    # v = Vec4(2, 2, 1, 4)
-    #
+    v1 += 4
+    print(v1)
+    # print(v1 + (1, 2, 4))
+    # print(v1 - (1, 2, 5))
+
+    # v = Vec3(2, 1, 4)
+    # print(v)
     # print(v.norm2())
     # print(v.norm())
-
-    v3 = Vec3(1, 2, 3)
-    v4 = Vec4(v3)
-
-    print(v3)
-    print(v4)

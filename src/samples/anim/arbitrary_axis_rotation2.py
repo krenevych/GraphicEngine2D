@@ -10,7 +10,7 @@ from src.math.Vec4 import Vec4, vertex
 if __name__ == '__main__':
     RECT_KEY = "rect"
     RECT_KEY1 = "rect1"
-    ax = Vec4(0.557, 0.500, 0.663).normalize()
+    ax = Vec4(0.557, 0.500, 0.663).normalized()
     O = vertex(0, 0, 0)
     t = vertex(0, 1, 0)
     angle_rot = np.radians(23)

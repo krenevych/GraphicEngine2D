@@ -1,7 +1,6 @@
-import numpy as np
-
 from src.engine.animation.Animation import Animation
 from src.math.Mat4x4 import Mat4x4
+from src.math.utils_matrix import decompose_affine
 
 
 class TrsTransformationAnimation(Animation):
@@ -13,8 +12,8 @@ class TrsTransformationAnimation(Animation):
     #     print(end_axis, np.degrees(end_angle))
 
     def current_transformation(self, frame):
-        start_translation, start_rotation, start_scale, start_axis, start_angle = Mat4x4.decompose_affine(self.start)
-        end_translation, end_rotation, end_scale, end_axis, end_angle = Mat4x4.decompose_affine(self.end)
+        start_translation, start_rotation, start_scale, start_axis, start_angle = decompose_affine(self.start)
+        end_translation, end_rotation, end_scale, end_axis, end_angle = decompose_affine(self.end_rotation)
 
         translation = start_translation + (end_translation - start_translation) * (frame / self.frames)
         angle = start_angle + (end_angle - start_angle) * (frame / self.frames)

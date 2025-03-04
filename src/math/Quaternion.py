@@ -1,5 +1,7 @@
 import numpy as np
 
+from src.math.Mat4x4 import Mat4x4
+from src.math.Vec3 import Vec3
 from src.math.Vec4 import Vec4
 
 
@@ -16,7 +18,11 @@ class Quaternion:
             if isinstance(a[0], Quaternion):
                 self.q = np.array(a[0].q)
             elif isinstance(a[0], Vec4):
-                self.q = np.array(a[0].xyzw)
+                v = a[0]
+                self.q = np.array([v.w, v.x, v.y, v.z])
+            elif isinstance(a[0], Vec3):
+                v = a[0]
+                self.q = np.array([0, v.x, v.y, v.z])
             elif isinstance(a[0], (list, tuple, np.ndarray)) and len(a[0]) == 4:
                 self.q = np.array(a[0])
             else:
@@ -30,41 +36,89 @@ class Quaternion:
     def w(self):
         return self.q[0]
 
+    @w.setter
+    def w(self, value):
+        self.q[0] = value
+
     @property
     def x(self):
         return self.q[1]
 
+    @x.setter
+    def x(self, value):
+        self.q[1] = value
+
     @property
     def y(self):
         return self.q[2]
+
+    @y.setter
+    def y(self, value):
+        self.q[2] = value
 
     @property
     def z(self):
         return self.q[3]
 
     @z.setter
-    def z(self, z):
-        self.q[3] = z
+    def z(self, value):
+        self.q[3] = value
+
+    def __getitem__(self, item):
+        return self.q[item]
+
+    def __setitem__(self, key, value):
+        self.q[key] = value
 
     def __add__(self, other):
         """Додавання двох кватерніонів."""
-        return Quaternion(self.q + other.q)
+        if isinstance(other, (float, int)):
+            return Quaternion(self.w + other, self.x + other, self.y + other, self.z + other)
+        elif isinstance(other, (Quaternion, np.ndarray, list, tuple)):
+            return Quaternion(self.q + Quaternion(other).q)
+        else:
+            raise TypeError("Правий операнд має бути число, список або Quaternion.")
 
     def __sub__(self, other):
-        """Додавання двох кватерніонів."""
-        return Quaternion(self.q - other.q)
+        if isinstance(other, (float, int)):
+            return Quaternion(self.x - other, self.y - other, self.z - other, self.w - other)
+        elif isinstance(other, (Quaternion, np.ndarray, list, tuple)):
+            return self + (-Quaternion(other))
+        else:
+            raise TypeError("Правий операнд має бути число, список або Quaternion.")
 
     def __mul__(self, other):
         """Множення двох кватерніонів."""
-        q0, q1, q2, q3 = self.q
-        p0, p1, p2, p3 = other.q
+        if isinstance(other, (float, int)):
+            return Quaternion(self.q * other)
 
-        return Quaternion(
-            q0 * p0 - q1 * p1 - q2 * p2 - q3 * p3,
-            q0 * p1 + q1 * p0 + q2 * p3 - q3 * p2,
-            q0 * p2 - q1 * p3 + q2 * p0 + q3 * p1,
-            q0 * p3 + q1 * p2 - q2 * p1 + q3 * p0
-        )
+        elif isinstance(other, Quaternion):
+            q0, q1, q2, q3 = self.q
+            p0, p1, p2, p3 = other.q
+
+            return Quaternion(
+                q0 * p0 - q1 * p1 - q2 * p2 - q3 * p3,
+                q0 * p1 + q1 * p0 + q2 * p3 - q3 * p2,
+                q0 * p2 - q1 * p3 + q2 * p0 + q3 * p1,
+                q0 * p3 + q1 * p2 - q2 * p1 + q3 * p0
+            )
+
+    def __len__(self):
+        return 4
+
+    def __iter__(self):
+        return iter(self.q)
+
+    def __neg__(self):
+        """Оголошує унарний мінус (-obj)"""
+        return Quaternion(-self.q)  # Повертаємо новий об'єкт з оберненим значенням
+
+    def __str__(self):
+        """Повертає строкове представлення кватерніона."""
+        return f"( {self.w:0.5f} + {self.x:0.5f}i + {self.y:0.5f}j + {self.z:0.5f}k )"
+
+    def __repr__(self):
+        return str(self)
 
     def conjugate(self):
         """Повертає спряжений кватерніон."""
@@ -87,12 +141,40 @@ class Quaternion:
         normalized.normalize()
         return normalized
 
+    def toVec3(self):
+        return Vec3(self.x, self.y, self.z)
+
+    def toVec4(self):
+        return Vec4(self.x, self.y, self.z, self.w)
+
     def inverse(self):
         """Повертає обернений кватерніон."""
         norm_squared = np.dot(self.q, self.q)
         if norm_squared == 0:
             raise ZeroDivisionError("Неможливо обернути нульовий кватерніон")
         return Quaternion(self.conjugate().q / norm_squared)
+
+    def __Q(self):
+        q0, q1, q2, q3 = self.q
+        return Mat4x4(
+            q0, -q1, -q2, -q3,
+            q1, q0, -q3, q2,
+            q2, q3, q0, -q1,
+            q3, -q2, q1, q0
+        )
+
+    def __Q_tilda(self):
+        q0, q1, q2, q3 = self.q
+        return Mat4x4(
+            q0, -q1, -q2, -q3,
+            q1, q0, q3, -q2,
+            q2, -q3, q0, q1,
+            q3, q2, -q1, q0
+        )
+
+    def toRotationMatrix(self):
+        QQ = self.__Q() * self.__Q_tilda().T
+        return Mat4x4(QQ[1:, 1:])
 
     @staticmethod
     def rotation(axis, theta):
@@ -130,6 +212,8 @@ class Quaternion:
         """Поворот 3D-вектора u навколо осі v на кут theta за допомогою кватерніона."""
         if isinstance(u, Vec4):
             vector_quaternion = Quaternion(0, *u.xyz)
+        elif isinstance(u, Vec3):
+            vector_quaternion = Quaternion(u)
         elif isinstance(u, (tuple, list, np.ndarray)) and len(u) == 3:
             vector_quaternion = Quaternion(0, *u)
         else:
@@ -138,12 +222,6 @@ class Quaternion:
         rotated = self * vector_quaternion * self.conjugate()
         return Vec4(rotated.x, rotated.y, rotated.z)
 
-    def __str__(self):
-        """Повертає строкове представлення кватерніона."""
-        return f"({self.w:0.5f} + {self.x:0.5f}i + {self.y:0.5f}j + {self.z:0.5f}k)"
-
-    def __repr__(self):
-        return str(self)
 
 if __name__ == "__main__":
     # Приклад використання
@@ -179,3 +257,72 @@ if __name__ == "__main__":
 
     q8.z = 8888
     print("q8 (changed):", q8)
+
+    q9 = -q8
+    print("q9 (changed):", q9)
+
+    print(*q9)
+
+    q10 = Quaternion(2, 3, 4, 5)
+    q11 = Quaternion(1, 1, 1, 1)
+    q12 = q10 + q11
+
+    print(f"{q12=}")
+
+    q12 -= q10
+    print(f"{q12=}")
+    q12 += q11
+    print(f"{q12=}")
+    print("==========")
+    print(Quaternion(1, 2, 3, 4))
+    print(Quaternion(1, 2, 3, 4) - 2)
+    q13 = Quaternion(1, 2, 3, 4)
+
+    print("==========")
+    q13 += 10
+    print(q13)
+
+    q14 = q13 - (1, 1, 2, 2)
+
+    print(q14)
+
+    print("============ 1111 ========")
+    v15 = Vec3(1, 2, 3)
+    q15 = Quaternion(v15)
+    print(v15)
+    print(q15)
+
+    print("++++++++++++++++")
+    print(q14)
+    print(q14.toVec4())
+    print(q14.toVec3())
+
+    print("=========")
+    q16 = Quaternion(1, 2, 3, 4)
+    q17 = q16 * 2
+    print(q16)
+    print(q17)
+    q16 *= 2
+    print(q16)
+
+    print("===============")
+    q = Quaternion(1, 2, 3, 4)
+    p = Quaternion(3, 5, 1, 2)
+    u = Vec4(3, 5, 1, 2)
+    qp = q * p
+    Q = q.__Q()
+    print(Q)
+    print(Q * u)
+
+    print(f"{q=}   ")
+    print(f"{p=}   ")
+    print(f"{qp=}  ")
+    qp_m = q.__Q() * Vec4(*p)
+    qp_m = Quaternion(*qp_m)
+    print(f"{qp_m=} ")
+    print("============")
+    pq = p * q
+    Q = q.__Q_tilda()
+    Q1p = Q * Vec4(*p)
+    print(f"{p * q=}  ")
+    print(f"{Q1p=}  ")

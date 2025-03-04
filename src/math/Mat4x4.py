@@ -1,11 +1,9 @@
 import numpy as np
-from scipy.spatial.transform import Rotation as R
-from scipy.spatial.transform import Rotation
 
-from src.math.Quaternion import Quaternion
 from src.math.Rotations import rotation_matrix_z, rotation_matrix_x, rotation_matrix_y
 from src.math.Scale import scale_matrix
 from src.math.Translation import translation_matrix
+from src.math.Vec3 import Vec3
 from src.math.Vec4 import Vec4
 
 
@@ -77,6 +75,9 @@ class Mat4x4:
         row, col = indices
         self.data[row, col] = value
 
+    def __repr__(self):
+        return str(self)
+
     def __str__(self):
         """
         Повертає строкове представлення матриці.
@@ -87,7 +88,7 @@ class Mat4x4:
         """
         Реалізує множення матриці на іншу Matrix3x3, numpy.ndarray 3x3, або Vector3.
         """
-        if not isinstance(other, (Mat4x4, np.ndarray, Vec4)):
+        if not isinstance(other, (Mat4x4, np.ndarray, Vec3, Vec4)):
             raise TypeError("Множення можливе лише з іншими об'єктами Matrix4x4 або numpy.ndarray 4x4.")
 
         if isinstance(other, Mat4x4):
@@ -96,6 +97,8 @@ class Mat4x4:
             v = Vec4(np.dot(self.data, other.data))
             # print(v)
             return v
+        elif isinstance(other, Vec3):
+            return self * Vec4(other)
         return Mat4x4(np.dot(self.data, other))
 
     def __add__(self, other):
@@ -107,6 +110,16 @@ class Mat4x4:
         if isinstance(other, Mat4x4):
             return Mat4x4(self.data + other.data)
         return Mat4x4(self.data + other)
+
+    def __sub__(self, other):
+        if not isinstance(other, (Mat4x4, np.ndarray)):
+            raise TypeError("Додавання можливе лише з іншими об'єктами Matrix3x3 або numpy.ndarray 3x3.")
+        if isinstance(other, Mat4x4):
+            return Mat4x4(self.data - other.data)
+        return Mat4x4(self.data - other)
+
+    def __neg__(self):
+        return Mat4x4(-self.data)
 
     def __mul__(self, other):
         """
@@ -122,10 +135,16 @@ class Mat4x4:
             raise ValueError("Матриця не має оберненої (визначник дорівнює нулю).")
         return Mat4x4(np.linalg.inv(self.data))
 
-
     @staticmethod
     def identity():
         return Mat4x4()
+
+    @property
+    def T(self):
+        return self.data.T
+
+    def transpose(self):
+        return self.data.transpose()
 
     @staticmethod
     def rotation_x(angle, is_radians=True):
@@ -190,7 +209,7 @@ class Mat4x4:
 
     @staticmethod
     def translation(tx, ty=None, tz=None):
-        if ty is None and isinstance(tx, Vec4):
+        if ty is None and isinstance(tx, (Vec3, Vec4)):
             m = translation_matrix(*tx.xyz)
         elif ty is None and isinstance(tx, np.ndarray):
             m = translation_matrix(tx[0], tx[1], tx[2])
@@ -202,7 +221,7 @@ class Mat4x4:
     def scale(sx, sy=None, sz=None):
         if sy is None and isinstance(sx, (int, float)):
             m = scale_matrix(sx, sx, sx)
-        elif sy is None and isinstance(sx, (Vec4,)):
+        elif sy is None and isinstance(sx, (Vec4, Vec3)):
             m = scale_matrix(*sx.xyz)
         elif sy is None and isinstance(sx, np.ndarray) and len(sx) == 3:
             m = scale_matrix(sx[0], sx[1], sx[2])
@@ -211,111 +230,6 @@ class Mat4x4:
         else:
             raise ValueError("Недостатньо даних, щоб сформувати матрицю розтягу")
         return Mat4x4(m)
-
-
-    # @staticmethod
-    # def decompose_affine(transition):
-    #
-    #     if not isinstance(transition, (np.ndarray, Mat4x4)):
-    #         raise TypeError("Transformation error.")
-    #
-    #     if isinstance(transition, Mat4x4):
-    #         transition = transition.data
-    #
-    #     if transition.shape != (4, 4):
-    #         raise ValueError("Матриця повинна бути розміром 4x4.")
-    #
-    #     # Виділення переносу
-    #     translation = transition[:3, 3]
-    #
-    #     # Виділення матриці RS
-    #     rs = transition[:3, :3]
-    #
-    #     # Обчислення масштабу
-    #     scale_x = np.linalg.norm(rs[:, 0])
-    #     scale_y = np.linalg.norm(rs[:, 1])
-    #     scale_z = np.linalg.norm(rs[:, 2])
-    #     scales = np.array([scale_x, scale_y, scale_z])
-    #
-    #     # Обчислення повороту
-    #     rotation = rs / scales
-    #
-    #     # # angle = get_rotation_angle(rotation)
-    #     #
-    #     # return translation, rotation, scales
-    #
-    #
-    #     # Полярна декомпозиція для коригування можливих викривлень
-    #     U, _, Vt = np.linalg.svd(rotation)
-    #     R = U @ Vt  # Чиста ортогональна матриця обертання
-    #
-    #     # Отримуємо вісь та кут повороту
-    #     rot = Rotation.from_matrix(R)
-    #     axis, angle = rot.as_rotvec(), np.degrees(rot.magnitude())
-    #
-    #     return T, scale_x, R, axis, angle
-
-    import numpy as np
-    from scipy.spatial.transform import Rotation as R
-
-    @staticmethod
-    def decompose_transformation_matrix(T):
-        """
-        Декомпозиція 4x4 матриці трансформації на компоненти:
-        - Translation (зміщення)
-        - Scale (розтяг)
-        - Rotation (обертання у вигляді кватерніона)
-
-        Вхід: 4x4 матриця T
-        Вихід: translation, scale, quaternion
-        """
-
-        # 1. Витягнення зміщення (Translation)
-        translation = T[:3, 3]
-
-        # 2. Вилучення обертання та масштабування
-        M = T[:3, :3]  # Верхня ліва 3x3 підматриця (містить масштаб та обертання)
-
-        # 3. Обчислення масштабу (Scale)
-        scale = np.linalg.norm(M, axis=0)  # Довжина кожного стовпця
-
-        # 4. Отримання матриці обертання (нормалізація)
-        R_matrix = M / scale  # Усунення впливу масштабу
-
-        # 5. Конвертація матриці обертання у кватерніон
-        quaternion = R.from_matrix(R_matrix).as_quat()  # Вихід: [x, y, z, w]
-
-        quaternion = Quaternion(quaternion[3], *quaternion[:3])
-
-        return translation, scale, quaternion
-
-    @staticmethod
-    def decompose_affine(matrix):
-        """
-        Декомпозиція матриці 4x4 на трансляцію (T), масштабування (S) і обертання (R).
-        """
-        # Виділяємо трансляцію (остній стовпець без останнього елемента)
-        T = matrix[:3, 3]
-
-        # Виділяємо лінійне перетворення (верхня ліва 3x3 підматриця)
-        M = matrix[:3, :3]
-
-        # Отримуємо масштабування (довжини стовпців)
-        S = np.linalg.norm(M, axis=0)
-
-        # Нормалізуємо M, щоб прибрати масштабування і отримати чисте обертання
-        R = M / S  # Ділимо кожен стовпець на відповідне значення масштабування
-
-        # Полярна декомпозиція для коригування можливих викривлень
-        U, _, Vt = np.linalg.svd(R)
-        R = U @ Vt  # Чиста ортогональна матриця обертання
-
-        # Отримуємо вісь та кут повороту
-        rot = Rotation.from_matrix(R)
-        # axis, angle = rot.as_rotvec(), np.degrees(rot.magnitude())
-        axis, angle = rot.as_rotvec(), rot.magnitude()
-
-        return T, R, S, axis, angle
 
 
 # Приклад використання
@@ -389,3 +303,20 @@ if __name__ == "__main__":
 
     b1 = m44 @ x
     print("b1 =", b1)
+
+    print("-===================")
+    m55 = Mat4x4(1, 2, 3, 4,
+                 5, 6, 7, 8,
+                 9, 10, 11, 12,
+                 13, 14, 15, 16
+                 )
+    print(m55)
+    print()
+    print(m55.T)
+    # print()
+    # m55 = m55.transpose()
+    print(m55)
+
+    m1 = Mat4x4()
+
+    print(m55 - m1)

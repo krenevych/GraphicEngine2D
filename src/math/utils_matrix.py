@@ -1,0 +1,107 @@
+import numpy as np
+from scipy.spatial.transform import Rotation
+from scipy.spatial.transform import Rotation as R
+
+from src.math.Quaternion import Quaternion
+
+
+# def decompose_affine(transition):
+#
+#     if not isinstance(transition, (np.ndarray, Mat4x4)):
+#         raise TypeError("Transformation error.")
+#
+#     if isinstance(transition, Mat4x4):
+#         transition = transition.data
+#
+#     if transition.shape != (4, 4):
+#         raise ValueError("Матриця повинна бути розміром 4x4.")
+#
+#     # Виділення переносу
+#     translation = transition[:3, 3]
+#
+#     # Виділення матриці RS
+#     rs = transition[:3, :3]
+#
+#     # Обчислення масштабу
+#     scale_x = np.linalg.norm(rs[:, 0])
+#     scale_y = np.linalg.norm(rs[:, 1])
+#     scale_z = np.linalg.norm(rs[:, 2])
+#     scales = np.array([scale_x, scale_y, scale_z])
+#
+#     # Обчислення повороту
+#     rotation = rs / scales
+#
+#     # # angle = get_rotation_angle(rotation)
+#     #
+#     # return translation, rotation, scales
+#
+#
+#     # Полярна декомпозиція для коригування можливих викривлень
+#     U, _, Vt = np.linalg.svd(rotation)
+#     R = U @ Vt  # Чиста ортогональна матриця обертання
+#
+#     # Отримуємо вісь та кут повороту
+#     rot = Rotation.from_matrix(R)
+#     axis, angle = rot.as_rotvec(), np.degrees(rot.magnitude())
+#
+#     return T, scale_x, R, axis, angle
+
+
+def decompose_translation_scale_quaternion(T):
+    """
+    Декомпозиція 4x4 матриці трансформації на компоненти:
+    - Translation (зміщення)
+    - Scale (розтяг)
+    - Rotation (обертання у вигляді кватерніона)
+
+    Вхід: 4x4 матриця T
+    Вихід: translation, scale, quaternion
+    """
+
+    # 1. Витягнення зміщення (Translation)
+    translation = T[:3, 3]
+
+    # 2. Вилучення обертання та масштабування
+    M = T[:3, :3]  # Верхня ліва 3x3 підматриця (містить масштаб та обертання)
+
+    # 3. Обчислення масштабу (Scale)
+    scale = np.linalg.norm(M, axis=0)  # Довжина кожного стовпця
+
+    # 4. Отримання матриці обертання (нормалізація)
+    R_matrix = M / scale  # Усунення впливу масштабу
+
+    # 5. Конвертація матриці обертання у кватерніон
+    quaternion = R.from_matrix(R_matrix).as_quat()  # Вихід: [x, y, z, w]
+
+    quaternion = Quaternion(quaternion[3], *quaternion[:3])
+
+    return translation, scale, quaternion
+
+
+def decompose_affine(matrix):
+    """
+    Декомпозиція матриці 4x4 на трансляцію (T), масштабування (S) і обертання (R).
+    """
+    # Виділяємо трансляцію (остній стовпець без останнього елемента)
+    T = matrix[:3, 3]
+
+    # Виділяємо лінійне перетворення (верхня ліва 3x3 підматриця)
+    M = matrix[:3, :3]
+
+    # Отримуємо масштабування (довжини стовпців)
+    S = np.linalg.norm(M, axis=0)
+
+    # Нормалізуємо M, щоб прибрати масштабування і отримати чисте обертання
+    R = M / S  # Ділимо кожен стовпець на відповідне значення масштабування
+
+    # Полярна декомпозиція для коригування можливих викривлень
+    U, _, Vt = np.linalg.svd(R)
+    R = U @ Vt  # Чиста ортогональна матриця обертання
+
+    # Отримуємо вісь та кут повороту
+    rot = Rotation.from_matrix(R)
+    # axis, angle = rot.as_rotvec(), np.degrees(rot.magnitude())
+    axis, angle = rot.as_rotvec(), rot.magnitude()
+
+    return T, R, S, axis, angle
+

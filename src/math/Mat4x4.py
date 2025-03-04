@@ -1,4 +1,5 @@
 import numpy as np
+from scipy.spatial.transform import Rotation as R
 from scipy.spatial.transform import Rotation
 
 from src.math.Rotations import rotation_matrix_z, rotation_matrix_x, rotation_matrix_y
@@ -252,6 +253,38 @@ class Mat4x4:
     #     axis, angle = rot.as_rotvec(), np.degrees(rot.magnitude())
     #
     #     return T, scale_x, R, axis, angle
+
+    import numpy as np
+    from scipy.spatial.transform import Rotation as R
+
+    @staticmethod
+    def decompose_transformation_matrix(T):
+        """
+        Декомпозиція 4x4 матриці трансформації на компоненти:
+        - Translation (зміщення)
+        - Scale (розтяг)
+        - Rotation (обертання у вигляді кватерніона)
+
+        Вхід: 4x4 матриця T
+        Вихід: translation, scale, quaternion
+        """
+
+        # 1. Витягнення зміщення (Translation)
+        translation = T[:3, 3]
+
+        # 2. Вилучення обертання та масштабування
+        M = T[:3, :3]  # Верхня ліва 3x3 підматриця (містить масштаб та обертання)
+
+        # 3. Обчислення масштабу (Scale)
+        scale = np.linalg.norm(M, axis=0)  # Довжина кожного стовпця
+
+        # 4. Отримання матриці обертання (нормалізація)
+        R_matrix = M / scale  # Усунення впливу масштабу
+
+        # 5. Конвертація матриці обертання у кватерніон
+        quaternion = R.from_matrix(R_matrix).as_quat()  # Вихід: [x, y, z, w]
+
+        return translation, scale, quaternion
 
     @staticmethod
     def decompose_affine(matrix):

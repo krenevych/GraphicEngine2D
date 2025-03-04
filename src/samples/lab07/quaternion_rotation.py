@@ -1,6 +1,8 @@
 import numpy as np
 
+from src.engine.animation.QuaternionAnimation import QuaternionAnimation
 from src.engine.animation.RotationAnimation import RotationAnimation
+from src.engine.animation.TrsTransformationAnimation import TrsTransformationAnimation
 from src.engine.model.SimplePolygon import SimplePolygon
 from src.engine.scene.AnimatedScene import AnimatedScene
 from src.math.Mat4x4 import Mat4x4
@@ -37,7 +39,7 @@ if __name__ == '__main__':
     interval = 5
 
     animation_x = RotationAnimation(  # Rx
-        end=np.radians(angle_x),
+        end=angle_x,
         axis=OX,
         frames=frames_num,
         interval=interval,
@@ -48,10 +50,10 @@ if __name__ == '__main__':
     OY1 = Rx * OY
     OZ1 = Rx * OZ
 
-    Ry1 = Mat4x4.rotation(angle_y, OY1, False)
+    Ry1 = Mat4x4.rotation(angle_y, OY1)
 
     animation_y = RotationAnimation(  # Ry1
-        end=np.radians(angle_y),
+        end=angle_y,
         axis=OY1,
         frames=frames_num,
         interval=interval,
@@ -59,12 +61,12 @@ if __name__ == '__main__':
         apply_geometry_transformation_on_finish=True,
     )
 
-    OZ2 = Mat4x4.rotation(angle_y, OY1, False) * OZ1
+    OZ2 = Mat4x4.rotation(angle_y, OY1) * OZ1
 
-    Rz2 = Mat4x4.rotation(angle_z, OZ2, False)
+    Rz2 = Mat4x4.rotation(angle_z, OZ2)
 
     animation_z = RotationAnimation(
-        end=np.radians(angle_z),
+        end=angle_z,
         axis=OZ2,
         frames=frames_num,
         interval=interval,
@@ -72,6 +74,21 @@ if __name__ == '__main__':
         apply_geometry_transformation_on_finish=True,
     )
 
+    animation = TrsTransformationAnimation(
+        end=R_final,
+        frames=frames_num,
+        interval=5,
+        channel=RECT_KEY,
+        apply_geometry_transformation_on_finish=True,
+    )
+
+    animation_quat = QuaternionAnimation(
+        end=q_final,
+        frames=frames_num,
+        interval=5,
+        channel=RECT_KEY,
+        apply_geometry_transformation_on_finish=True,
+    )
 
     class SimplePolygonScene(AnimatedScene):
 
@@ -110,9 +127,11 @@ if __name__ == '__main__':
         axis_line_style="-."  # стиль ліній осей координат
     ).prepare()
 
-    animated_scene.add_animation(animation_x)
-    animated_scene.add_animation(animation_y)
-    animated_scene.add_animation(animation_z)
+    # animated_scene.add_animation(animation_x)
+    # animated_scene.add_animation(animation_y)
+    # animated_scene.add_animation(animation_z)
 
+    # animated_scene.add_animation(animation)
+    animated_scene.add_animation(animation_quat)
 
     animated_scene.animate()

@@ -47,7 +47,7 @@ from src.math.Quaternion import Quaternion
 #     return T, scale_x, R, axis, angle
 
 
-def decompose_translation_scale_quaternion(T):
+def decompose_translation_quaternion_scale(T):
     """
     Декомпозиція 4x4 матриці трансформації на компоненти:
     - Translation (зміщення)
@@ -75,7 +75,7 @@ def decompose_translation_scale_quaternion(T):
 
     quaternion = Quaternion(quaternion[3], *quaternion[:3])
 
-    return translation, scale, quaternion
+    return translation, quaternion, scale
 
 
 def decompose_affine(matrix):

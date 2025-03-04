@@ -3,7 +3,7 @@ import numpy as np
 from src.math.Mat4x4 import Mat4x4
 from src.math.Quaternion import Quaternion
 from src.math.Vec3 import Vec3
-from src.math.utils_matrix import decompose_translation_scale_quaternion
+from src.math.utils_matrix import decompose_translation_quaternion_scale
 
 if __name__ == '__main__':
     angle_x = np.radians(30)
@@ -22,7 +22,7 @@ if __name__ == '__main__':
     q = qz * qy * qx
     Rq = q.toRotationMatrix()
 
-    T, S, quat_from_R = decompose_translation_scale_quaternion(R)
+    T, S, quat_from_R = decompose_translation_quaternion_scale(R)
     print(f"{q=}")
     print(f"{quat_from_R=}")
     print(f"{quat_from_R - q=}")

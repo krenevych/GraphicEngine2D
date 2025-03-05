@@ -2,6 +2,7 @@ import numpy as np
 
 from src.math.Mat4x4 import Mat4x4
 from src.math.Quaternion import Quaternion
+from src.math.utils_matrix import is_orthogonal
 
 
 def euler_xyz_to_quaternion(phi, theta, psi):
@@ -39,7 +40,7 @@ def slerp(q0: Quaternion, q1: Quaternion, t):
 
     # Якщо кватерніони майже однакові, використовуємо лінійну інтерполяцію
     if dot > 0.9995:
-        result = q0 * (1 - t) +  q1 * t
+        result = q0 * (1 - t) + q1 * t
         return result.normalized()  # Нормалізація
 
     # Обчислення кута між кватерніонами
@@ -54,9 +55,61 @@ def slerp(q0: Quaternion, q1: Quaternion, t):
     return q0 * s0 + q1 * s1
 
 
+def rotation_matrix_to_quaternion(r):
+    """
+    Конвертує матрицю обертання у кватерніон Quaternion = (q0, q1, q2, q3).
+
+    Параметри:
+    r - ортонормована матриця обертання
+
+    Повертає:
+    Quaternion - кватерніон у форматі (q0, q1, q2, q3).
+    """
+
+    if not is_orthogonal(r):
+        raise ValueError("Матриця обертання не є ортогональною!")
+
+    r = Mat4x4(r)
+
+    # Обчислення сліду матриці
+    trace = r[0, 0] + r[1, 1] + r[2, 2]
+
+    print(f"trace={trace}, diag=({r[0, 0]}, {r[1, 1]}, {r[2, 2]})")
+    if trace > 0:
+        print(f"Case 0")
+        q0 = 1 / 2.0 * np.sqrt(1.0 + trace)
+        q1 = 1 / (4.0 * q0) * (r[2, 1] - r[1, 2])
+        q2 = 1 / (4.0 * q0) * (r[0, 2] - r[2, 0])
+        q3 = 1 / (4.0 * q0) * (r[1, 0] - r[0, 1])
+    elif (r[0, 0] > r[1, 1]) and (r[0, 0] > r[2, 2]):
+        print(f"Case 1")
+        q1 = 1 / 2.0 * np.sqrt(1.0 + r[0, 0] - r[1, 1] - r[2, 2])
+        q0 = 1 / (4.0 * q1) * (r[2, 1] - r[1, 2])
+        q2 = 1 / (4.0 * q1) * (r[0, 1] + r[1, 0])
+        q3 = 1 / (4.0 * q1) * (r[0, 2] + r[2, 0])
+    elif r[1, 1] > r[2, 2]:
+        print(f"Case 2")
+        q2 = 1 / 2.0 * np.sqrt(1.0 - r[0, 0] + r[1, 1] - r[2, 2])
+        q0 = 1 / (4.0 * q2) * (r[0, 2] - r[2, 0])
+        q1 = 1 / (4.0 * q2) * (r[0, 1] + r[1, 0])
+        q3 = 1 / (4.0 * q2) * (r[1, 2] + r[2, 1])
+    else:
+        print(f"Case 3")
+        q3 = 1 / 2.0 * np.sqrt(1.0 + r[2, 2] - r[0, 0] - r[1, 1])
+        q0 = 1 / (4.0 * q3) * (r[1, 0] - r[0, 1])
+        q1 = 1 / (4.0 * q3) * (r[0, 2] + r[2, 0])
+        q2 = 1 / (4.0 * q3) * (r[1, 2] + r[2, 1])
+
+    return Quaternion(q0, q1, q2, q3)
+
 
 if __name__ == '__main__':
     phi, theta, psi = np.radians(32), np.radians(45), np.radians(44)
+
+    Rx = Mat4x4.rotation_x(phi)
+    Ry = Mat4x4.rotation_y(theta)
+    Rz = Mat4x4.rotation_z(psi)
+    R_final = Rx * Ry * Rz
 
     qi = Quaternion.rotation_x(phi)
     qj = Quaternion.rotation_y(theta)
@@ -72,7 +125,6 @@ if __name__ == '__main__':
     # w = q.rotate_vector(u)
     # print(w)
 
-
     q0 = Quaternion.rotation_y(phi)
     q1 = Quaternion.rotation_y(2 * phi)
     print("======================")
@@ -80,9 +132,15 @@ if __name__ == '__main__':
     print(q1)
     print("======================")
 
-
     T = 10
     for i in range(T + 1):
-        qt = slerp(q0, q1, i/T)
+        qt = slerp(q0, q1, i / T)
         # print(qt, qt.norm())
         print(qt)
+
+    print("======== Rotation to quaternion ======\n\n")
+    print(q)
+    print(q_euler)
+
+    q_from_matrix = rotation_matrix_to_quaternion(R_final)
+    print(q_from_matrix)

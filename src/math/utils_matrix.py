@@ -2,8 +2,28 @@ import numpy as np
 from scipy.spatial.transform import Rotation
 from scipy.spatial.transform import Rotation as R
 
+from src.math.Mat4x4 import Mat4x4
 from src.math.Quaternion import Quaternion
 
+def is_orthogonal(matrix, tol=1e-6):
+    """
+    Перевіряє, чи є матриця ортогональною (R^T * R = I).
+    """
+    matrix = Mat4x4(matrix)
+    identity = Mat4x4()
+
+    mul_mat = matrix.T * matrix
+    return np.allclose(mul_mat.data, identity.data, atol=tol)
+
+def is_same_matrix(matrix1, matrix2, tol=1e-6):
+    """
+    Перевіряє чи дві матриці однакові
+    """
+    matrix1 = Mat4x4(matrix1)
+    matrix2 = Mat4x4(matrix2)
+    mat_dif = matrix1 - matrix2
+
+    return mat_dif.norm() < tol
 
 # def decompose_affine(transition):
 #

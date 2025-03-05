@@ -135,16 +135,19 @@ class Mat4x4:
             raise ValueError("Матриця не має оберненої (визначник дорівнює нулю).")
         return Mat4x4(np.linalg.inv(self.data))
 
+    def norm(self):
+        return  np.linalg.norm(self.data)
+
     @staticmethod
     def identity():
         return Mat4x4()
 
     @property
     def T(self):
-        return self.data.T
+        return Mat4x4(self.data.T)
 
     def transpose(self):
-        return self.data.transpose()
+        return Mat4x4(self.data.transpose())
 
     @staticmethod
     def rotation_x(angle, is_radians=True):

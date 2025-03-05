@@ -75,26 +75,26 @@ def rotation_matrix_to_quaternion(r):
     trace = r[0, 0] + r[1, 1] + r[2, 2]
 
     print(f"trace={trace}, diag=({r[0, 0]}, {r[1, 1]}, {r[2, 2]})")
-    if trace > 0:
-        print(f"Case 0")
+    if trace >= 0:
+        # print(f"Case 0")
         q0 = 1 / 2.0 * np.sqrt(1.0 + trace)
         q1 = 1 / (4.0 * q0) * (r[2, 1] - r[1, 2])
         q2 = 1 / (4.0 * q0) * (r[0, 2] - r[2, 0])
         q3 = 1 / (4.0 * q0) * (r[1, 0] - r[0, 1])
     elif (r[0, 0] > r[1, 1]) and (r[0, 0] > r[2, 2]):
-        print(f"Case 1")
+        # print(f"Case 1")
         q1 = 1 / 2.0 * np.sqrt(1.0 + r[0, 0] - r[1, 1] - r[2, 2])
         q0 = 1 / (4.0 * q1) * (r[2, 1] - r[1, 2])
         q2 = 1 / (4.0 * q1) * (r[0, 1] + r[1, 0])
         q3 = 1 / (4.0 * q1) * (r[0, 2] + r[2, 0])
     elif r[1, 1] > r[2, 2]:
-        print(f"Case 2")
+        # print(f"Case 2")
         q2 = 1 / 2.0 * np.sqrt(1.0 - r[0, 0] + r[1, 1] - r[2, 2])
         q0 = 1 / (4.0 * q2) * (r[0, 2] - r[2, 0])
         q1 = 1 / (4.0 * q2) * (r[0, 1] + r[1, 0])
         q3 = 1 / (4.0 * q2) * (r[1, 2] + r[2, 1])
     else:
-        print(f"Case 3")
+        # print(f"Case 3")
         q3 = 1 / 2.0 * np.sqrt(1.0 + r[2, 2] - r[0, 0] - r[1, 1])
         q0 = 1 / (4.0 * q3) * (r[1, 0] - r[0, 1])
         q1 = 1 / (4.0 * q3) * (r[0, 2] + r[2, 0])

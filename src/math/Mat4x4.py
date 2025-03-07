@@ -211,6 +211,31 @@ class Mat4x4:
         return Ry_1 * Rx_1 * Rz * Rx * Ry
 
     @staticmethod
+    def rotation_euler(phi, theta, psi, configuration="xyz"):
+        configuration = configuration.upper()
+        if configuration == "XYZ":
+            return Mat4x4.rotation_x(phi) * Mat4x4.rotation_y(theta) * Mat4x4.rotation_z(psi)
+        elif configuration == "ZXZ":
+            return Mat4x4.rotation_z(phi) * Mat4x4.rotation_x(theta) * Mat4x4.rotation_z(psi)
+        else:
+            raise ValueError("Unknown Euler configuration")
+
+    def toEuler(self, configuration="XYZ"):
+        configuration = configuration.upper()
+        if configuration == "XYZ":
+            return self.toEulerXyz()
+        elif configuration == "ZXZ":
+            return self.toEulerZxz()
+        else:
+            raise ValueError("Unknown Euler configuration")
+
+    def toEulerZxz(self):
+        return None # TODO:
+
+    def toEulerXyz(self):
+        return 0, 0, 0  # TODO:
+
+    @staticmethod
     def translation(tx, ty=None, tz=None):
         if ty is None and isinstance(tx, (Vec3, Vec4)):
             m = translation_matrix(*tx.xyz)

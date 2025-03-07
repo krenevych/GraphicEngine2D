@@ -18,6 +18,9 @@ def euler_xyz_to_quaternion(phi, theta, psi):
         cos_phi * cos_theta * sin_psi + sin_phi * sin_theta * cos_psi
     )
 
+def quaternion_to_euler_xyz(quat):
+    return phi, theta, psi  # TODO:
+
 
 def slerp(q0: Quaternion, q1: Quaternion, t):
     """

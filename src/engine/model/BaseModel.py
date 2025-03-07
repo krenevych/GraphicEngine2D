@@ -1,4 +1,5 @@
 from abc import abstractmethod, ABCMeta
+from warnings import deprecated
 
 import numpy as np
 
@@ -37,12 +38,17 @@ class BaseModel(metaclass=ABCMeta):
 
         return geometry
 
+    @deprecated
     def set_transformation(self, transformation):
         self._transformation = transformation
 
     @property
     def transformation(self):
         return self._transformation
+
+    @transformation.setter
+    def transformation(self, transformation):
+        self._transformation = transformation
 
     @property
     def transformed_geometry(self):

@@ -223,17 +223,26 @@ class Mat4x4:
     def toEuler(self, configuration="XYZ"):
         configuration = configuration.upper()
         if configuration == "XYZ":
-            return self.toEulerXyz()
+            return Mat4x4.toEulerXYZ(self)
         elif configuration == "ZXZ":
-            return self.toEulerZxz()
+            print("ZXZ")
+            return Mat4x4.toEulerZXZ(self)
         else:
             raise ValueError("Unknown Euler configuration")
 
-    def toEulerZxz(self):
-        return None # TODO:
+    @staticmethod
+    def toEulerXYZ(r):
+        phi = np.arctan2(-r[1, 2], r[2, 2])
+        theta = np.arcsin(r[0, 2])
+        psi = np.arctan2(-r[0, 1], r[0, 0])
+        return float(phi), float(theta), float(psi)
 
-    def toEulerXyz(self):
-        return 0, 0, 0  # TODO:
+    @staticmethod
+    def toEulerZXZ(r):
+        phi = np.arctan2(r[0, 2], -r[1, 2])
+        theta = np.arccos(r[2, 2])
+        psi = np.arctan2(r[2, 0], r[2, 1])
+        return float(phi), float(theta), float(psi)
 
     @staticmethod
     def translation(tx, ty=None, tz=None):

@@ -11,72 +11,36 @@ class Cube(Model):
 
         alpha = 0.3
         color = "cyan"
+        edgze_color = "blue"
 
-        self.polygons.append(
-            SimplePolygon(self.plt_axis,
-                          0, 0, 0,
-                          1, 0, 0,
-                          1, 1, 0,
-                          0, 1, 0,
-                          color= color,
-                          edgecolor="red",
-                          alpha=alpha,
+        # вершини куба
+        vertices = [
+            [0, 0, 0],
+            [1, 0, 0],
+            [1, 1, 0],
+            [0, 1, 0],
+            [0, 0, 1],
+            [1, 0, 1],
+            [1, 1, 1],
+            [0, 1, 1]
+        ]
 
-                          ))
+        # Грані куба
+        faces = [[vertices[j] for j in [0, 1, 2, 3]],
+                 [vertices[j] for j in [4, 5, 6, 7]],
+                 [vertices[j] for j in [0, 1, 5, 4]],
+                 [vertices[j] for j in [2, 3, 7, 6]],
+                 [vertices[j] for j in [1, 2, 6, 5]],
+                 [vertices[j] for j in [4, 7, 3, 0]]]
 
-        self.polygons.append(
-            SimplePolygon(self.plt_axis,
-                          0, 0, 1,
-                          1, 0, 1,
-                          1, 1, 1,
-                          0, 1, 1,
-                          color=color,
-                          edgecolor="red",
-                          alpha=alpha,
-                          ))
-
-        self.polygons.append(
-            SimplePolygon(self.plt_axis,
-                          0, 0, 0,
-                          0, 0, 1,
-                          0, 1, 1,
-                          0, 1, 0,
-                          color=color,
-                          edgecolor="blue",
-                          alpha=alpha,
-                          ))
-
-        self.polygons.append(
-            SimplePolygon(self.plt_axis,
-                          1, 0, 0,
-                          1, 0, 1,
-                          1, 1, 1,
-                          1, 1, 0,
-                          color=color,
-                          edgecolor="blue",
-                          alpha=alpha,
-                          ))
-
-        #   нижня та верхня грані куба
-        self.polygons.append(
-            SimplePolygon(self.plt_axis,
-                          0, 0, 0,
-                          0, 0, 1,
-                          1, 0, 1,
-                          1, 0, 0,
-                          edgecolor="green",
-                          alpha=alpha,
-                          ))
-
-        self.polygons.append(
-            SimplePolygon(self.plt_axis,
-                          0, 1, 0,
-                          0, 1, 1,
-                          1, 1, 1,
-                          1, 1, 0,
-                          edgecolor="green",
-                          alpha=alpha,
-                          ))
+        for i, face in enumerate(faces):
+            self.polygons.append(
+                SimplePolygon(self.plt_axis,
+                              *face,
+                              color=color,
+                              edgecolor=edgze_color,
+                              alpha=alpha,
+                              ))
 
     def draw_model(self):
         for polygon in self.polygons:

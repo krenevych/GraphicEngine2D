@@ -1,5 +1,6 @@
 import numpy as np
 
+from src.base.broken_line import draw_broken_line
 from src.base.poligon import draw_poly
 from src.engine.model.Model import Model
 from src.engine.scene.Scene import Scene
@@ -8,12 +9,14 @@ from src.math.Mat4x4 import Mat4x4
 
 class SimplePolygon(Model):
 
-    def __init__(self, plt_axis, *vertices, color="grey", edgecolor="black", line_style = "-", alpha = 1.0):
+    def __init__(self, plt_axis, *vertices, color="grey", edgecolor="black",
+                 line_style = "-", line_width=1.0, alpha = 1.0):
         super().__init__(plt_axis, *vertices)
 
         self.color = color
         self.edgecolor = edgecolor
         self.line_style = line_style
+        self.line_width = line_width
         self.alpha = alpha
 
     def draw_model(self):
@@ -26,6 +29,14 @@ class SimplePolygon(Model):
             alpha=self.alpha,
             edgecolor=self.edgecolor,
             facecolor=self.color
+        )
+
+        draw_broken_line(
+            self.plt_axis,
+            ps,
+            color=self.edgecolor,
+            linewidth=self.line_width,
+            linestyle=self.line_style,
         )
 
 

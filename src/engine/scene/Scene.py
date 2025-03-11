@@ -12,7 +12,7 @@ matplotlib.use("TkAgg")
 class Scene(ABC):
 
     def __init__(self,
-                 image_size=(5, 5),
+                 image_size=(8, 8),
                  coordinate_rect=(-1, -1, -1, 1, 1, 1),
                  title="Picture",
                  base_axis_show=False,

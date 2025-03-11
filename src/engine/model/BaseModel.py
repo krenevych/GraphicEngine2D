@@ -1,10 +1,11 @@
 from abc import abstractmethod, ABCMeta
-from warnings import deprecated
 
 import numpy as np
 
 from src.math.Mat4x4 import Mat4x4
+from src.math.Quaternion import Quaternion
 from src.math.Vec4 import Vec4, vertex
+from src.math.utils_matrix import decompose_translation_quaternion_scale, is_orthogonal
 
 
 class BaseModel(metaclass=ABCMeta):
@@ -51,6 +52,53 @@ class BaseModel(metaclass=ABCMeta):
         self._transformation = transformation
 
     @property
+    def rotation(self):
+        translation, quaternion, scale = decompose_translation_quaternion_scale(self._transformation)
+        return quaternion
+
+    @rotation.setter
+    def rotation(self, rotation):
+        translation, quaternion, scale = decompose_translation_quaternion_scale(self._transformation)
+        T = Mat4x4.translation(translation)
+        S = Mat4x4.scale(scale)
+        if isinstance(rotation, Quaternion):
+            R =  rotation.toRotationMatrix()
+        elif isinstance(rotation, Mat4x4):
+            assert is_orthogonal(rotation), "Matrix of rotarion has to be orthogonal"
+            R = rotation
+        else:
+            raise ValueError("Parameter 'rotation' isn't actually rotation")
+
+        self.transformation = T * R * S
+
+    @property
+    def scale(self):
+        translation, quaternion, scale = decompose_translation_quaternion_scale(self._transformation)
+        return scale
+
+    @scale.setter
+    def scale(self, scale):
+        translation, quaternion, curr_scale = decompose_translation_quaternion_scale(self._transformation)
+        T = Mat4x4.translation(translation)
+        S = Mat4x4.scale(scale)
+        R = quaternion.toRotationMatrix()
+        self.transformation = T * R * S
+
+    @property
+    def translation(self):
+        translation, quaternion, scale = decompose_translation_quaternion_scale(self._transformation)
+        return scale
+
+    @translation.setter
+    def translation(self, translation):
+        curr_translation, quaternion, scale = decompose_translation_quaternion_scale(self._transformation)
+        T = Mat4x4.translation(translation)
+        S = Mat4x4.scale(scale)
+        R = quaternion.toRotationMatrix()
+        self.transformation = T * R * S
+
+
+    @property
     def transformed_geometry(self):
         p = Mat4x4.translation(self._pivot)
         p_inv = p.inverse()
@@ -61,7 +109,7 @@ class BaseModel(metaclass=ABCMeta):
 
     def apply_transformation_to_geometry(self):
         self._geometry = self.transformed_geometry
-        self.set_transformation(Mat4x4.identity())
+        self.transformation = Mat4x4()
 
     def pivot(self, tx, ty=None, tz=None):
         if ty is None and isinstance(tx, Vec4):

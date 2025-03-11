@@ -183,7 +183,15 @@ class Quaternion:
         """Створює кватерніон для обертання на кут theta навколо заданої осі."""
         cos_theta = np.cos(theta / 2)
         sin_theta = np.sin(theta / 2)
-        axis = axis / np.linalg.norm(axis)  # Нормалізація осі
+        if isinstance(axis, Vec4):
+            axis = Vec3(axis.xyz).normalized()
+        elif isinstance(axis, (tuple, list, np.ndarray)) and len(axis) == 3:
+            axis = Vec3(*axis).normalized()
+        elif isinstance(axis, Vec4):
+            axis.normalize()
+        else:
+            raise TypeError("Не правильна вісь")
+
         return Quaternion(cos_theta, *(axis * sin_theta))
 
     @staticmethod

@@ -5,13 +5,16 @@ from src.engine.scene.Scene import Scene
 
 class Cube(Model):
 
-    def __init__(self, plt_axis):
+    def __init__(self,
+                 plt_axis,
+                 alpha=1.0,
+                 color="cyan",
+                 edge_color="blue",
+                 line_style="-",
+                 line_width=1.0,
+                 ):
         super().__init__(plt_axis)
         self.polygons = []
-
-        alpha = 0.3
-        color = "cyan"
-        edgze_color = "blue"
 
         # вершини куба
         vertices = [
@@ -38,14 +41,22 @@ class Cube(Model):
                 SimplePolygon(self.plt_axis,
                               *face,
                               color=color,
-                              edgecolor=edgze_color,
+                              edgecolor=edge_color,
                               alpha=alpha,
+                              line_width=line_width,
+                              line_style=line_style,
                               ))
 
     def draw_model(self):
         for polygon in self.polygons:
             polygon.transformation = self.transformation
             polygon.draw()
+
+    def apply_transformation_to_geometry(self):
+        super().apply_transformation_to_geometry()
+
+        for polygon in self.polygons:
+            polygon.apply_transformation_to_geometry()
 
 
 if __name__ == '__main__':
@@ -56,7 +67,7 @@ if __name__ == '__main__':
 
         def __init__(self, **kwargs):
             super().__init__(**kwargs)
-            cube = Cube(self.plt_axis)
+            cube = Cube(self.plt_axis, alpha=0.1)
             self[CUBE_KEY] = cube
             cube.show_pivot()
             cube.show_local_frame()
@@ -64,16 +75,10 @@ if __name__ == '__main__':
 
     ############## Frame 1 ##################
     def frame1(scene: Scene):
-        cube: SimplePolygon = scene[CUBE_KEY]
+        cube: Cube = scene[CUBE_KEY]
 
 
     simple_scene = CubeScene(
-        image_size=(8, 8),  # розмір зображення: 1 - 100 пікселів
-        coordinate_rect=(-1, -1, -1, 1, 1, 1),  # розмірність системи координат
-        title="Picture",  # заголовок рисунка
-        grid_show=False,  # чи показувати координатну сітку
-        base_axis_show=False,  # чи показувати базові осі зображення
-        axis_show=True,  # чи показувати осі координат
         axis_color="grey",  # колір осей координат
         axis_line_style="-."  # стиль ліній осей координат
     ).prepare()

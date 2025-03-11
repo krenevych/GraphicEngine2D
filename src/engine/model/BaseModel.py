@@ -38,7 +38,7 @@ class BaseModel(metaclass=ABCMeta):
 
         return geometry
 
-    @deprecated
+    # @deprecated
     def set_transformation(self, transformation):
         self._transformation = transformation
 

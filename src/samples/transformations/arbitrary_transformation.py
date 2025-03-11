@@ -11,7 +11,6 @@ if __name__ == '__main__':
     t3 = Vec4(0, 1, 0)
 
 
-
     class SimplePolygonScene(AnimatedScene):
 
         def __init__(self, **kwargs):
@@ -29,7 +28,6 @@ if __name__ == '__main__':
             print(polygon.transformed_geometry)
 
 
-
     animated_scene = SimplePolygonScene(
         image_size=(10, 10),  # розмір зображення: 1 - 100 пікселів
         coordinate_rect=(-1, -1, -1, 2, 2, 2),  # розмірність системи координатps
@@ -43,9 +41,11 @@ if __name__ == '__main__':
 
     T = Mat4x4.translation(1, 1, 0)
 
+
     def frame1(scene):
         obj: SimplePolygon = scene[RECT_KEY]
         pass
+
 
     def frame2(scene):
         obj: SimplePolygon = scene[RECT_KEY]

@@ -8,12 +8,13 @@ from src.math.Mat4x4 import Mat4x4
 
 class SimplePolygon(Model):
 
-    def __init__(self, plt_axis, *vertices, edgecolor="black"):
+    def __init__(self, plt_axis, *vertices, color="grey", edgecolor="black", line_style = "-", alpha = 1.0):
         super().__init__(plt_axis, *vertices)
 
-        self.line_style = "-"
+        self.color = color
         self.edgecolor = edgecolor
-        self.alpha = 1.0
+        self.line_style = line_style
+        self.alpha = alpha
 
     def draw_model(self):
         transformed_geometry = self.transformed_geometry
@@ -26,6 +27,8 @@ class SimplePolygon(Model):
             edgecolor=self.edgecolor,
             facecolor=self.color
         )
+
+
 
 
 if __name__ == '__main__':
@@ -83,7 +86,7 @@ if __name__ == '__main__':
 
         rect.color = "yellow"  # колір ліній
         rect.alpha = 1.0
-        rect.set_transformation(T * R * S)
+        rect.transformation = (T * R * S)
 
 
     ############## Frame 3 ##################

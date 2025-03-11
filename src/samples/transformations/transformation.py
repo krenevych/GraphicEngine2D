@@ -40,7 +40,6 @@ if __name__ == '__main__':
             #                         )
             self[RECT_KEY] = polygon
 
-
             vector = Vector(self.plt_axis,
                             1, 1, 0,
                             # 1 + 0.557, 1 + 0.500, 0.663
@@ -55,7 +54,7 @@ if __name__ == '__main__':
     # Rx = Mat4x4.rotation_x(np.radians(15))
     # T = Mat4x4.translation(1, 0, 0)
     # T = Mat4x4.translation(0.557, 0.500, 0.663,)
-    T = Mat4x4.translation(1, 1, 0,)
+    T = Mat4x4.translation(1, 1, 0, )
     T1 = T.inverse()
 
 
@@ -82,6 +81,7 @@ if __name__ == '__main__':
         rect.color = "blue"  # колір ліній
         rect.set_transformation(R)
 
+
     ############## Frame 3 ##################
     def frame3(scene: Scene):
         rect: SimplePolygon = scene[RECT_KEY]
@@ -97,6 +97,7 @@ if __name__ == '__main__':
         rect.color = "blue"  # колір ліній
         rect.set_transformation(R)
 
+
     ############## Frame 4 ##################
     def frame4(scene: Scene):
         rect: SimplePolygon = scene[RECT_KEY]
@@ -111,6 +112,7 @@ if __name__ == '__main__':
 
         rect.color = "blue"  # колір ліній
         rect.set_transformation(R)
+
 
     ############## Frame 5 ##################
     def frame5(scene: Scene):

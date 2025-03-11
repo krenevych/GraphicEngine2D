@@ -28,8 +28,6 @@ if __name__ == '__main__':
     Z = Vec4(0, 0, 1)
 
 
-
-
     def frame1(scene):
         polygon = scene[RECT_KEY]
         y1 = Rx * Y

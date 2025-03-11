@@ -13,7 +13,7 @@ class Scene(ABC):
 
     def __init__(self,
                  image_size=(5, 5),
-                 coordinate_rect=(-1, -1, 1, 1),
+                 coordinate_rect=(-1, -1, -1, 1, 1, 1),
                  title="Picture",
                  base_axis_show=False,
                  grid_show=False,
@@ -71,6 +71,9 @@ class Scene(ABC):
         self.plt_axis.set_xlim([self.coordinate_rect[0], self.coordinate_rect[3]])
         self.plt_axis.set_ylim([self.coordinate_rect[1], self.coordinate_rect[4]])
         self.plt_axis.set_zlim([self.coordinate_rect[2], self.coordinate_rect[5]])
+
+        # Вирівнювання масштабу осей
+        self.plt_axis.set_box_aspect([1, 1, 1])
 
     def setup_base_parameters(self):
 

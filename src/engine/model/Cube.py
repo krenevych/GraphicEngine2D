@@ -29,12 +29,14 @@ class Cube(Model):
         ]
 
         # Грані куба
-        faces = [[vertices[j] for j in [0, 1, 2, 3]],
-                 [vertices[j] for j in [4, 5, 6, 7]],
-                 [vertices[j] for j in [0, 1, 5, 4]],
-                 [vertices[j] for j in [2, 3, 7, 6]],
-                 [vertices[j] for j in [1, 2, 6, 5]],
-                 [vertices[j] for j in [4, 7, 3, 0]]]
+        faces = [
+            [vertices[j] for j in [0, 1, 2, 3]],
+            [vertices[j] for j in [4, 5, 6, 7]],
+            [vertices[j] for j in [0, 1, 5, 4]],
+            [vertices[j] for j in [2, 3, 7, 6]],
+            [vertices[j] for j in [1, 2, 6, 5]],
+            [vertices[j] for j in [4, 7, 3, 0]]
+        ]
 
         for i, face in enumerate(faces):
             self.polygons.append(

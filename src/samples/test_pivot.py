@@ -4,34 +4,29 @@ from src.engine.model.SimplePolygon import SimplePolygon
 from src.engine.scene.Scene import Scene
 from src.math.Mat4x4 import Mat4x4
 
+TRIANGLE_KEY = "rect"
 if __name__ == '__main__':
     class SampleScene(Scene):
-        def draw_frames(self):
-            triangle = SimplePolygon(self.plt_axis)
+        def __init__(self, **kwargs):
+            super().__init__(**kwargs)
+            triangle = SimplePolygon(self.plt_axis,
+                                     0, 1, 0,
+                                     2, 1, 0,
+                                     1, 2, 0,
+                                     color="grey"
+                                     )
 
-            # Задаємо геометрію - пара послідовних значень визначає вершину на площині
-            triangle.set_geometry(
-                0, 1, 0,
-                2, 1, 0,
-                1, 2, 0,
-            )
-            triangle.color = "grey"
-
-
+            self[TRIANGLE_KEY] = triangle
             triangle.pivot(1, 0, 0)
             triangle.show_pivot()
             triangle.show_local_frame()
 
 
-            triangle.draw()
-
-            # задаємо трансформацію
-            triangle.set_transformation(Mat4x4.rotation_z(np.radians(30)))  # поворот
-            triangle.draw()
-
+    def frame1(scene):
+        scene[TRIANGLE_KEY].transformation = Mat4x4.rotation_z(np.radians(30))  # поворот
 
     scene = SampleScene(
         coordinate_rect=(-1, -1, -1, 3, 3, 3),  # розмірність системи координат
-        axis_line_style="-."  # стиль ліній осей координат
     )
+    scene.add_frames(frame1)
     scene.show()

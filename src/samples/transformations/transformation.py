@@ -14,35 +14,16 @@ if __name__ == '__main__':
 
         def __init__(self, **kwargs):
             super().__init__(**kwargs)
-            polygon = SimplePolygon(self.plt_axis,
+            self[RECT_KEY] = SimplePolygon(self.plt_axis,
                                     1, 0, 0,
                                     1, 1, 0,
                                     1, 1, 1,
                                     1, 0, 1,
                                     edgecolor="red",
-
                                     )
-            # polygon = SimplePolygon(self.plt_axis,
-            #                         0, 0, 0,
-            #                         1, 0, 0,
-            #                         1, 1, 0,
-            #                         0, 1, 0,
-            #                         edgecolor="red",
-            #
-            #                         )
-            # polygon = SimplePolygon(self.plt_axis,
-            #                         0, 0, 0,
-            #                         0.557, 0.500, 0.663,
-            #                         # 1, 1, 0,
-            #                         0, 1, 0,
-            #                         edgecolor="red",
-            #
-            #                         )
-            self[RECT_KEY] = polygon
 
             vector = Vector(self.plt_axis,
                             1, 1, 0,
-                            # 1 + 0.557, 1 + 0.500, 0.663
                             2, 1, 0.8
                             )
             self[VECT_KEY] = vector

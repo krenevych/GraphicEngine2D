@@ -72,8 +72,7 @@ class Scene(ABC):
         # Вирівнювання масштабу осей
         self.plt_axis.set_box_aspect([1, 1, 1])
 
-    def __setup_base_parameters(self):
-
+    def __setup_view(self):
         self.plt_axis.view_init(elev=110,
                                 azim=225,
                                 roll=-45)
@@ -82,6 +81,7 @@ class Scene(ABC):
         #                         azim=245,
         #                         roll=-25)
 
+    def __setup_base_parameters(self):
         # Відключення стандартних осей
         if not self.base_axis_show:
             self.plt_axis.axis('off')
@@ -120,6 +120,7 @@ class Scene(ABC):
                 figure.draw()
 
     def _prepare(self):
+        self.__setup_view()
         self.__set_title()
         self.__setup_base_parameters()
         self.__show_axes()

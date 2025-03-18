@@ -77,7 +77,6 @@ if __name__ == '__main__':
 
     simple_scene = CubeScene(
         axis_color="grey",  # колір осей координат
-        axis_line_style="-."  # стиль ліній осей координат
     )
 
     simple_scene.show()

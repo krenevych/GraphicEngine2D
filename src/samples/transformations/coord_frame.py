@@ -54,14 +54,7 @@ if __name__ == '__main__':
 
 
     simple_scene = CoordinateFrameScene(
-        image_size=(5, 5),  # розмір зображення: 1 - 100 пікселів
-        coordinate_rect=(-1, -1, -1, 1, 1, 1),  # розмірність системи координатps
-        title="Picture",  # заголовок рисунка
-        grid_show=False,  # чи показувати координатну сітку
-        base_axis_show=False,  # чи показувати базові осі зображення
-        axis_show=False,  # чи показувати осі координат
         axis_color="grey",  # колір осей координат
-        axis_line_style="-."  # стиль ліній осей координат
     )
 
     simple_scene.add_frames(

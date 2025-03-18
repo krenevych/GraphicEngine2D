@@ -56,14 +56,7 @@ if __name__ == '__main__':
 
 
     animated_scene = SimplePolygonScene(
-        image_size=(10, 10),  # розмір зображення: 1 - 100 пікселів
-        coordinate_rect=(-1, -1, -1, 1, 1, 1),  # розмірність системи координатps
-        title="Picture",  # заголовок рисунка
-        grid_show=False,  # чи показувати координатну сітку
-        base_axis_show=False,  # чи показувати базові осі зображення
-        axis_show=True,  # чи показувати осі координат
         axis_color="grey",  # колір осей координат
-        axis_line_style="-."  # стиль ліній осей координат
     )
 
     OX = Vec4(1, 0, 0)

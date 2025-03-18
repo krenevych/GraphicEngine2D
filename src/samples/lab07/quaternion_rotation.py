@@ -109,22 +109,15 @@ if __name__ == '__main__':
                                      O + t1,
                                      O + t2,
                                      edgecolor="red",
+                                     alpha=0.2
                                      )
             self[RECT_0_KEY] = polygon0
             polygon0.set_transformation(R_final)
-            polygon0.alpha = 0.2
             polygon0.show_local_frame()
 
 
     animated_scene = SimplePolygonScene(
-        image_size=(7, 7),  # розмір зображення: 1 - 100 пікселів
-        coordinate_rect=(-1, -1, -1, 1, 1, 1),  # розмірність системи координатps
-        title="Picture",  # заголовок рисунка
-        grid_show=False,  # чи показувати координатну сітку
-        base_axis_show=False,  # чи показувати базові осі зображення
-        axis_show=True,  # чи показувати осі координат
         axis_color="grey",  # колір осей координат
-        axis_line_style="-."  # стиль ліній осей координат
     )
 
     # animated_scene.add_animation(animation_x)

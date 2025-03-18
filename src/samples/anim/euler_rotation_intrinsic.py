@@ -98,15 +98,8 @@ if __name__ == '__main__':
 
 
     animated_scene = SimplePolygonScene(
-        image_size=(8, 8),  # розмір зображення: 1 - 100 пікселів
-        coordinate_rect=(-1, -1, -1, 1, 1, 1),  # розмірність системи координатps
-        title="Picture",  # заголовок рисунка
-        grid_show=False,  # чи показувати координатну сітку
-        base_axis_show=False,  # чи показувати базові осі зображення
-        axis_show=True,  # чи показувати осі координат
         axis_color=("#f00000", "#00f000", "#000088"),  # колір осей координат
         axis_line_width=0.5,
-        axis_line_style="-."  # стиль ліній осей координат
     )
 
     animated_scene.add_animation(animation_x)

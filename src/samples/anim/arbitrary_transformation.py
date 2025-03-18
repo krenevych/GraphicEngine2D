@@ -32,11 +32,11 @@ if __name__ == '__main__':
                                     O + t2,
                                     O + t3,
                                     edgecolor="red",
+                                    color="blue",
+                                    alpha=0.2
                                     )
             self[RECT_KEY] = polygon
             polygon.show_local_frame()
-            polygon.color = "blue"
-            polygon.alpha = 0.2
 
             polygon2 = SimplePolygon(self.plt_axis,
                                      O,
@@ -44,30 +44,22 @@ if __name__ == '__main__':
                                      O + t2,
                                      O + t3,
                                      edgecolor="black",
+                                     color="blue",
+                                     alpha=0.2,
                                      )
             self[RECT_2_KEY] = polygon2
             polygon2.show_local_frame()
-            polygon2.color = "blue"
-            polygon2.alpha = 0.2
 
-            vector = Vector(
+            self[VECT_KEY] = Vector(
                 self.plt_axis,
                 O,
                 O + ax,
+                color="brown"
             )
-            self[VECT_KEY] = vector
-            vector.color = "brown"
 
 
     animated_scene = SimplePolygonScene(
-        image_size=(10, 10),  # розмір зображення: 1 - 100 пікселів
         coordinate_rect=(-1, -1, -1, 2, 2, 2),  # розмірність системи координатps
-        title="Picture",  # заголовок рисунка
-        grid_show=False,  # чи показувати координатну сітку
-        base_axis_show=False,  # чи показувати базові осі зображення
-        axis_show=True,  # чи показувати осі координат
-        # axis_color="grey",  # колір осей координат
-        axis_line_style="-."  # стиль ліній осей координат
     )
 
     frames_num = 60

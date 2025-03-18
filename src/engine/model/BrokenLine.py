@@ -8,11 +8,11 @@ class BrokenLine(Model):
     def __init__(self, plt_axis,
                  *vertices,
                  color="black",
-                 linewidth=1.0, linestyle="solid",
+                 linewidth=1.0,
+                 linestyle="solid",
                  ):
-        super().__init__(plt_axis, *vertices)
+        super().__init__(plt_axis, *vertices, color=color)
 
-        self.color = color
         self.linestyle = linestyle
         self.linewidth = linewidth
 
@@ -37,19 +37,16 @@ if __name__ == '__main__':
 
         def __init__(self, **kwargs):
             super().__init__(**kwargs)
-            vector = BrokenLine(self.plt_axis,
-                                0, 0, 0,
-                                0.557, 0.500, 0.663,
-                                1, 1, 1,
-                                -1, 1, 1,
-                                0, 0, 0,
-                                )
-            self[MODEL_KEY] = vector
-            vector.color = "brown"
+            self[MODEL_KEY] = BrokenLine(self.plt_axis,
+                                         0, 0, 0,
+                                         0.557, 0.500, 0.663,
+                                         1, 1, 1,
+                                         -1, 1, 1,
+                                         0, 0, 0,
+                                         color="brown"
+                                         )
 
 
-    ##############################################
-    ##############################################
 
     ############## Frame 1 ##################
     def frame1(scene: Scene):
@@ -58,16 +55,7 @@ if __name__ == '__main__':
         print(vector.transformed_geometry[1].xyz)
 
 
-    simple_scene = LineScene(
-        image_size=(8, 8),  # розмір зображення: 1 - 100 пікселів
-        coordinate_rect=(-1, -1, -1, 1, 1, 1),  # розмірність системи координатps
-        title="Picture",  # заголовок рисунка
-        grid_show=False,  # чи показувати координатну сітку
-        base_axis_show=False,  # чи показувати базові осі зображення
-        axis_show=True,  # чи показувати осі координат
-        # axis_color="grey",  # колір осей координат
-        axis_line_style="-."  # стиль ліній осей координат
-    )
+    simple_scene = LineScene()
 
     simple_scene.add_frames(
         frame1,

@@ -59,44 +59,7 @@ if __name__ == '__main__':
         frames=120,  # кількість кадрів анімації
         apply_geometry_transformation_on_finish=True,
     )
-    #
-    # translation2 = TranslationAnimation(
-    #     end=vertex(0, 0),
-    #     channel=FIGURE_KEY,
-    #     frames=20,
-    # )
-    #
-    # scale_before = ScaleAnimation(
-    #     end=(1.2, 1.2, 1.2),
-    #     frames=20,
-    #     channel=FIGURE_KEY,
-    # )
-    #
-    # scale_before2 = ScaleAnimation(
-    #     end=(1, 1, 1),
-    #     frames=20,
-    #     channel=FIGURE_KEY,
-    # )
 
-    # scale = ScaleAnimation(
-    #     end=(1.5, 1.5, 1.5),
-    #     frames=120,
-    #     channel=FIGURE_KEY,
-    #     apply_geometry_transformation_on_finish=True,
-    # )
-    #
-    # scale2 = ScaleAnimation(
-    #     end=(0.5, 0.5, 0.5),
-    #     frames=20,
-    #     channel=FIGURE_KEY,
-    # )
-    #
-    # scale3 = ScaleAnimation(
-    #     end=(1, 1, 1),
-    #     frames=20,
-    #     channel=FIGURE_KEY,
-    # )
-    #
     rotation_x = RotationAnimation(
         end=np.radians(30),
         axis=(1, 0, 0),

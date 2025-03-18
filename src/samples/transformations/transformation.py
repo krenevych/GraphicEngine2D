@@ -15,19 +15,18 @@ if __name__ == '__main__':
         def __init__(self, **kwargs):
             super().__init__(**kwargs)
             self[RECT_KEY] = SimplePolygon(self.plt_axis,
-                                    1, 0, 0,
-                                    1, 1, 0,
-                                    1, 1, 1,
-                                    1, 0, 1,
-                                    edgecolor="red",
-                                    )
+                                           1, 0, 0,
+                                           1, 1, 0,
+                                           1, 1, 1,
+                                           1, 0, 1,
+                                           edgecolor="red",
+                                           )
 
-            vector = Vector(self.plt_axis,
-                            1, 1, 0,
-                            2, 1, 0.8
-                            )
-            self[VECT_KEY] = vector
-            vector.color = "brown"
+            self[VECT_KEY] = Vector(self.plt_axis,
+                                    1, 1, 0,
+                                    2, 1, 0.8,
+                                    color="brown"
+                                    )
 
 
     # Rz = Mat4x4.rotation_z(np.radians(45))
@@ -112,14 +111,7 @@ if __name__ == '__main__':
 
 
     simple_scene = SimplePolygonScene(
-        image_size=(5, 5),  # розмір зображення: 1 - 100 пікселів
-        coordinate_rect=(-1, -1, -1, 2, 2, 2),  # розмірність системи координатps
-        title="Picture",  # заголовок рисунка
-        grid_show=False,  # чи показувати координатну сітку
-        base_axis_show=False,  # чи показувати базові осі зображення
-        axis_show=True,  # чи показувати осі координат
-        # axis_color="grey",  # колір осей координат
-        axis_line_style="-."  # стиль ліній осей координат
+        coordinate_rect=(0, 0, 0, 2, 2, 2)
     )
 
     simple_scene.add_frames(

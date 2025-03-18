@@ -42,6 +42,11 @@ class Cube(Model):
             self.polygons.append(
                 SimplePolygon(self.plt_axis,
                               *face,
+                              color=color,
+                              edgecolor=edge_color,
+                              alpha=alpha,
+                              line_width=line_width,
+                              line_style=line_style,
                               ))
 
     def draw_model(self):

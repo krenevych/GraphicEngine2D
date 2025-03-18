@@ -92,7 +92,7 @@ class Scene(ABC):
         # Назва графіка
         self.plt_axis.set_title(self.title)
 
-    def draw(self, name=None):
+    def __draw(self, name=None):
         if name is None:
             self._draw_frames()
         elif name in self.figures:
@@ -130,5 +130,5 @@ class Scene(ABC):
 
     def show(self):
         self._prepare()
-        self.draw()
+        self.__draw()
         self._show_plot()

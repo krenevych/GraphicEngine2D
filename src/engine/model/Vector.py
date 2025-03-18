@@ -8,7 +8,7 @@ class Vector(Model):
     def __init__(self, plt_axis,
                  *vertices,
                  color="grey",
-                 linestyle="-.",
+                 linestyle="-",
                  linewidth=1.0,
                  ):
         super().__init__(plt_axis, *vertices, color=color)

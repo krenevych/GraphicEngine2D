@@ -9,7 +9,10 @@ from src.math.Vec4 import vertex
 
 class Model(BaseModel, ABC):
 
-    def __init__(self, plt_axis, *vertices):
+    def __init__(self, plt_axis,
+                 *vertices,
+                 color="grey"
+                 ):
         super().__init__(plt_axis, *vertices)
 
         self._pivot = vertex()
@@ -21,7 +24,7 @@ class Model(BaseModel, ABC):
         self._coord_frame.color = ("red", "green", "blue")
         self._is_draw_local_frame = False
 
-        self.color = "grey"
+        self.color = color
 
     def show_pivot(self, enabled=True):
         self._is_draw_pivot = enabled

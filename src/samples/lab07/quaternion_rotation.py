@@ -83,7 +83,7 @@ if __name__ == '__main__':
     )
 
     animation_quat = QuaternionAnimation(
-        end=q_final,
+        end_quaternion=q_final,
         frames=frames_num,
         interval=5,
         channel=RECT_KEY,

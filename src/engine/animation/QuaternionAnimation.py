@@ -6,10 +6,10 @@ from src.math.utils_quat import slerp
 
 class QuaternionAnimation(Animation):
 
-    def __init__(self, end, **kwargs):  # end - Quaternion
-        super().__init__(end, **kwargs)
+    def __init__(self, end_quaternion, **kwargs):  # end - Quaternion
+        super().__init__(end_quaternion, **kwargs)
         self.start_translation, self.start_rotation, self.start_scale = decompose_translation_quaternion_scale(self.start)
-        self.end_rotation = end
+        self.end_rotation = end_quaternion
 
     def current_transformation(self, frame):
         t = frame / self.frames

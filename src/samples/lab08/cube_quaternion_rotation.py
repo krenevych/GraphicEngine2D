@@ -19,70 +19,66 @@ Ry = Mat4x4.rotation_y(angle_y)
 Rz = Mat4x4.rotation_z(angle_z)
 R_final = Rz * Ry * Rx
 
+qx = Quaternion.rotation_x(angle_x)
+qy = Quaternion.rotation_y(angle_y)
+qz = Quaternion.rotation_z(angle_z)
+q_final = qz * qy * qx
+
+animation_quat_x = QuaternionAnimation(
+    end_quaternion=qx,
+    channel=CUBE_KEY,
+    apply_geometry_transformation_on_finish=True,
+)
+
+animation_quat_y = QuaternionAnimation(
+    end_quaternion=qy,
+    channel=CUBE_KEY,
+    apply_geometry_transformation_on_finish=True,
+)
+
+animation_quat_z = QuaternionAnimation(
+    end_quaternion=qz,
+    channel=CUBE_KEY,
+    apply_geometry_transformation_on_finish=True,
+)
+
+animation_quat_final = QuaternionAnimation(
+    end_quaternion=q_final,
+    channel=CUBE1_KEY,
+    apply_geometry_transformation_on_finish=True,
+)
+
+
+class AnimScene(AnimatedScene):
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
+        cube = Cube(self.plt_axis, alpha=0.1)
+        self[CUBE_KEY] = cube
+        cube.show_pivot()
+        cube.show_local_frame()
+
+        cube = Cube(self.plt_axis, alpha=0.1,
+                    color="grey",
+                    edge_color="red", )
+        self[CUBE1_KEY] = cube
+        cube.show_pivot()
+        cube.show_local_frame()
+
+        cube = Cube(self.plt_axis, alpha=0.1,
+                    color="yellow",
+                    edge_color="black", )
+        self[CUBE2_KEY] = cube
+        cube.show_pivot()
+        cube.show_local_frame()
+        cube.rotation = R_final
+
 if __name__ == '__main__':
-    class AnimScene(AnimatedScene):
-
-        def __init__(self, **kwargs):
-            super().__init__(**kwargs)
-
-            cube = Cube(self.plt_axis, alpha=0.1)
-            self[CUBE_KEY] = cube
-            cube.show_pivot()
-            cube.show_local_frame()
-
-            cube = Cube(self.plt_axis, alpha=0.1,
-                        color="grey",
-                        edge_color="red", )
-            self[CUBE1_KEY] = cube
-            cube.show_pivot()
-            cube.show_local_frame()
-
-            cube = Cube(self.plt_axis, alpha=0.1,
-                        color="yellow",
-                        edge_color="black", )
-            self[CUBE2_KEY] = cube
-            cube.show_pivot()
-            cube.show_local_frame()
-            cube.rotation = R_final
-
-
-    animated_scene = AnimScene(
-        coordinate_rect=(-1, -1, -1, 1, 1, 1),  # розмірність системи координатps
-    ).prepare()
-
-
-
-    qx = Quaternion.rotation_x(angle_x)
-    qy = Quaternion.rotation_y(angle_y)
-    qz = Quaternion.rotation_z(angle_z)
-    q_final = qz * qy * qx
-
-    animation_quat_x = QuaternionAnimation(
-        end_quaternion=qx,
-        channel=CUBE_KEY,
-        apply_geometry_transformation_on_finish=True,
-    )
-
-    animation_quat_y = QuaternionAnimation(
-        end_quaternion=qy,
-        channel=CUBE_KEY,
-        apply_geometry_transformation_on_finish=True,
-    )
-
-    animation_quat_z = QuaternionAnimation(
-        end_quaternion=qz,
-        channel=CUBE_KEY,
-        apply_geometry_transformation_on_finish=True,
-    )
-
-    animation_quat_final = QuaternionAnimation(
-        end_quaternion=q_final,
-        channel=CUBE1_KEY,
-        apply_geometry_transformation_on_finish=True,
-    )
+    animated_scene = AnimScene()
 
     animated_scene.add_animation(animation_quat_x)
     animated_scene.add_animation(animation_quat_y)
     animated_scene.add_animation(animation_quat_z)
     animated_scene.add_animation(animation_quat_final)
-    animated_scene.animate()
+    animated_scene.show()

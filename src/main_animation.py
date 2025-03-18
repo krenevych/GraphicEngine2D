@@ -43,7 +43,7 @@ if __name__ == '__main__':
         axis_color=("red", "green", "blue"),  # колір осей координат
         axis_line_width=2.0,  # товщина осей координат
         axis_line_style="--",  # стиль ліній осей координат
-    ).prepare()
+    )
 
 
     def frame1(scene):
@@ -134,4 +134,4 @@ if __name__ == '__main__':
     animated_scene.add_animation(rotation_x)
     animated_scene.add_animation(rotation_y)
     animated_scene.add_animation(rotation_z)
-    animated_scene.animate()
+    animated_scene.show()

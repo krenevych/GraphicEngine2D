@@ -53,10 +53,10 @@ if __name__ == '__main__':
             cube_target.rotation = q_final
 
 
-    animated_scene = CubeScene().prepare()
+    animated_scene = CubeScene()
 
     animated_scene.add_animation(animation)
     # animated_scene.add_animation(animation_x)
     # animated_scene.add_animation(animation_y)
     # animated_scene.add_animation(animation_z)
-    animated_scene.animate()
+    animated_scene.show()

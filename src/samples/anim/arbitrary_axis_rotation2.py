@@ -49,7 +49,7 @@ if __name__ == '__main__':
         axis_show=True,  # чи показувати осі координат
         # axis_color="grey",  # колір осей координат
         axis_line_style="-."  # стиль ліній осей координат
-    ).prepare()
+    )
 
     transformation_matrix = (
             Mat4x4.translation(1, 1, 1) *
@@ -58,7 +58,6 @@ if __name__ == '__main__':
         #                2,
         #                2)
     )
-    T, S, R, axis, angle = Mat4x4.decompose_affine(transformation_matrix)
 
     frames_num = 60
     animation = TrsTransformationAnimation(
@@ -79,4 +78,4 @@ if __name__ == '__main__':
 
     animated_scene.add_animation(animation_ax)
     animated_scene.add_animation(animation)
-    animated_scene.animate()
+    animated_scene.show()

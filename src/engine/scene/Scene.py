@@ -111,6 +111,11 @@ class Scene(ABC):
                 self.frame_sequence.append(FrameCallback(frame))
 
     def draw_frames(self):
+        if len(self.frame_sequence) == 0:
+            for name, figure in self.figures.items():
+                figure.draw()
+            return
+
         for frame in self.frame_sequence:
             frame.on_frame(self)
 
@@ -125,3 +130,8 @@ class Scene(ABC):
 
     def finalize(self):
         plt.show()
+
+    def show(self):
+        self.prepare()
+        self.draw()
+        self.finalize()

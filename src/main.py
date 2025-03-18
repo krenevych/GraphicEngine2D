@@ -16,7 +16,4 @@ if __name__ == '__main__':
         axis_show_from_origin=True,
     )
 
-    scene.prepare()  # налаштовує та зображує базові елементи сцени (розмірність, глобальна система координат, тощо.)
-    # scene.add_frames(frame1)
-    scene.draw()
-    scene.finalize()
+    scene.show()

@@ -68,7 +68,7 @@ if __name__ == '__main__':
         axis_show=True,  # чи показувати осі координат
         # axis_color="grey",  # колір осей координат
         axis_line_style="-."  # стиль ліній осей координат
-    ).prepare()
+    )
 
     frames_num = 60
 
@@ -116,4 +116,4 @@ if __name__ == '__main__':
     animated_scene.add_animation(animation_trans)
 
     animated_scene.add_animation(common_animation)
-    animated_scene.animate()
+    animated_scene.show()

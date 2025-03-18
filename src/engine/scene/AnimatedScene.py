@@ -71,3 +71,9 @@ class AnimatedScene(Scene, AnimationFinishedListener):
         self.draw_frames()
 
         return self.figure,
+
+    def show(self):
+        if len(self._animations) == 0:
+            super().show()
+        else:
+            self.animate()

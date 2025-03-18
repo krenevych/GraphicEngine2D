@@ -96,11 +96,11 @@ if __name__ == '__main__':
         axis_show=True,  # чи показувати осі координат
         axis_color="grey",  # колір осей координат
         axis_line_style="-."  # стиль ліній осей координат
-    ).prepare()
+    )
 
 
 
     animated_scene.add_animation(animation_x)
     animated_scene.add_animation(animation_y)
     animated_scene.add_animation(animation_z)
-    animated_scene.animate()
+    animated_scene.show()

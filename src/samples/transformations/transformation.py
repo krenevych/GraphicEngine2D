@@ -139,7 +139,7 @@ if __name__ == '__main__':
         axis_show=True,  # чи показувати осі координат
         # axis_color="grey",  # колір осей координат
         axis_line_style="-."  # стиль ліній осей координат
-    ).prepare()
+    )
 
     simple_scene.add_frames(
         frame1,
@@ -149,5 +149,4 @@ if __name__ == '__main__':
         frame5,
     )  # додаємо кадри на сцену
 
-    simple_scene.draw()
-    simple_scene.finalize()
+    simple_scene.show()

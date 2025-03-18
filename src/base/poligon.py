@@ -33,7 +33,6 @@ if __name__ == '__main__':
 
     custom_scene = Scene(
         coordinate_rect=(0, 0, 0, 5, 5, 5),
-    ).prepare()
+    )
     custom_scene.add_frames(frame1)
-    custom_scene.draw()
-    custom_scene.finalize()
+    custom_scene.show()

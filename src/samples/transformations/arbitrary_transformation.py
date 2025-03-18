@@ -37,7 +37,7 @@ if __name__ == '__main__':
         axis_show=True,  # чи показувати осі координат
         # axis_color="grey",  # колір осей координат
         axis_line_style="-."  # стиль ліній осей координат
-    ).prepare()
+    )
 
     T = Mat4x4.translation(1, 1, 0)
 
@@ -53,5 +53,4 @@ if __name__ == '__main__':
 
 
     animated_scene.add_frames(frame1, frame2)
-    animated_scene.draw()
-    animated_scene.finalize()
+    animated_scene.show()

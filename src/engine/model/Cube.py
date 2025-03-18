@@ -42,11 +42,6 @@ class Cube(Model):
             self.polygons.append(
                 SimplePolygon(self.plt_axis,
                               *face,
-                              color=color,
-                              edgecolor=edge_color,
-                              alpha=alpha,
-                              line_width=line_width,
-                              line_style=line_style,
                               ))
 
     def draw_model(self):
@@ -75,19 +70,9 @@ if __name__ == '__main__':
             cube.show_local_frame()
 
 
-    ############## Frame 1 ##################
-    def frame1(scene: Scene):
-        cube: Cube = scene[CUBE_KEY]
-
-
     simple_scene = CubeScene(
         axis_color="grey",  # колір осей координат
         axis_line_style="-."  # стиль ліній осей координат
-    ).prepare()
+    )
 
-    simple_scene.add_frames(
-        frame1,
-    )  # додаємо кадри на сцену
-
-    simple_scene.draw()
-    simple_scene.finalize()
+    simple_scene.show()

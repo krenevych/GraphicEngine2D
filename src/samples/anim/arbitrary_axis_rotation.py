@@ -37,10 +37,6 @@ if __name__ == '__main__':
             vector.color = "brown"
 
 
-    def frame1(scene):
-        pass
-
-
     animated_scene = SimplePolygonScene(
         image_size=(10, 10),  # розмір зображення: 1 - 100 пікселів
         coordinate_rect=(-1, -1, -1, 2, 2, 2),  # розмірність системи координатps
@@ -50,7 +46,7 @@ if __name__ == '__main__':
         axis_show=True,  # чи показувати осі координат
         # axis_color="grey",  # колір осей координат
         axis_line_style="-."  # стиль ліній осей координат
-    ).prepare()
+    )
 
     frames_num = 180
     animation = RotationAnimation(
@@ -62,8 +58,5 @@ if __name__ == '__main__':
     )
 
     animated_scene.add_animation(animation)
-    animated_scene.animate()
+    animated_scene.show()
 
-    # animated_scene.add_frames(frame1)
-    # animated_scene.draw()
-    # animated_scene.finalize()

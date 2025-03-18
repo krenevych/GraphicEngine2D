@@ -48,16 +48,13 @@ class Scene(ABC):
         else:
             raise KeyError("Figure name {} already exists".format(name))
 
-    def get_figure(self, name):
-        return self.figures[name]
-
     def __setitem__(self, name, figure):
         self.add_figure(figure, name)
 
     def __getitem__(self, item):
         return self.figures[item]
 
-    def show_axes(self):
+    def __show_axes(self):
         if self.axis_show:
             draw_axes(
                 self.plt_axis,
@@ -75,7 +72,7 @@ class Scene(ABC):
         # Вирівнювання масштабу осей
         self.plt_axis.set_box_aspect([1, 1, 1])
 
-    def setup_base_parameters(self):
+    def __setup_base_parameters(self):
 
         self.plt_axis.view_init(elev=110,
                                 azim=225,
@@ -85,19 +82,19 @@ class Scene(ABC):
         #                         azim=245,
         #                         roll=-25)
 
-        # # Відключення стандартних осей
+        # Відключення стандартних осей
         if not self.base_axis_show:
             self.plt_axis.axis('off')
 
         self.plt_axis.grid(self.grid_show)
 
-    def set_title(self):
+    def __set_title(self):
         # Назва графіка
         self.plt_axis.set_title(self.title)
 
     def draw(self, name=None):
         if name is None:
-            self.draw_frames()
+            self._draw_frames()
         elif name in self.figures:
             self[name].draw()
         else:
@@ -110,7 +107,7 @@ class Scene(ABC):
             elif callable(frame):
                 self.frame_sequence.append(FrameCallback(frame))
 
-    def draw_frames(self):
+    def _draw_frames(self):
         if len(self.frame_sequence) == 0:
             for name, figure in self.figures.items():
                 figure.draw()
@@ -122,16 +119,16 @@ class Scene(ABC):
             for name, figure in self.figures.items():
                 figure.draw()
 
-    def prepare(self):
-        self.set_title()
-        self.setup_base_parameters()
-        self.show_axes()
+    def _prepare(self):
+        self.__set_title()
+        self.__setup_base_parameters()
+        self.__show_axes()
         return self
 
-    def finalize(self):
+    def _show_plot(self):
         plt.show()
 
     def show(self):
-        self.prepare()
+        self._prepare()
         self.draw()
-        self.finalize()
+        self._show_plot()

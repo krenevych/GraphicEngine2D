@@ -27,9 +27,9 @@ class AnimatedScene(Scene, AnimationFinishedListener):
         if len(self._animations) > 0:
             current = self._animations[0]
             self._animations.pop(0)
-            self.animate(current)
+            self.__animate(current)
 
-    def animate(self, animation: Animation = None):
+    def __animate(self, animation: Animation = None):
 
         if animation is None:
             self.__animate_next()
@@ -48,7 +48,7 @@ class AnimatedScene(Scene, AnimationFinishedListener):
                             )
 
         #       ani.save("animation.gif", writer="pillow", fps=20)
-        self.finalize()
+        self._show_plot()
 
     def on_frame(self, frame):
         def new_frame(scene_ : AnimatedScene):
@@ -65,10 +65,10 @@ class AnimatedScene(Scene, AnimationFinishedListener):
 
     def __update(self, frame):
         self.plt_axis.clear()  # Очищення фігури
-        self.prepare()
+        self._prepare()
 
         self.on_frame(frame)
-        self.draw_frames()
+        self._draw_frames()
 
         return self.figure,
 
@@ -76,4 +76,4 @@ class AnimatedScene(Scene, AnimationFinishedListener):
         if len(self._animations) == 0:
             super().show()
         else:
-            self.animate()
+            self.__animate()

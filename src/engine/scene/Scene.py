@@ -111,12 +111,12 @@ class Scene(ABC):
         self.__set_title()
         self.__setup_base_parameters()
         self.__show_axes()
-        return self
 
-    def _show_plot(self):
+    @staticmethod
+    def _show_plot():
         plt.show()
 
     def show(self):
         self._prepare()
         self.draw()
-        self._show_plot()
+        Scene._show_plot()

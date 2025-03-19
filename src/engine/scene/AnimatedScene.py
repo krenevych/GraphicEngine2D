@@ -52,7 +52,7 @@ class AnimatedScene(Scene, AnimationFinishedListener):
                             )
 
         #       ani.save("animation.gif", writer="pillow", fps=20)
-        self._show_plot()
+        Scene._show_plot()
 
     def __on_frame(self, frame):
         def new_frame(scene_ : AnimatedScene):

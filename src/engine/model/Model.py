@@ -65,5 +65,7 @@ class Model(BaseModel, ABC):
 
     def draw(self):
         self._draw_local_frame()
-        self.draw_model()
+
+        super().draw()
+
         self._draw_pivot()

@@ -77,8 +77,9 @@ class AnimScene(AnimatedScene):
 if __name__ == '__main__':
     animated_scene = AnimScene()
 
-    animated_scene.add_animation(animation_quat_x)
-    animated_scene.add_animation(animation_quat_y)
-    animated_scene.add_animation(animation_quat_z)
+    animated_scene.add_animations(animation_quat_x,
+                                  animation_quat_y,
+                                  animation_quat_z)
+
     animated_scene.add_animation(animation_quat_final)
     animated_scene.show()

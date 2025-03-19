@@ -23,6 +23,10 @@ class AnimatedScene(Scene, AnimationFinishedListener):
         self._animations.append(animation)
         animation.add_animation_listener(self)
 
+    def add_animations(self, *animations):
+        for animation in animations:
+            self.add_animation(animation)
+
     def __animate_next(self):
         if len(self._animations) > 0:
             current = self._animations[0]
@@ -76,4 +80,4 @@ class AnimatedScene(Scene, AnimationFinishedListener):
             super().show()
         else:
             self._prepare()
-            self.__animate()
+            self.__animate_next()

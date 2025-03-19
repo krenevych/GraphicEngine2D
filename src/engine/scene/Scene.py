@@ -22,7 +22,6 @@ class Scene(ABC):
                  axis_color=("red", "green", "blue"),
                  axis_line_style="-.",
                  axis_line_width=1.0,
-
                  ):
         self.image_size = image_size
         self.coordinate_rect = coordinate_rect

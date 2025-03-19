@@ -55,7 +55,6 @@ if __name__ == '__main__':
 
     scene = Scene(
         coordinate_rect=(0, 0, 1, 1),
-    ).prepare()
+    )
     scene.add_frames(frame1, frame2)
-    scene.draw()
-    scene.finalize()
+    scene.show()

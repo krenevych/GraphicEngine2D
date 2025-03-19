@@ -23,6 +23,10 @@ class AnimatedScene(Scene, AnimationFinishedListener):
         self._animations.append(animation)
         animation.add_animation_listener(self)
 
+    def add_animations(self, *animations):
+        for animation in animations:
+            self.add_animation(animation)
+
     def __animate_next(self):
         if len(self._animations) > 0:
             current = self._animations[0]
@@ -48,15 +52,15 @@ class AnimatedScene(Scene, AnimationFinishedListener):
                             )
 
         #       ani.save("animation.gif", writer="pillow", fps=20)
-        self.finalize()
+        self._show_plot()
 
-    def on_frame(self, frame):
+    def __on_frame(self, frame):
         def new_frame(scene_ : AnimatedScene):
             if self._current_animation is not None:
                 transformation = self._current_animation.current_transformation(frame)
                 if self._current_animation.channel in self.figures:
                     figure = self[self._current_animation.channel]
-                    figure.set_transformation(transformation)
+                    figure.transformation = transformation
 
                 self._current_animation.notify(self, frame)
 
@@ -65,9 +69,16 @@ class AnimatedScene(Scene, AnimationFinishedListener):
 
     def __update(self, frame):
         self.figure.clear()  # Очищення фігури
-        self.prepare()
+        self._prepare()
 
-        self.on_frame(frame)
-        self.draw_frames()
+        self.__on_frame(frame)
+        self._draw_frames()
 
         return self.figure,
+
+    def show(self):
+        if len(self._animations) == 0:
+            super().show()
+        else:
+            self._prepare()
+            self.__animate_next()

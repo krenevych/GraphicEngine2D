@@ -14,7 +14,7 @@ if __name__ == '__main__':
     def frame2(scene):
         rect: SimplePolygon = scene[FIGURE_KEY]
         R = Mat3x3.rotation(65, is_radians=False)
-        rect.set_transformation(R)
+        rect.transformation = R
 
 
     scene = Scene(
@@ -27,7 +27,7 @@ if __name__ == '__main__':
         axis_color=("red", "green"),  # колір осей координат
         axis_line_style="-.",  # стиль ліній осей координат
         keep_aspect_ratio=True,
-    ).prepare()
+    )
 
     scene[FIGURE_KEY] = SimplePolygon(
         2, 2,
@@ -40,5 +40,4 @@ if __name__ == '__main__':
         frame1,
         frame2,
     )
-    scene.draw()
-    scene.finalize()
+    scene.show()

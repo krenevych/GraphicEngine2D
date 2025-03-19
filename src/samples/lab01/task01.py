@@ -30,14 +30,14 @@ if __name__ == '__main__':
 
     def frame2(scene):
         rect: SimplePolygon = scene[FIGURE_KEY]
-        rect.set_transformation(R_30)
+        rect.transformation= R_30
         rect.color = "orange"
         rect.line_style = ":"
 
 
     def frame3(scene):
         rect: SimplePolygon = scene[FIGURE_KEY]
-        rect.set_transformation(T_2_3)
+        rect.transformation = T_2_3
         rect.color = "orange"
         rect.line_style = ":"
 
@@ -46,16 +46,15 @@ if __name__ == '__main__':
         rect: SimplePolygon = scene[FIGURE_KEY]
         rect.color = "red"
         rect.line_style = "-"
-        rect.set_transformation(T_2_3 * R_30)
+        rect.transformation = T_2_3 * R_30
 
 
     def frame5(scene):
         rect: SimplePolygon = scene[FIGURE_KEY]
-        rect.set_transformation(R_30 * T_2_3)
+        rect.transformation = R_30 * T_2_3
 
 
     scene = SampleScene(
-        image_size=(5, 5),  # розмір зображення: 1 - 100 пікселів
         coordinate_rect=(-3, -1, 6, 6),  # розмірність системи координат
         title="Picture",  # заголовок рисунка
         # grid_show=False,  # чи показувати координатну сітку
@@ -64,7 +63,12 @@ if __name__ == '__main__':
         axis_color=("red", "green"),  # колір осей координат
         axis_line_style="-.",  # стиль ліній осей координат
         keep_aspect_ratio=True,
-    ).prepare()
-    scene.add_frames(frame1, frame2, frame3, frame4, frame5)
-    scene.draw()
-    scene.finalize()
+    )
+    scene.add_frames(frame1,
+                     frame2,
+                     frame3,
+                     frame4,
+                     frame5
+                     )
+
+    scene.show()

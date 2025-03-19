@@ -45,7 +45,7 @@ if __name__ == '__main__':
         axis_line_width=2.0, # товщина осей координат
         axis_line_style="--",  # стиль ліній осей координат
         keep_aspect_ratio=True,
-    ).prepare()
+    )
 
     translation = TranslationAnimation(  # створюємо анімацію переміщення
         end=vertex(1, 1),  # значення точки у яку треба перемітити
@@ -118,4 +118,4 @@ if __name__ == '__main__':
     scene.add_animation(rotation2)
     scene.add_animation(scale3)
     scene.add_animation(rotation3)
-    scene.animate()
+    scene.show()

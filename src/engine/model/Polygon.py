@@ -95,10 +95,10 @@ if __name__ == '__main__':
         axis_show=True,
         axis_color="red",
         axis_line_style="-."
-    ).prepare()
+    )
 
 
-    def frame1(scene : Scene):
+    def frame1(scene: Scene):
         m: Polygon = scene[scene_figure_key]
 
         m.pivot(0.5, 0.5)
@@ -127,7 +127,8 @@ if __name__ == '__main__':
         m.rotation(np.radians(45))
 
 
-    polygon_scene.add_frames(frame1, frame2)
+    polygon_scene.add_frames(frame1,
+                             frame2
+                             )
 
-    polygon_scene.draw()
-    polygon_scene.finalize()
+    polygon_scene.show()

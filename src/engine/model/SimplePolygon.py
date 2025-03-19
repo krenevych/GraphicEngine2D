@@ -56,11 +56,10 @@ if __name__ == '__main__':
 
         rect.color = "red"  # колір ліній
         rect.line_style = "-"  # стиль ліній
-        rect.set_transformation(T * R * S)
+        rect.transformation = T * R * S
 
 
     scene = SimplePolygonScene(
-        image_size=(5, 5),  # розмір зображення: 1 - 100 пікселів
         coordinate_rect=(-2, -2, 6, 6),  # розмірність системи координат
         title="Picture",  # заголовок рисунка
         grid_show=False,  # чи показувати координатну сітку
@@ -68,9 +67,9 @@ if __name__ == '__main__':
         axis_show=True,  # чи показувати осі координат
         axis_color=("red", "green"),  # колір осей координат
         axis_line_style="-."  # стиль ліній осей координат
-    ).prepare()
+    )
+    scene.add_frames(frame1,
+                     frame2,
+                     ) # додаємо кадри на сцену
 
-    scene.add_frames(frame1, frame2) # додаємо кадри на сцену
-
-    scene.draw()
-    scene.finalize()
+    scene.show()

@@ -44,4 +44,6 @@ if __name__ == '__main__':
         channel="rect",
         animation_listener=AnimListener())
 
-    scene.animate(animation)
+    scene.add_animation(animation)
+
+    scene.show()

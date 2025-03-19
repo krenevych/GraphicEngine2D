@@ -47,7 +47,7 @@ class Model(BaseModel, ABC):
 
     def _draw_local_frame(self):
         if self._is_draw_local_frame:
-            self._coord_frame.set_transformation(self._transformation)
+            self._coord_frame.transformation = self.transformation
             self._coord_frame.draw_model()
 
     def _draw_pivot(self):
@@ -63,5 +63,7 @@ class Model(BaseModel, ABC):
 
     def draw(self):
         self._draw_local_frame()
-        self.draw_model()
+
+        super().draw()
+
         self._draw_pivot()

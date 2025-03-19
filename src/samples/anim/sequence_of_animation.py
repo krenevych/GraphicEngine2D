@@ -66,4 +66,4 @@ if __name__ == '__main__':
     scene.add_animation(translation)
     scene.add_animation(rotation)
     scene.add_animation(scale)
-    scene.animate()
+    scene.show()

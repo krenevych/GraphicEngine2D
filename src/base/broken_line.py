@@ -76,10 +76,8 @@ if __name__ == '__main__':
         grid_line_linestyle="-.",
         axis_show=True,
         base_axis_show=False,
-    ).prepare()
+    )
     scene.add_frames(frame1)
-    scene.draw()
-
-    scene.finalize()
+    scene.show()
 
 

@@ -9,12 +9,17 @@ from src.engine.scene.Frame import Frame, FrameCallback
 class Scene(ABC):
 
     def __init__(self,
-                 image_size=(5, 5),
+                 image_size=(8, 8),
                  coordinate_rect=(-1, -1, 1, 1),
                  title="Picture",
                  base_axis_show=True,
-                 axis_show=False, axis_color=("red", "green"), axis_line_style="-.", axis_line_width = 1.0,
-                 grid_show=True, grid_line_linestyle="solid", greed_alpha=1.0,
+                 axis_show=False,
+                 axis_color=("red", "green"),
+                 axis_line_style="-.",
+                 axis_line_width=1.0,
+                 grid_show=True,
+                 grid_line_linestyle="solid",
+                 greed_alpha=1.0,
                  keep_aspect_ratio=True, ):
         self.image_size = image_size
         self.coordinate_rect = coordinate_rect
@@ -49,14 +54,14 @@ class Scene(ABC):
     def __getitem__(self, item):
         return self.figures[item]
 
-    def show_axes(self):
+    def __show_axes(self):
         if self.axis_show:
             draw_axes(self.coordinate_rect, self.axis_color, self.axis_line_style, self.axis_line_width)
 
         plt.xlim(self.coordinate_rect[0], self.coordinate_rect[2])
         plt.ylim(self.coordinate_rect[1], self.coordinate_rect[3])
 
-    def setup_base_parameters(self):
+    def __setup_base_parameters(self):
         # Відключення стандартних осей
         if not self.base_axis_show:
             plt.gca().spines['bottom'].set_visible(False)
@@ -72,12 +77,12 @@ class Scene(ABC):
         else:
             plt.grid(False)
 
-    def set_title(self):
+    def __set_title(self):
         plt.title(self.title)
 
     def draw(self, name=None):
         if name is None:
-            self.draw_frames()
+            self._draw_frames()
         elif name in self.figures:
             self[name].draw()
         else:
@@ -90,18 +95,28 @@ class Scene(ABC):
             elif callable(frame):
                 self.frame_sequence.append(FrameCallback(frame))
 
-    def draw_frames(self):
+    def _draw_frames(self):
+        if len(self.frame_sequence) == 0:
+            for name, figure in self.figures.items():
+                figure.draw()
+            return
+
         for frame in self.frame_sequence:
             frame.on_frame(self)
 
             for name, figure in self.figures.items():
                 figure.draw()
 
-    def prepare(self):
-        self.set_title()
-        self.setup_base_parameters()
-        self.show_axes()
+    def _prepare(self):
+        self.__set_title()
+        self.__setup_base_parameters()
+        self.__show_axes()
         return self
 
-    def finalize(self):
+    def _show_plot(self):
         plt.show()
+
+    def show(self):
+        self._prepare()
+        self.draw()
+        self._show_plot()

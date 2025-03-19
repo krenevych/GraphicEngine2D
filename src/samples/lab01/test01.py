@@ -24,21 +24,19 @@ if __name__ == '__main__':
         rect: SimplePolygon = scene[FIGURE_KEY]
         rect.color = "blue"
         rect.line_style = "-"
-        rect.draw()
 
 
     def frame2(scene):
         rect: SimplePolygon = scene[FIGURE_KEY]
         # rect.set_transformation ( T_2_3)
-        rect.set_transformation(R_30)
+        rect.transformation = R_30
         rect.color = "orange"
         rect.line_style = "-"
 
 
     def frame3(scene):
         rect: SimplePolygon = scene[FIGURE_KEY]
-        rect.set_transformation(T_2_3 * R_30)
-        rect.draw()
+        rect.transformation = T_2_3 * R_30
 
 
     scene = Scene(
@@ -51,7 +49,7 @@ if __name__ == '__main__':
         axis_color=("red", "green"),  # колір осей координат
         axis_line_style="-.",  # стиль ліній осей координат
         keep_aspect_ratio=True,
-    ).prepare()
+    )
 
     scene[FIGURE_KEY] = SimplePolygon(
         0, 0,
@@ -66,5 +64,4 @@ if __name__ == '__main__':
         frame3,
     )
 
-    scene.draw()
-    scene.finalize()
+    scene.show()

@@ -42,7 +42,7 @@ if __name__ == '__main__':
         T = Mat3x3.translation(1, 1)
 
         point.color = "red"  # колір ліній
-        point.set_transformation(T * R * S)
+        point.transformation = T * R * S
 
 
     scene = SimplePointScene(
@@ -54,9 +54,8 @@ if __name__ == '__main__':
         axis_show=True,  # чи показувати осі координат
         axis_color=("red", "green"),  # колір осей координат
         axis_line_style="-."  # стиль ліній осей координат
-    ).prepare()
+    )
 
     scene.add_frames(frame1, frame2)
 
-    scene.draw()
-    scene.finalize()
+    scene.show()

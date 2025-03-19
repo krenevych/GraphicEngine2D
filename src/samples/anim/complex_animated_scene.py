@@ -37,34 +37,45 @@ if __name__ == '__main__':
     )
 
 
-    def translation(scene):
-        print("Finished animation 1")
-        scene.animate(TranslationAnimation(
-            end=vertex(3, 3),
-            channel="rect",
-            frames=30,
-            animation_listener=finish
-        ))
+    def finish_rotation(scene):
+        print("Finished rotation")
 
 
-    def rotation(scene):
+    def finish_scale(scene):
         print("Finished scale animation")
-        scene.animate(RotationAnimation(
-            end=np.radians(45),
-            frames=50,
-            channel="rect",
-            animation_listener=translation)
-        )
 
 
-    def finish(scene):
+    def finish_translation(scene):
         print("Finished translation")
 
 
-    animated_scene.animate(ScaleAnimation(
+    translation_animation = TranslationAnimation(
+        end=vertex(3, 3),
+        channel="rect",
+        frames=30,
+        animation_listener=finish_translation,
+        apply_geometry_transformation_on_finish=True,
+    )
+
+    rotation_animation = RotationAnimation(
+        end=np.radians(45),
+        frames=50,
+        channel="rect",
+        animation_listener=finish_rotation,
+        apply_geometry_transformation_on_finish=True,
+    )
+
+    scale_animation = ScaleAnimation(
         end=(2, 2),
         frames=50,
         channel="rect",
-        animation_listener=rotation
+        animation_listener=finish_scale,
+        apply_geometry_transformation_on_finish=True, )
+
+    animated_scene.add_animations(
+        scale_animation,
+        rotation_animation,
+        translation_animation,
     )
-    )
+
+    animated_scene.show()

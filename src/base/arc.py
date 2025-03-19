@@ -100,7 +100,6 @@ if __name__ == '__main__':
         axis_show=True,
         axis_color="red",
         axis_line_style="-."
-    ).prepare()
+    )
     scene.add_frames(frame1)
-    scene.draw()
-    scene.finalize()
+    scene.show()

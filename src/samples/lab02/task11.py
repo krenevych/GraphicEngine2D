@@ -21,61 +21,62 @@ class SceneSample(Scene):
         self[FIGURE_KEY].color = "blue"
         self[FIGURE_KEY].line_style = ":"
 
-    def draw_frames(self):
-        rect = self[FIGURE_KEY]
-        rect.draw()
+transformation = Mat3x3(2.934, -0.416, 2.000,
+                        0.624, 1.956, 3.400,
+                        0, 0, 1)
 
-        transformation = Mat3x3(2.934, -0.416, 2.000,
-                                0.624, 1.956, 3.400,
-                                0, 0, 1)
+print(transformation)
 
-        print(transformation)
+transformation_inv = transformation.inverse()
+#     0.326    0.069   -0.888
+#    -0.104    0.489   -1.455
+#     0.000    0.000    1.000
 
-        transformation_inv = transformation.inverse()
-        #     0.326    0.069   -0.888
-        #    -0.104    0.489   -1.455
-        #     0.000    0.000    1.000
+print(transformation_inv)
 
-        print(transformation_inv)
 
-        rect.set_transformation(transformation_inv)
-        rect.color = "red"
-        rect.line_style = "-"
-        rect.draw()
+def frame1(scene):
+    pass
 
-        translation = transformation[:2, 2]
-        print(f"{translation=}")
+def frame2(scene):
+    rect = scene[FIGURE_KEY]
+    rect.transformation = transformation_inv
+    rect.color = "red"
+    rect.line_style = "-"
 
-        i = transformation[:2, 0]
-        j = transformation[:2, 1]
-        print(f"{i=}")
-        print(f"{j=}")
+    translation = transformation[:2, 2]
+    print(f"{translation=}")
 
-        s_x = np.linalg.norm(i)
-        s_y = np.linalg.norm(j)
+    i = transformation[:2, 0]
+    j = transformation[:2, 1]
+    print(f"{i=}")
+    print(f"{j=}")
 
-        print(f"{s_x=}")
-        print(f"{s_y=}")
+    s_x = np.linalg.norm(i)
+    s_y = np.linalg.norm(j)
 
-        scale_x = (2.934 ** 2 + 0.624 ** 2) ** 0.5
-        scale_y = ((-0.416) ** 2 + 1.956 ** 2) ** 0.5
-        print(f"{scale_x=}", f"{scale_y=}")
+    print(f"{s_x=}")
+    print(f"{s_y=}")
 
-        transformation_1 = transformation * Mat3x3.scale(1 / scale_x, 1 / scale_y)
-        print(transformation_1)
+    scale_x = (2.934 ** 2 + 0.624 ** 2) ** 0.5
+    scale_y = ((-0.416) ** 2 + 1.956 ** 2) ** 0.5
+    print(f"{scale_x=}", f"{scale_y=}")
 
-        print(np.linalg.norm(transformation_1[:2, 0]))
-        print(np.linalg.norm(transformation_1[:2, 1]))
+    transformation_1 = transformation * Mat3x3.scale(1 / scale_x, 1 / scale_y)
+    print(transformation_1)
 
-        print(np.linalg.norm(transformation_1[0, :2]))
-        print(np.linalg.norm(transformation_1[0, :2]))
+    print(np.linalg.norm(transformation_1[:2, 0]))
+    print(np.linalg.norm(transformation_1[:2, 1]))
 
-        cos_t = transformation_1[0, 0]
-        sin_t = transformation_1[1, 0]
-        angle = np.arctan2(sin_t, cos_t)
-        print(angle, np.degrees(angle))
+    print(np.linalg.norm(transformation_1[0, :2]))
+    print(np.linalg.norm(transformation_1[0, :2]))
 
-        print(Mat3x3.decompose_affine(transformation), sep="\n")  # checking
+    cos_t = transformation_1[0, 0]
+    sin_t = transformation_1[1, 0]
+    angle = np.arctan2(sin_t, cos_t)
+    print(angle, np.degrees(angle))
+
+    print(Mat3x3.decompose_affine(transformation), sep="\n")  # checking
 
 
 if __name__ == '__main__':
@@ -90,7 +91,7 @@ if __name__ == '__main__':
         axis_line_style="-.",  # стиль ліній осей координат
         keep_aspect_ratio=True,
     )
-    scene.prepare()
-    scene.draw()
 
-    scene.finalize()
+    scene.add_frames(frame1, frame2)
+
+    scene.show()

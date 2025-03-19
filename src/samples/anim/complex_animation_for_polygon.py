@@ -42,7 +42,7 @@ if __name__ == '__main__':
         axis_color=("red", "green"),  # колір осей координат
         axis_line_style="-.",  # стиль ліній осей координат
         keep_aspect_ratio=True,
-    ).prepare()
+    )
 
     translation = TranslationAnimation(
         end=vertex(3, 3),
@@ -81,4 +81,4 @@ if __name__ == '__main__':
 
     scene.add_animation(complex)
 
-    scene.animate()
+    scene.show()

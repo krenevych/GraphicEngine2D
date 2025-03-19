@@ -19,35 +19,35 @@ class SceneSample(Scene):
         self[FIGURE_KEY].color = "blue"
         self[FIGURE_KEY].line_style = ":"
 
-    def draw_frames(self):
-        rect = self[FIGURE_KEY]
-        rect.draw()
 
-        T_P = Mat3x3.translation(-0.5, -0.5)
-        T_P_inv = T_P.inverse()
+T_P = Mat3x3.translation(-0.5, -0.5)
+T_P_inv = T_P.inverse()
+S = Mat3x3.scale(2, 3)
 
-        S = Mat3x3.scale(2, 3)
 
-        rect.line_style = "solid"
-        rect.color = "green"
-        rect.set_transformation(T_P_inv * S * T_P)  # повертаємо опорну точку на її місце
-        rect.draw()
+def frame1(scene):
+    rect = scene[FIGURE_KEY]
 
-        print("зміщення P -> O")
-        print(T_P)
-        print("розтягу")
-        print(S)
-        print("повернення опорної точки в початкове положення")
-        print(T_P_inv)
-        print("загальна трансформація")
-        print(rect.transformation)
+
+def frame2(scene):
+    rect = scene[FIGURE_KEY]
+    rect.line_style = "solid"
+    rect.color = "green"
+    rect.transformation = T_P_inv * S * T_P  # повертаємо опорну точку на її місце
+
+    print("зміщення P -> O")
+    print(T_P)
+    print("розтягу")
+    print(S)
+    print("повернення опорної точки в початкове положення")
+    print(T_P_inv)
+    print("загальна трансформація")
+    print(rect.transformation)
 
 
 if __name__ == '__main__':
     scene = SceneSample(
-        image_size=(5, 5),  # розмір зображення: 1 - 100 пікселів
         coordinate_rect=(-1, -2, 4, 4),  # розмірність системи координат
-        title="Picture",  # заголовок рисунка
         grid_show=False,  # чи показувати координатну сітку
         base_axis_show=False,  # чи показувати базові осі зображення
         axis_show=True,  # чи показувати осі координат
@@ -55,7 +55,8 @@ if __name__ == '__main__':
         axis_line_style="-.",  # стиль ліній осей координат
         keep_aspect_ratio=True,
     )
-    scene.prepare()
-    scene.draw()
 
-    scene.finalize()
+    scene.add_frames(frame1,
+                     frame2,
+                     )
+    scene.show()

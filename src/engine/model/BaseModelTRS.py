@@ -26,10 +26,6 @@ class BaseModelTRS(Model):
     def rotation(self, angle):
         self.__rotation = angle
 
-    def set_transformation(self, transformation):
-        self.__translation, self.__rotation, self.__scale = Mat3x3.decompose_affine(transformation)
-        self._transformation = transformation
-
     @property
     def transformation(self):
         T = Mat3x3.translation(self.__translation)
@@ -37,3 +33,8 @@ class BaseModelTRS(Model):
         S = Mat3x3.scale(self.__scale)
 
         return T * R * S
+
+    @transformation.setter
+    def transformation(self, transformation):
+        self.__translation, self.__rotation, self.__scale = Mat3x3.decompose_affine(transformation)
+        self._transformation = transformation

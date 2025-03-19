@@ -34,7 +34,6 @@ if __name__ == '__main__':
         grid_show=True,
         base_axis_show=False,
         axis_show=True
-    ).prepare()
+    )
     scene.add_frames(frame1)
-    scene.draw()
-    scene.finalize()
+    scene.show()

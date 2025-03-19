@@ -32,16 +32,13 @@ class AnimatedSceneSample(AnimatedScene):
 
 if __name__ == '__main__':
     scene = AnimatedSceneSample(
-        image_size=(5, 5),  # розмір зображення: 1 - 100 пікселів
         coordinate_rect=(-1, -1, 4, 4),  # розмірність системи координат
-        title="Picture",  # заголовок рисунка
-        # grid_show=False,  # чи показувати координатну сітку
         base_axis_show=False,  # чи показувати базові осі зображення
         axis_show=True,  # чи показувати осі координат
         axis_color=("red", "green"),  # колір осей координат
         axis_line_style="-.",  # стиль ліній осей координат
         keep_aspect_ratio=True,
-    ).prepare()
+    )
 
     translation = TranslationAnimation(
         end=vertex(3, 3),
@@ -67,4 +64,4 @@ if __name__ == '__main__':
     scene.add_animation(rotation)
     scene.add_animation(scale)
     scene.add_animation(translation)
-    scene.animate()
+    scene.show()

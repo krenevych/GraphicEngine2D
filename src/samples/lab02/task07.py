@@ -19,29 +19,32 @@ class SceneSample(Scene):
         self[FIGURE_KEY].color = "blue"
         self[FIGURE_KEY].line_style = ":"
 
-    def draw_frames(self):
-        rect: (SimplePolygon,) = self[FIGURE_KEY]
-        rect.draw()
 
-        T_P = Mat3x3.translation(0.5, 0.5)
-        T_P_inv = T_P.inverse()
+T_P = Mat3x3.translation(0.5, 0.5)
+T_P_inv = T_P.inverse()
 
-        R = Mat3x3.rotation(60, False)
+R = Mat3x3.rotation(60, False)
 
-        rect.color = "red"
-        # rect.transformation = R
-        rect.set_transformation(T_P_inv)  # перенесли фігуру, щоб опорна точка потрапила в початок координат
-        rect.draw()
+def frame1(scene: Scene):
+    pass
 
-        rect.color = "orange"
-        rect.set_transformation(
-            R * T_P_inv)  # поворот навколо початку координат, з урахуванням перенесення у початок координат оп.точки
-        rect.draw()
+def frame2(scene: Scene):
+    rect: (SimplePolygon,) = scene[FIGURE_KEY]
+    rect.color = "red"
+    rect.transformation = T_P_inv  # перенесли фігуру, щоб опорна точка потрапила в початок координат
 
-        rect.line_style = "solid"
-        rect.color = "green"
-        rect.set_transformation(T_P * R * T_P_inv)  # повертаємо опорну точку на її місце
-        rect.draw()
+
+def frame3(scene: Scene):
+    rect: (SimplePolygon,) = scene[FIGURE_KEY]
+    rect.color = "orange"
+    rect.transformation = R * T_P_inv  # поворот навколо початку координат, з урахуванням перенесення у початок координат оп.точки
+
+
+def frame4(scene: Scene):
+    rect: (SimplePolygon,) = scene[FIGURE_KEY]
+    rect.line_style = "solid"
+    rect.color = "green"
+    rect.transformation = T_P * R * T_P_inv  # повертаємо опорну точку на її місце
 
 
 if __name__ == '__main__':
@@ -56,8 +59,12 @@ if __name__ == '__main__':
         axis_line_style="-.",  # стиль ліній осей координат
         keep_aspect_ratio=True,
     )
-    scene.prepare()
 
-    scene.draw()
+    scene.add_frames(frame1,
+                     frame2,
+                     frame3,
+                     frame4,
+                     )
 
-    scene.finalize()
+
+    scene.show()

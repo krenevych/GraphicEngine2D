@@ -78,9 +78,8 @@ if __name__ == '__main__':
         coordinate_rect=(-1, -1, 5, 5),
         grid_show=False,
         axis_show=True
-    ).prepare()
+    )
 
     sample_scene.add_frames(frame1, frame2)
 
-    sample_scene.draw()
-    sample_scene.finalize()
+    sample_scene.show()

@@ -60,6 +60,10 @@ class BaseModel(metaclass=ABCMeta):
     def transformation(self):
         return self._transformation
 
+    @transformation.setter
+    def transformation(self, transformation):
+        self._transformation = transformation
+
     @property
     def transformed_geometry(self):
         p = Mat3x3.translation(self._pivot)
@@ -71,7 +75,7 @@ class BaseModel(metaclass=ABCMeta):
 
     def apply_transformation_to_geometry(self):
         self._geometry = self.transformed_geometry
-        self.set_transformation(Mat3x3.identity())
+        self.transformation = Mat3x3.identity()
 
     def pivot(self, tx, ty):
         if ty is None and isinstance(tx, Vec3):

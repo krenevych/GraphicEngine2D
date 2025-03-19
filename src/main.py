@@ -58,7 +58,5 @@ if __name__ == '__main__':
         axis_line_style="-."  # стиль ліній осей координат
     )
 
-    scene.prepare()  # налаштовує та зображує базові елементи сцени (розмірність, глобальна система координат, тощо.)
     scene.add_frames(frame1)
-    scene.draw()
-    scene.finalize()
+    scene.show()

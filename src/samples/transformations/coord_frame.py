@@ -41,7 +41,7 @@ if __name__ == '__main__':
         R = Rz
 
         rect.alpha = 1.0
-        rect.set_transformation(T * R * S)
+        rect.transformation = T * R * S
 
 
     ############## Frame 3 ##################
@@ -50,7 +50,7 @@ if __name__ == '__main__':
 
         R = Rx * Rz
 
-        rect.set_transformation(T * R * S)
+        rect.transformation = T * R * S
 
 
     simple_scene = CoordinateFrameScene(

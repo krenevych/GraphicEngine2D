@@ -59,7 +59,7 @@ if __name__ == '__main__':
         R = T * R1 * T1
 
         rect.color = "blue"  # колір ліній
-        rect.set_transformation(R)
+        rect.transformation = R
 
 
     ############## Frame 3 ##################
@@ -75,7 +75,7 @@ if __name__ == '__main__':
         R = T * R1 * T1
 
         rect.color = "blue"  # колір ліній
-        rect.set_transformation(R)
+        rect.transformation = R
 
 
     ############## Frame 4 ##################
@@ -91,7 +91,7 @@ if __name__ == '__main__':
         R = T * R1 * T1
 
         rect.color = "blue"  # колір ліній
-        rect.set_transformation(R)
+        rect.transformation = R
 
 
     ############## Frame 5 ##################
@@ -107,7 +107,7 @@ if __name__ == '__main__':
         R = T * R1 * T1
 
         rect.color = "blue"  # колір ліній
-        rect.set_transformation(R)
+        rect.transformation = R
 
 
     simple_scene = SimplePolygonScene(

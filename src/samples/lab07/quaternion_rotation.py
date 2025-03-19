@@ -112,7 +112,7 @@ if __name__ == '__main__':
                                      alpha=0.2
                                      )
             self[RECT_0_KEY] = polygon0
-            polygon0.set_transformation(R_final)
+            polygon0.transformation = R_final
             polygon0.show_local_frame()
 
 

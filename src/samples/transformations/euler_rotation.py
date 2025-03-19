@@ -41,7 +41,7 @@ if __name__ == '__main__':
 
         rot = rot_z * rot
 
-        polygon.set_transformation(rot)
+        polygon.transformation = rot
 
 
     class SimplePolygonScene(AnimatedScene):
@@ -65,7 +65,7 @@ if __name__ == '__main__':
                                      edgecolor="red",
                                      )
             self[RECT_0_KEY] = polygon0
-            polygon0.set_transformation(R_final)
+            polygon0.transformation = R_final
             polygon0.alpha = 0.2
             polygon0.color = "green"
 

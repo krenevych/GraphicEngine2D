@@ -60,7 +60,7 @@ class AnimatedScene(Scene, AnimationFinishedListener):
                 transformation = self._current_animation.current_transformation(frame)
                 if self._current_animation.channel in self.figures:
                     figure = self[self._current_animation.channel]
-                    figure.set_transformation(transformation)
+                    figure.transformation = transformation
 
                 self._current_animation.notify(self, frame)
 

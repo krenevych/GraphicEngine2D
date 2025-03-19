@@ -48,7 +48,7 @@ if __name__ == '__main__':
 
     def frame1(scene):
         fig = scene[FIGURE_KEY]
-        fig.set_transformation(Mat4x4.translation(1, 1, 0))
+        fig.transformation = Mat4x4.translation(1, 1, 0)
 
 
     animated_scene.add_frames(frame1)

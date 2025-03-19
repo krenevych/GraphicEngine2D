@@ -47,8 +47,8 @@ if __name__ == '__main__':
         Tp = Mat4x4.translation(vect[0])
         Tp_1 = Tp.inverse()
 
-        rect.set_transformation(Tp_1)
-        vect.set_transformation(Tp_1)
+        rect.transformation = Tp_1
+        vect.transformation = Tp_1
 
 
     ############## Frame 3 ##################
@@ -69,8 +69,8 @@ if __name__ == '__main__':
 
         R = R_phy_oy * Tp_1
 
-        rect.set_transformation(R)
-        vect.set_transformation(R)
+        rect.transformation = R
+        vect.transformation = R
 
 
     ############## Frame 4 ##################
@@ -96,8 +96,8 @@ if __name__ == '__main__':
 
         R = R_theta_ox * R_phy_oy * Tp_1
 
-        rect.set_transformation(R)
-        vect.set_transformation(R)
+        rect.transformation = R
+        vect.transformation = R
 
 
     ############## Frame 5 ##################
@@ -125,8 +125,8 @@ if __name__ == '__main__':
 
         R = R_psy_oz * R_theta_ox * R_phy_oy * Tp_1
 
-        rect.set_transformation(R)
-        vect.set_transformation(R)
+        rect.transformation = R
+        vect.transformation = R
 
 
     ############## Frame 6 ##################
@@ -154,8 +154,8 @@ if __name__ == '__main__':
 
         R = Tp_1.inverse() * R_phy_oy.inverse() * R_theta_ox.inverse() * R_psy_oz * R_theta_ox * R_phy_oy * Tp_1
 
-        rect.set_transformation(R)
-        vect.set_transformation(R)
+        rect.transformation = R
+        vect.transformation = R
 
 
     simple_scene = SimplePolygonScene(

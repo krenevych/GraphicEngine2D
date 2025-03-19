@@ -108,7 +108,7 @@ if __name__ == '__main__':
 
         R = Rx * Rz
 
-        rect.set_transformation(T * R * S)
+        rect.transformation = T * R * S
 
 
     simple_scene = SimplePolygonScene(

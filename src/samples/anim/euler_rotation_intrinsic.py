@@ -91,7 +91,7 @@ if __name__ == '__main__':
                                      edgecolor="red",
                                      )
             self[RECT_0_KEY] = polygon0
-            polygon0.set_transformation(R_final)
+            polygon0.transformation = R_final
             polygon0.alpha = 0.3
             polygon0.pivot(p)
             polygon0.show_local_frame()

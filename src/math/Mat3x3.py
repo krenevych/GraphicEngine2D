@@ -124,21 +124,21 @@ class Mat3x3:
         return Mat3x3(m)
 
     @staticmethod
-    def rotationX(angle, is_radians=True):
+    def rotation_x(angle, is_radians=True):
         if not is_radians:
             angle = np.radians(angle)
         m = rotation_matrix_x(angle)
         return Mat3x3(m)
 
     @staticmethod
-    def rotationY(angle, is_radians=True):
+    def rotation_y(angle, is_radians=True):
         if not is_radians:
             angle = np.radians(angle)
         m = rotation_matrix_y(angle)
         return Mat3x3(m)
 
     @staticmethod
-    def rotationZ(angle, is_radians=True):
+    def rotation_z(angle, is_radians=True):
         if not is_radians:
             angle = np.radians(angle)
 

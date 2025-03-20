@@ -6,7 +6,7 @@ from src.math.Mat3x3 import Mat3x3
 
 RECT_KEY = "rect"
 
-R = Mat3x3.rotationZ(np.radians(45))
+R = Mat3x3.rotation(np.radians(45))
 S = Mat3x3.scale(0.5, 0.5)
 T = Mat3x3.translation(1, 1)
 

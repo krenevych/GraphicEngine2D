@@ -50,7 +50,7 @@ class Vec3:
         self.data[index] = value
 
     def __len__(self):
-        return 2
+        return 3
 
     def __str__(self):
         """

@@ -1,5 +1,12 @@
 import numpy as np
 
+def translationMatrix2d(t_x, t_y):
+    translation_matrix = np.array([
+        [1, 0, t_x],
+        [0, 1, t_y],
+        [0, 0, 1]
+    ])
+    return translation_matrix
 
 def translation_matrix(t_x, t_y, t_z):
     return np.array([

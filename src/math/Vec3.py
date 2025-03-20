@@ -15,6 +15,8 @@ class Vec3:
             self.data = np.zeros(3, dtype=float)
         elif len(data) == 3:
             self.data = np.array( (data), dtype=float)
+        elif len(data) == 2:
+            self.data = np.array((*data, 0.0), dtype=float)
         elif len(data) == 1:
             data = data[0]
             if isinstance(data, Vec3):
@@ -30,6 +32,10 @@ class Vec3:
                 raise TypeError("Непідтриманий тип даних для ініціалізації.")
         else:
             raise TypeError("Непідтриманий тип даних для ініціалізації.")
+
+    @staticmethod
+    def point(x=0, y=0):
+        return Vec3(x, y, 1)
 
     def __getitem__(self, index):
         """

@@ -1,7 +1,7 @@
 import numpy as np
 
 from src.math.Rotations import rotation_matrix_x, rotation_matrix_y, rotation_matrix_z, get_rotation_angle
-from src.math.Scale import scaleMatrix2d
+from src.math.Scale import scale_matrix
 from src.math.Translation import translationMatrix2d
 from src.math.Vec3 import Vec3
 
@@ -158,11 +158,11 @@ class Mat3x3:
     @staticmethod
     def scale(sx, sy=None):
         if sy is None and isinstance(sx, Vec3):
-            m = scaleMatrix2d(*sx.xy)
+            m = scale_matrix(*sx.xy)
         elif sy is None and isinstance(sx, np.ndarray):
-            m = scaleMatrix2d(sx[0], sx[1])
+            m = scale_matrix(sx[0], sx[1])
         else:
-            m = scaleMatrix2d(sx, sy)
+            m = scale_matrix(sx, sy)
         return Mat3x3(m)
 
     @staticmethod

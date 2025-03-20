@@ -1,23 +1,14 @@
 import numpy as np
+from PIL.ImageOps import scale
 
 
-def scaleMatrix2d(s_x, s_y):
-    translation_matrix = np.array([
-        [s_x, 0, 0],
-        [0, s_y, 0],
-        [0, 0, 1]
+def scale_matrix(s_x, s_y=1, s_z=1):
+    scale = np.array([
+        [ s_x,   0,      0 ],
+        [ 0,    s_y,     0 ],
+        [ 0,      0,   s_z ]
     ])
-    return translation_matrix
-
-
-def scaleMatrix3d(s_x, s_y, s_z):
-    translation_matrix_3d = np.array([
-        [s_x, 0, 0, 0],
-        [0, s_y, 0, 0],
-        [0, 0, s_z, 0],
-        [0, 0, 0, 1]
-    ])
-    return translation_matrix_3d
+    return scale
 
 
 if __name__ == '__main__':

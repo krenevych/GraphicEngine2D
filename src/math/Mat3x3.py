@@ -47,6 +47,8 @@ class Mat3x3:
                     raise ValueError("Матриця повинна бути розміром 2x2 або 3x3.")
             else:
                 raise TypeError("Непідтриманий тип даних для ініціалізації.")
+        elif len(data) == 3 and all(isinstance(vec, Vec3) for vec in data):
+            self.data = np.vstack([vec.data for vec in data])
         else:
             raise TypeError(
                 "Непідтриманий тип даних для ініціалізації або недостатньо елементів для побудови матриці 3x3.")
@@ -266,8 +268,3 @@ if __name__ == "__main__":
     b = Vec3(1, 2, 4)
     print("b =", b)
 
-    x = m1_inv * b
-    print("x = ", x)
-
-    b1 = m1 * x
-    print("b1 =", b1)

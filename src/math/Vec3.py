@@ -30,7 +30,6 @@ class Vec3:
                 raise TypeError("Непідтриманий тип даних для ініціалізації.")
         else:
             raise TypeError("Непідтриманий тип даних для ініціалізації.")
-        pass
 
     def __getitem__(self, index):
         """

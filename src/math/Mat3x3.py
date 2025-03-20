@@ -1,6 +1,6 @@
 import numpy as np
 
-from src.math.Rotations import rotation_matrix_x, rotation_matrix_y, rotation_matrix_z, get_rotation_angle
+from src.math.Rotations import rotation_matrix_x, rotation_matrix_y, rotation_matrix_z
 from src.math.Scale import scale_matrix
 from src.math.Translation import translationMatrix2d
 from src.math.Vec3 import Vec3
@@ -35,22 +35,27 @@ class Mat3x3:
                 # Якщо переданий об'єкт Matrix3x3
                 self.data = np.copy(data.data)
             elif isinstance(data, (list, tuple, np.ndarray)):
-                data = np.array(data)
-                if data.shape == (3, 3):
-                    # Якщо передана 3x3 матриця
-                    self.data = np.array(data, dtype=float)
-                elif data.shape == (2, 2):
-                    # Якщо передана 2x2 матриця, доповнюємо до 3x3
-                    self.data = np.eye(3, dtype=float)
-                    self.data[:2, :2] = data
-                else:
-                    raise ValueError("Матриця повинна бути розміром 2x2 або 3x3.")
+                try:
+                    data = np.array(data)
+                    if data.shape == (3, 3):
+                        # Якщо передана 3x3 матриця
+                        self.data = np.array(data, dtype=float)
+                    elif data.shape == (2, 2):
+                        # Якщо передана 2x2 матриця, доповнюємо до 3x3
+                        self.data = np.eye(3, dtype=float)
+                        self.data[:2, :2] = data
+                    else:
+                        raise ValueError("Непідтриманий тип даних для ініціалізації або недостатньо елементів для побудови матриці 3x3.")
+                except ValueError:
+                    raise ValueError(
+                        "Непідтриманий тип даних для ініціалізації або недостатньо елементів для побудови матриці 3x3.")
+
             else:
-                raise TypeError("Непідтриманий тип даних для ініціалізації.")
+                raise ValueError("Непідтриманий тип даних для ініціалізації або недостатньо елементів для побудови матриці 3x3.")
         elif len(data) == 3 and all(isinstance(vec, Vec3) for vec in data):
             self.data = np.vstack([vec.data for vec in data])
         else:
-            raise TypeError(
+            raise ValueError(
                 "Непідтриманий тип даних для ініціалізації або недостатньо елементів для побудови матриці 3x3.")
 
     def __getitem__(self, indices):
@@ -107,7 +112,8 @@ class Mat3x3:
         """
         Обчислює обернену матрицю.
         """
-        if np.linalg.det(self.data) == 0:
+        det = np.linalg.det(self.data)
+        if np.isclose(det, 0):
             raise ValueError("Матриця не має оберненої (визначник дорівнює нулю).")
         return Mat3x3(np.linalg.inv(self.data))
 
@@ -164,7 +170,7 @@ class Mat3x3:
             elif isinstance(sx, (np.ndarray, tuple, list)) and len(sx) <= 3:
                 m = scale_matrix(*sx)
             elif isinstance(sx, (float, int)):
-                m = scale_matrix(sx)
+                m = scale_matrix(sx, sx, sx)
             else:
                 raise ValueError("Некоретне значення масштабування")
         elif all(isinstance(el, (float, int)) for el in sx):
@@ -172,36 +178,6 @@ class Mat3x3:
         else:
             raise ValueError("Некоретне значення масштабування")
         return Mat3x3(m)
-
-    @staticmethod
-    def decompose_affine(transition):
-
-        if not isinstance(transition, (np.ndarray, Mat3x3)):
-            raise TypeError("Transformation error.")
-
-        if isinstance(transition, Mat3x3):
-            transition = transition.data
-
-        if transition.shape != (3, 3):
-            raise ValueError("Матриця повинна бути розміром 3x3.")
-
-        # Виділення переносу
-        translation = transition[:2, 2]
-
-        # Виділення матриці RS
-        rs = transition[:2, :2]
-
-        # Обчислення масштабу
-        scale_x = np.linalg.norm(rs[:, 0])
-        scale_y = np.linalg.norm(rs[:, 1])
-        scales = np.array([scale_x, scale_y])
-
-        # Обчислення повороту
-        rotation = rs / scales
-
-        angle = get_rotation_angle(rotation)
-
-        return translation, angle, scales
 
 
 # Приклад використання

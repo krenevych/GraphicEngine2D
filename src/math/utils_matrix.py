@@ -4,6 +4,8 @@ from scipy.spatial.transform import Rotation as R
 
 from src.math.Mat4x4 import Mat4x4
 from src.math.Quaternion import Quaternion
+from src.math.Rotations import get_rotation_angle
+
 
 def is_orthogonal(matrix, tol=1e-6):
     """
@@ -124,4 +126,32 @@ def decompose_affine(matrix):
     axis, angle = rot.as_rotvec(), rot.magnitude()
 
     return T, R, S, axis, angle
+
+def decompose_affine3(transition):
+
+        if not isinstance(transition, (np.ndarray)):
+            raise TypeError("Transformation error.")
+
+        if transition.shape != (3, 3):
+            raise ValueError("Матриця повинна бути розміром 3x3.")
+
+        # Виділення переносу
+        translation = transition[:2, 2]
+
+        # Виділення матриці RS
+        rs = transition[:2, :2]
+
+        # Обчислення масштабу
+        scale_x = np.linalg.norm(rs[:, 0])
+        scale_y = np.linalg.norm(rs[:, 1])
+        scales = np.array([scale_x, scale_y])
+
+        # Обчислення повороту
+        rotation = rs / scales
+
+        angle = get_rotation_angle(rotation)
+
+        return translation, angle, scales
+
+
 

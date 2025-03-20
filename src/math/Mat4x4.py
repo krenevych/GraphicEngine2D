@@ -1,5 +1,6 @@
 import numpy as np
 
+from src.math.Mat3x3 import Mat3x3
 from src.math.Rotations import rotation_matrix_z, rotation_matrix_x, rotation_matrix_y
 from src.math.Scale import scale_matrix
 from src.math.Translation import translation_matrix
@@ -30,35 +31,48 @@ class Mat4x4:
             self.data = np.eye(4, dtype=float)
             self.data[:3, :3] = elements
         elif len(data) == 4:
-            elements = np.array(data, dtype=float)
-            elements = elements.reshape((2, 2))
-            self.data = np.eye(4, dtype=float)
-            self.data[:2, :2] = elements
-            pass
+            if  all(isinstance(vec, Vec4) for vec in data):
+                self.data = np.vstack([vec.data for vec in data])
+            elif all(isinstance(vec, (np.ndarray, tuple, list)) for vec in data):
+                self.data = np.vstack([vec for vec in data])
+            elif all(isinstance(el, (float, int)) for el in data):
+                elements = np.array(data, dtype=float)
+                elements = elements.reshape((2, 2))
+                self.data = np.eye(4, dtype=float)
+                self.data[:2, :2] = elements
         elif len(data) == 1:
             data = data[0]
             if isinstance(data, Mat4x4):
                 # Якщо переданий об'єкт Matrix4x4
                 self.data = np.copy(data.data)
+            elif isinstance(data, Mat3x3):
+                # Якщо переданий об'єкт Matrix3x3
+                self.data = np.eye(4, dtype=float)
+                self.data[:3, :3] = data.data
             elif isinstance(data, (list, tuple, np.ndarray)):
-                data = np.array(data)
-                if data.shape == (4, 4):
-                    # Якщо передана 4x4 матриця
-                    self.data = np.array(data, dtype=float)
-                elif data.shape == (3, 3):
-                    # Якщо передана 2x2 матриця, доповнюємо до 3x3
-                    self.data = np.eye(4, dtype=float)
-                    self.data[:3, :3] = data
-                elif data.shape == (2, 2):
-                    # Якщо передана 2x2 матриця, доповнюємо до 3x3
-                    self.data = np.eye(4, dtype=float)
-                    self.data[:2, :2] = data
-                else:
-                    raise ValueError("Матриця повинна бути розміром 2x2 або 3x3 a,j 4x4.")
+                try:
+                    data = np.array(data)
+                    if data.shape == (4, 4):
+                        # Якщо передана 4x4 матриця
+                        self.data = np.array(data, dtype=float)
+                    elif data.shape == (3, 3):
+                        # Якщо передана 3x3 матриця, доповнюємо до 4x4
+                        self.data = np.eye(4, dtype=float)
+                        self.data[:3, :3] = data
+                    elif data.shape == (2, 2):
+                        # Якщо передана 2x2 матриця, доповнюємо до 4x4
+                        self.data = np.eye(4, dtype=float)
+                        self.data[:2, :2] = data
+                    else:
+                        raise ValueError("Непідтриманий тип даних для ініціалізації або недостатньо елементів для побудови матриці 4x4.")
+                except ValueError:
+                    raise ValueError(
+                        "Непідтриманий тип даних для ініціалізації або недостатньо елементів для побудови матриці 4x4.")
+
             else:
-                raise TypeError("Непідтриманий тип даних для ініціалізації.")
+                raise ValueError("Непідтриманий тип даних для ініціалізації або недостатньо елементів для побудови матриці 4x4.")
         else:
-            raise TypeError(
+            raise ValueError(
                 "Непідтриманий тип даних для ініціалізації або недостатньо елементів для побудови матриці 4x4.")
 
     def __getitem__(self, indices):

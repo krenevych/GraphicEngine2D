@@ -1,6 +1,6 @@
 import pytest
 import numpy as np
-from src.math.Vec3 import Vec3  # Переконайся, що шлях правильний!
+from src.math.Vec3 import Vec3, vertex  # Переконайся, що шлях правильний!
 
 # 1. Створення вектора з двох чисел (третьою координатою має бути 0)
 def test_vector_from_two_numbers():
@@ -8,17 +8,17 @@ def test_vector_from_two_numbers():
     expected = np.array([1, 2, 0], dtype=float)
     assert np.allclose(vec.data, expected), "Помилка: має бути вектор (1, 2, 0)"
 
-# 2. Створення точки через статичний метод point()
-def test_vector_point():
-    vec = Vec3.point(3, 4)
+# 2. Створення точки через статичний метод vertex()
+def test_vertex():
+    vec = vertex(3, 4)
     expected = np.array([3, 4, 1], dtype=float)
-    assert np.allclose(vec.data, expected), "Помилка: point() має створити вектор (3, 4, 1)"
+    assert np.allclose(vec.data, expected), "Помилка: vertex() має створити вектор (3, 4, 1)"
 
-# 3. Створення точки point() без аргументів (має бути (0, 0, 1))
-def test_vector_point_default():
-    vec = Vec3.point()
+# 3. Створення точки vertex() без аргументів (має бути (0, 0, 1))
+def test_vertex_default():
+    vec = vertex()
     expected = np.array([0, 0, 1], dtype=float)
-    assert np.allclose(vec.data, expected), "Помилка: point() без аргументів має створити (0, 0, 1)"
+    assert np.allclose(vec.data, expected), "Помилка: vertex() без аргументів має створити (0, 0, 1)"
 
 # 4. Перевірка нормалізації вектора (довжина має стати 1)
 def test_vector_normalization():
@@ -46,7 +46,7 @@ def test_vector_cross_product():
 # 7. Перевірка помилки при некоректному вхідному значенні в cross()
 def test_vector_cross_invalid():
     vec = Vec3(1, 0, 0)
-    with pytest.raises(TypeError, match="Потрібен Vec3 або список із 4 елементів"):
+    with pytest.raises(TypeError, match=Vec3.ERROR_MESSAGE_CROSS):
         vec.cross([1, 2])  # Некоректний розмір вектора
 
 # 8. Перевірка доступу до x, y, z через властивості

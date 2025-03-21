@@ -8,6 +8,7 @@ from src.engine.model.SimplePolygon import SimplePolygon
 from src.engine.model.Vector import Vector
 from src.engine.scene.AnimatedScene import AnimatedScene
 from src.math.Mat4x4 import Mat4x4
+from src.math.Vec3 import Vec3
 from src.math.Vec4 import Vec4, vertex
 
 if __name__ == '__main__':
@@ -65,8 +66,8 @@ if __name__ == '__main__':
     frames_num = 60
 
     angle = np.radians(45)
-    translation_vector = Vec4(1, 1, 1)
-    scales = vertex(2, 2, 2)
+    translation_vector = Vec3(1, 1, 1)
+    scales = Vec3(2, 2, 2)
 
     T = Mat4x4.translation(translation_vector)
     R = Mat4x4.rotation(angle, ax)

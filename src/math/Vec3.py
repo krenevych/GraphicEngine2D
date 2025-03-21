@@ -2,6 +2,11 @@ import numpy as np
 
 
 class Vec3:
+    ERROR_MESSAGE_CONSTRUCTOR = "Непідтриманий тип даних для ініціалізації або недостатньо елементів для побудови Vec3."
+    ERROR_MESSAGE_ADD = "Правий операнд має бути число, список або Vec3."
+    ERROR_MESSAGE_MULT = "Правий операнд має бути число, список або Vec3."
+    ERROR_MESSAGE_CROSS = "Потрібен Vec3 або список із 3 елементів."
+    ERROR_MESSAGE_DIV = "Правий операнд має бути число"
 
     def __init__(self, *data):
         """
@@ -14,7 +19,7 @@ class Vec3:
         if len(data) == 0:
             self.data = np.zeros(3, dtype=float)
         elif len(data) == 3:
-            self.data = np.array( (data), dtype=float)
+            self.data = np.array((data), dtype=float)
         elif len(data) == 2:
             self.data = np.array((*data, 0.0), dtype=float)
         elif len(data) == 1:
@@ -27,15 +32,11 @@ class Vec3:
                     data = data.astype(float)
                     self.data = np.array(data)
                 else:
-                    raise ValueError("Вектор повинен містити рівно 3 елементи.")
+                    raise ValueError(Vec3.ERROR_MESSAGE_CONSTRUCTOR)
             else:
-                raise TypeError("Непідтриманий тип даних для ініціалізації.")
+                raise ValueError(Vec3.ERROR_MESSAGE_CONSTRUCTOR)
         else:
-            raise TypeError("Непідтриманий тип даних для ініціалізації.")
-
-    @staticmethod
-    def point(x=0, y=0):
-        return Vec3(x, y, 1)
+            raise ValueError(Vec3.ERROR_MESSAGE_CONSTRUCTOR)
 
     def __getitem__(self, index):
         """
@@ -67,7 +68,7 @@ class Vec3:
         elif isinstance(other, (Vec3, np.ndarray, list, tuple)):
             return Vec3(self.data + Vec3(other).data)
         else:
-            raise TypeError("Правий операнд має бути число, список або Vec3.")
+            raise TypeError(Vec3.ERROR_MESSAGE_ADD)
 
     def __sub__(self, other):
         if isinstance(other, (float, int)):
@@ -75,7 +76,7 @@ class Vec3:
         elif isinstance(other, (Vec3, np.ndarray, list, tuple)):
             return self + (-Vec3(other))
         else:
-            raise TypeError("Правий операнд має бути число, список або Vec3.")
+            raise TypeError(Vec3.ERROR_MESSAGE_ADD)
 
     def __mul__(self, other):
         if isinstance(other, (float, int)):
@@ -83,7 +84,13 @@ class Vec3:
         elif isinstance(other, (Vec3, np.ndarray, tuple, list)):
             return np.dot(self.data, Vec3(other).data)
         else:
-            raise TypeError("Правий операнд має бути число, список або Vec3.")
+            raise TypeError(Vec3.ERROR_MESSAGE_MULT)
+
+    def __truediv__(self, other):
+        if isinstance(other, (float, int)):
+            return Vec3(self.x / other, self.y / other, self.z / other)
+        else:
+            raise TypeError(Vec3.ERROR_MESSAGE_DIV)
 
     def __iter__(self):
         """Оператор *obj працює через цей метод"""
@@ -118,7 +125,7 @@ class Vec3:
             other = Vec3(other)
             return Vec3(np.cross(self.data, other.data))
 
-        raise TypeError("Потрібен Vec3 або список із 4 елементів.")
+        raise TypeError(Vec3.ERROR_MESSAGE_CROSS)
 
     @property
     def x(self):
@@ -160,6 +167,8 @@ class Vec3:
     def xyz(self):
         return self.data[:3]
 
+def vertex(x=0, y=0, z=1):
+    return Vec3(x, y, z)
 
 
 if __name__ == '__main__':

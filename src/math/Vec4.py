@@ -5,6 +5,11 @@ from src.math.Vec3 import Vec3
 
 class Vec4:
 
+    ERROR_MESSAGE_CONSTRUCTOR = "Непідтриманий тип даних для ініціалізації або недостатньо елементів для побудови Vec4."
+    ERROR_MESSAGE_ADD = "Правий операнд має бути число, список або Vec4."
+    ERROR_MESSAGE_MULT = "Правий операнд має бути число, список або Vec4."
+    ERROR_MESSAGE_DIV = "Правий операнд має бути числом"
+
     def __init__(self, *data):
         """
         Конструктор класу Vector3.
@@ -32,11 +37,11 @@ class Vec4:
                 elif data.shape == (3,):
                     self.data = np.array((*data.astype(float), 0.0))
                 else:
-                    raise ValueError("Вектор повинен містити рівно 3 елементи.")
+                    raise ValueError(Vec4.ERROR_MESSAGE_CONSTRUCTOR)
             else:
-                raise TypeError("Непідтриманий тип даних для ініціалізації.")
+                raise ValueError(Vec4.ERROR_MESSAGE_CONSTRUCTOR)
         else:
-            raise TypeError("Непідтриманий тип даних для ініціалізації.")
+            raise ValueError(Vec4.ERROR_MESSAGE_CONSTRUCTOR)
 
     def __getitem__(self, index):
         """
@@ -68,7 +73,7 @@ class Vec4:
         elif isinstance(other, (Vec4, np.ndarray, list, tuple)):
             return Vec4(self.data + Vec4(other).data)
         else:
-            raise TypeError("Правий операнд має бути число, список або Vec4.")
+            raise TypeError(Vec4.ERROR_MESSAGE_ADD)
 
     def __sub__(self, other):
         if isinstance(other, (float, int)):
@@ -76,7 +81,7 @@ class Vec4:
         elif isinstance(other, (Vec4, np.ndarray, list, tuple)):
             return self + (-Vec4(other))
         else:
-            raise TypeError("Правий операнд має бути число, список або Vec4.")
+            raise TypeError(Vec4.ERROR_MESSAGE_ADD)
 
     def __mul__(self, other):
         if isinstance(other, (float, int)):
@@ -84,7 +89,7 @@ class Vec4:
         elif isinstance(other, (Vec4, np.ndarray, tuple, list)):
             return np.dot(self.data, Vec4(other).data)
         else:
-            raise TypeError("Правий операнд має бути число, список або Vec4.")
+            raise TypeError(Vec4.ERROR_MESSAGE_MULT)
 
     def __iter__(self):
         """Оператор *obj працює через цей метод"""
@@ -111,16 +116,6 @@ class Vec4:
         normalized = Vec4(self)
         normalized.normalize()
         return normalized
-
-    def cross(self, other):
-        """
-        Обчислює векторний добуток з іншим вектором Vector3 або numpy.ndarray з 3 елементів.
-        """
-        if not (isinstance(other, (Vec4, np.ndarray, tuple, list)) and len(other) == 4):
-            raise TypeError("Потрібен Vec4 або список із 4 елементів.")
-
-        other = Vec4(other)
-        return Vec4(np.cross(self.data, other.data))
 
     @property
     def x(self):

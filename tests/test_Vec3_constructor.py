@@ -46,17 +46,17 @@ def test_vector_from_tuple():
 
 # 7. Некоректний розмір (наприклад, список із 2 елементів) -> очікується ValueError
 def test_vector_invalid_size():
-    with pytest.raises(ValueError, match="Вектор повинен містити рівно 3 елементи"):
+    with pytest.raises(ValueError, match=Vec3.ERROR_MESSAGE_CONSTRUCTOR):
         Vec3([1, 2])  # Неправильний розмір
 
 # 8. Некоректний тип (наприклад, рядок) -> очікується TypeError
 def test_vector_invalid_type():
-    with pytest.raises(TypeError, match="Непідтриманий тип даних для ініціалізації"):
+    with pytest.raises(ValueError, match=Vec3.ERROR_MESSAGE_CONSTRUCTOR):
         Vec3("invalid input")  # Неправильний тип
 
 # 9. Створення з numpy-масиву неправильного розміру -> очікується ValueError
 def test_vector_invalid_numpy_size():
-    with pytest.raises(ValueError, match="Вектор повинен містити рівно 3 елементи"):
+    with pytest.raises(ValueError, match=Vec3.ERROR_MESSAGE_CONSTRUCTOR):
         Vec3(np.array([1, 2, 3, 4]))  # Забагато елементів
 
 # 10. Створення з іншого типу, який не є `Vec3`, `list`, `tuple` або `numpy.ndarray` -> очікується TypeError
@@ -64,5 +64,5 @@ def test_vector_invalid_object():
     class Dummy:
         pass
 
-    with pytest.raises(TypeError, match="Непідтриманий тип даних для ініціалізації"):
+    with pytest.raises(ValueError, match=Vec3.ERROR_MESSAGE_CONSTRUCTOR):
         Vec3(Dummy())  # Некоректний тип

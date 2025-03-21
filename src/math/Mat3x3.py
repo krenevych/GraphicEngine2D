@@ -10,7 +10,7 @@ class Mat3x3:
     ERROR_MESSAGE_CONSTRUCTOR = "Непідтриманий тип даних для ініціалізації або недостатньо елементів для побудови матриці 3x3."
     ERROR_MESSAGE_ADD = "Додавання можливе лише з іншими об'єктами Matrix3x3 або numpy.ndarray 3x3."
     ERROR_MESSAGE_MULT = "Множення можливе лише з іншими об'єктами Matrix3x3 або numpy.ndarray 3x3 або з Vec3."
-    ERROR_MESSAGE_INV_DOESNT_EXIST = "Матриця не має оберненої (визначник дорівнює нулю)."
+    ERROR_MESSAGE_INV_DOESNT_EXIST = "Матриця не має оберненої."
     ERROR_MESSAGE_SCALE = "Недостатньо даних, щоб сформувати матрицю розтягу"
 
     def __init__(self, *data):

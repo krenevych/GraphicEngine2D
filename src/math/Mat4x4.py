@@ -12,7 +12,7 @@ class Mat4x4:
     ERROR_MESSAGE_CONSTRUCTOR = "Непідтриманий тип даних для ініціалізації або недостатньо елементів для побудови матриці 4x4."
     ERROR_MESSAGE_ADD = "Додавання можливе лише з іншими об'єктами Matrix4x4 або numpy.ndarray 4x4."
     ERROR_MESSAGE_MULT = "Множення можливе лише з іншими об'єктами Matrix4x4 або numpy.ndarray 4x4."
-    ERROR_MESSAGE_INV_DOESNT_EXIST = "Матриця не має оберненої (визначник дорівнює нулю)."
+    ERROR_MESSAGE_INV_DOESNT_EXIST = "Матриця не має оберненої."
     ERROR_MESSAGE_ROTATION = "Вектор повороту повинен містити рівно 3 дійсних елементи."
     ERROR_MESSAGE_SCALE = "Недостатньо даних, щоб сформувати матрицю розтягу"
     ERROR_MESSAGE_EULER_CONFIG_UNKNOWN = "Unknown Euler configuration"

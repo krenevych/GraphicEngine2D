@@ -6,6 +6,11 @@ from src.math.Vec4 import Vec4
 
 
 class Quaternion:
+    ERROR_MESSAGE_ROTATION = "Вектор повороту повинен містити рівно 3 дійсних елементи."
+    ERROR_MESSAGE_ADD = "Правий операнд має бути число, список або Quaternion."
+    ERROR_MESSAGE_MULT = "Множення можливе лише з іншими об'єктами Matrix4x4 або numpy.ndarray 4x4."
+    ERROR_MESSAGE_INV_DOESNT_EXIST = "Нульовий кватерніон"
+
     def __init__(self, *a):
         """
         Ініціалізація кватерніона з підтримкою копіювання.
@@ -66,6 +71,18 @@ class Quaternion:
     def z(self, value):
         self.q[3] = value
 
+    @property
+    def xyz(self):
+        return self.x, self.y, self.z
+
+    @property
+    def xyzw(self):
+        return self.x, self.y, self.z, self.w
+
+    @property
+    def wxyz(self):
+        return self.w, self.x, self.y, self.z
+
     def __getitem__(self, item):
         return self.q[item]
 
@@ -79,7 +96,7 @@ class Quaternion:
         elif isinstance(other, (Quaternion, np.ndarray, list, tuple)):
             return Quaternion(self.q + Quaternion(other).q)
         else:
-            raise TypeError("Правий операнд має бути число, список або Quaternion.")
+            raise TypeError(Quaternion.ERROR_MESSAGE_ADD)
 
     def __sub__(self, other):
         if isinstance(other, (float, int)):
@@ -87,7 +104,7 @@ class Quaternion:
         elif isinstance(other, (Quaternion, np.ndarray, list, tuple)):
             return self + (-Quaternion(other))
         else:
-            raise TypeError("Правий операнд має бути число, список або Quaternion.")
+            raise TypeError(Quaternion.ERROR_MESSAGE_ADD)
 
     def __mul__(self, other):
         """Множення двох кватерніонів."""
@@ -135,7 +152,7 @@ class Quaternion:
     def normalize(self):
         norm_squared = self.norm()
         if norm_squared == 0:
-            raise ZeroDivisionError("Неможливо нормалізувати нульовий кватерніон")
+            raise ZeroDivisionError(Quaternion.ERROR_MESSAGE_INV_DOESNT_EXIST)
         self.q = self.q / float(norm_squared)
 
     def normalized(self):
@@ -153,7 +170,7 @@ class Quaternion:
         """Повертає обернений кватерніон."""
         norm_squared = np.dot(self.q, self.q)
         if norm_squared == 0:
-            raise ZeroDivisionError("Неможливо обернути нульовий кватерніон")
+            raise ZeroDivisionError(Quaternion.ERROR_MESSAGE_INV_DOESNT_EXIST)
         return Quaternion(self.conjugate().q / norm_squared)
 
     def __Q(self):
@@ -179,18 +196,16 @@ class Quaternion:
         return Mat4x4(QQ[1:, 1:])
 
     @staticmethod
-    def rotation(axis, theta):
+    def rotation(theta, axis):
         """Створює кватерніон для обертання на кут theta навколо заданої осі."""
         cos_theta = np.cos(theta / 2)
         sin_theta = np.sin(theta / 2)
-        if isinstance(axis, Vec4):
+        if isinstance(axis, (Vec3, Vec4)):
             axis = Vec3(axis.xyz).normalized()
         elif isinstance(axis, (tuple, list, np.ndarray)) and len(axis) == 3:
             axis = Vec3(*axis).normalized()
-        elif isinstance(axis, Vec4):
-            axis.normalize()
         else:
-            raise TypeError("Не правильна вісь")
+            raise TypeError(Quaternion.ERROR_MESSAGE_ROTATION)
 
         return Quaternion(cos_theta, *(axis * sin_theta))
 
@@ -231,6 +246,19 @@ class Quaternion:
 
         rotated = self * vector_quaternion * self.conjugate()
         return Vec4(rotated.x, rotated.y, rotated.z)
+
+    def to_angle_axis(self):
+        """Обчислює кут та вісь повороту з кватерніона"""
+        w, x, y, z = self.wxyz
+        angle = 2 * np.arccos(w)
+
+        sin_half_angle = np.sqrt(1 - w * w)
+        if sin_half_angle < 1e-6:
+            axis = Vec3(1.0, 0.0, 0.0)  # вісь довільна, якщо кут ≈ 0
+        else:
+            axis = Vec3(x, y, z) / sin_half_angle
+
+        return angle, axis
 
 
 if __name__ == "__main__":
@@ -314,5 +342,3 @@ if __name__ == "__main__":
     print(q17)
     q16 *= 2
     print(q16)
-
-

@@ -4,7 +4,7 @@ from src.math.Mat3x3 import Mat3x3
 from src.math.Vec3 import Vec3
 from src.math.Rotations import rotation_matrix_x, rotation_matrix_y, rotation_matrix_z
 from src.math.Scale import scale_matrix
-from src.math.Translation import translationMatrix2d
+from src.math.Translation import translation_matrix2d
 
 
 # 1. Тест додавання двох матриць
@@ -102,7 +102,7 @@ def test_rotation_z():
 # 10. Тест створення матриці трансляції
 def test_matrix_translation():
     mat = Mat3x3.translation(3, 4)
-    expected = translationMatrix2d(3, 4)
+    expected = translation_matrix2d(3, 4)
 
     assert np.allclose(mat.data, expected), f"Помилка: матриця переносу має бути {expected}, отримано {mat.data}"
 

@@ -2,7 +2,7 @@ import numpy as np
 
 from src.math.Rotations import rotation_matrix_x, rotation_matrix_y, rotation_matrix_z
 from src.math.Scale import scale_matrix
-from src.math.Translation import translationMatrix2d
+from src.math.Translation import translation_matrix2d
 from src.math.Vec3 import Vec3
 
 
@@ -166,11 +166,11 @@ class Mat3x3:
     @staticmethod
     def translation(tx, ty=None):
         if ty is None and isinstance(tx, Vec3):
-            m = translationMatrix2d(*tx.xy)
+            m = translation_matrix2d(*tx.xy)
         elif ty is None and isinstance(tx, np.ndarray):
-            m = translationMatrix2d(tx[0], tx[1])
+            m = translation_matrix2d(tx[0], tx[1])
         else:
-            m = translationMatrix2d(tx, ty)
+            m = translation_matrix2d(tx, ty)
         return Mat3x3(m)
 
     @staticmethod

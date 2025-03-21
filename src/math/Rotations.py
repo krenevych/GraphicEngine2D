@@ -1,22 +1,4 @@
 import numpy as np
-from scipy.spatial.transform import Rotation as R
-
-
-def rotationMatrix2d(phi):
-    """
-    Формує матрицю обертання навколо осі Z на заданий кут.
-
-    Parameters:
-    theta (float): Кут обертання у радіанах.
-
-    Returns:
-    numpy.ndarray: Матриця обертання 3x3.
-    """
-    return np.array([
-        [np.cos(phi), -np.sin(phi), 0],
-        [np.sin(phi), np.cos(phi), 0],
-        [0, 0, 1]
-    ])
 
 
 def rotation_matrix_x(phi):
@@ -29,10 +11,11 @@ def rotation_matrix_x(phi):
     Returns:
     numpy.ndarray: Матриця обертання 3x3.
     """
+    cos_phi, sin_phi =  np.cos(phi), np.sin(phi)
     return np.array([
-        [1, 0, 0],
-        [0, np.cos(phi), -np.sin(phi)],
-        [0, np.sin(phi), np.cos(phi)]
+        [1,         0,            0, ],
+        [0,    cos_phi,    -sin_phi, ],
+        [0,    sin_phi,     cos_phi, ],
     ])
 
 
@@ -46,12 +29,12 @@ def rotation_matrix_y(phi):
     Returns:
     numpy.ndarray: Матриця обертання 3x3.
     """
+    cos_phi, sin_phi =  np.cos(phi), np.sin(phi)
     return np.array([
-        [np.cos(phi), 0, np.sin(phi)],
-        [0, 1, 0],
-        [-np.sin(phi), 0, np.cos(phi)]
+        [ cos_phi,     0,     sin_phi ],
+        [       0,     1,           0 ],
+        [-sin_phi,     0,     cos_phi ],
     ])
-
 
 def rotation_matrix_z(phi):
     """
@@ -63,10 +46,12 @@ def rotation_matrix_z(phi):
     Returns:
     numpy.ndarray: Матриця обертання 3x3.
     """
+    cos_phi, sin_phi =  np.cos(phi), np.sin(phi)
+
     return np.array([
-        [np.cos(phi), -np.sin(phi), 0],
-        [np.sin(phi), np.cos(phi), 0],
-        [0, 0, 1]
+        [cos_phi,   -sin_phi,     0 ],
+        [sin_phi,    cos_phi,     0 ],
+        [      0,          0,     1 ],
     ])
 
 
@@ -105,14 +90,6 @@ if __name__ == "__main__":
     Rz = rotation_matrix_z(z)
 
     print("\nМатриця обертання послідовно по кутах ейлера:")
-    # print(Rxyz)
     print()
     print(Rx @ Ry @ Rz)
 
-    EU = 'XYZ'
-
-    # Створення об'єкта обертання
-    rotation = R.from_euler(EU, euler_angles_45_45_30, degrees=True)
-    rotation_matrix_45_45_30 = rotation.as_matrix()
-    print("\nМатриця обертання через scipy:")
-    print(rotation_matrix_45_45_30)

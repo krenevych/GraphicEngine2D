@@ -152,7 +152,7 @@ def test_rotation_euler_zxz():
 
 # 20. Тест помилки для невідомої конфігурації `Euler`-обертання
 def test_invalid_rotation_euler():
-    with pytest.raises(ValueError, match="Unknown Euler configuration"):
+    with pytest.raises(ValueError, match=Mat4x4.ERROR_MESSAGE_EULER_CONFIG_UNKNOWN):
         Mat4x4.rotation_euler(30, 45, 60, configuration="abc")
 
 # 21. Тест `toEuler()` для конфігурації XYZ
@@ -170,7 +170,7 @@ def test_toEuler_zxz():
 # 23. Тест помилки `toEuler()` для невідомої конфігурації
 def test_toEuler_invalid():
     mat = Mat4x4.identity()
-    with pytest.raises(ValueError, match="Unknown Euler configuration"):
+    with pytest.raises(ValueError, match=Mat4x4.ERROR_MESSAGE_EULER_CONFIG_UNKNOWN):
         mat.toEuler("ABC")
 
 # 24. Тест масштабування з одним числом (рівномірний скейлінг)
@@ -194,7 +194,7 @@ def test_matrix_scaling_vec3():
 
 # 26. Тест помилки для некоректного масштабування
 def test_invalid_matrix_scaling():
-    with pytest.raises(ValueError, match="Недостатньо даних, щоб сформувати матрицю розтягу"):
+    with pytest.raises(ValueError, match=Mat4x4.ERROR_MESSAGE_SCALE):
         Mat4x4.scale("invalid")
 
 # 27. Тест трансляції за допомогою `Vec3`
@@ -219,10 +219,10 @@ def test_matrix_numpy_multiplication():
 def test_invalid_numpy_multiplication():
     mat = Mat4x4.identity()
     invalid_array = np.eye(3)  # Некоректний розмір (3×3 замість 4×4)
-    with pytest.raises(TypeError, match="Множення можливе лише з іншими об'єктами Matrix4x4 або numpy.ndarray 4x4"):
+    with pytest.raises(TypeError, match=Mat4x4.ERROR_MESSAGE_MULT):
         mat @ invalid_array
 
 # 30. Тест помилки при обертанні навколо некоректного вектора
 def test_invalid_rotation_vector():
-    with pytest.raises(ValueError, match="Вектор повороту повинен містити рівно 3 дійсних елементи"):
+    with pytest.raises(ValueError, match=Mat4x4.ERROR_MESSAGE_ROTATION):
         Mat4x4.rotation(45, [1, 2])  # Некоректний розмір вектора

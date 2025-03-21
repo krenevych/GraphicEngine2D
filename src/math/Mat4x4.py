@@ -10,6 +10,12 @@ from src.math.Vec4 import Vec4
 
 class Mat4x4:
     ERROR_MESSAGE_CONSTRUCTOR = "Непідтриманий тип даних для ініціалізації або недостатньо елементів для побудови матриці 4x4."
+    ERROR_MESSAGE_ADD = "Додавання можливе лише з іншими об'єктами Matrix4x4 або numpy.ndarray 4x4."
+    ERROR_MESSAGE_MULT = "Множення можливе лише з іншими об'єктами Matrix4x4 або numpy.ndarray 4x4."
+    ERROR_MESSAGE_INV_DOESNT_EXIST = "Матриця не має оберненої (визначник дорівнює нулю)."
+    ERROR_MESSAGE_ROTATION = "Вектор повороту повинен містити рівно 3 дійсних елементи."
+    ERROR_MESSAGE_SCALE = "Недостатньо даних, щоб сформувати матрицю розтягу"
+    ERROR_MESSAGE_EULER_CONFIG_UNKNOWN = "Unknown Euler configuration"
 
     def __init__(self, *data):
         """
@@ -102,17 +108,19 @@ class Mat4x4:
         Реалізує множення матриці на іншу Matrix3x3, numpy.ndarray 3x3, або Vector3.
         """
         if not isinstance(other, (Mat4x4, np.ndarray, Vec3, Vec4)):
-            raise TypeError("Множення можливе лише з іншими об'єктами Matrix4x4 або numpy.ndarray 4x4.")
+            raise TypeError(Mat4x4.ERROR_MESSAGE_MULT)
 
-        if isinstance(other, (np.ndarray,)) and other.shape != (4, 4):
-            raise TypeError("Множення можливе лише з іншими об'єктами Matrix4x4 або numpy.ndarray 4x4.")
-
-        if isinstance(other, Mat4x4):
+        if isinstance(other, np.ndarray):
+            if other.shape == (4,4):
+                return self @ Mat4x4(other)
+            elif other.shape == (4,):
+                return self @ Vec4(other)
+            else:
+                raise TypeError(Mat4x4.ERROR_MESSAGE_MULT)
+        elif isinstance(other, Mat4x4):
             return Mat4x4(np.dot(self.data, other.data))
         elif isinstance(other, Vec4):
-            v = Vec4(np.dot(self.data, other.data))
-            # print(v)
-            return v
+            return Vec4(np.dot(self.data, other.data))
         elif isinstance(other, Vec3):
             return self @ Vec4(other)
         return Mat4x4(np.dot(self.data, other))
@@ -122,14 +130,14 @@ class Mat4x4:
         Реалізує додавання двох матриць Matrix3x3 або numpy.ndarray 3x3.
         """
         if not isinstance(other, (Mat4x4, np.ndarray)):
-            raise TypeError("Додавання можливе лише з іншими об'єктами Matrix3x3 або numpy.ndarray 3x3.")
+            raise TypeError(Mat4x4.ERROR_MESSAGE_ADD)
         if isinstance(other, Mat4x4):
             return Mat4x4(self.data + other.data)
         return Mat4x4(self.data + other)
 
     def __sub__(self, other):
         if not isinstance(other, (Mat4x4, np.ndarray)):
-            raise TypeError("Додавання можливе лише з іншими об'єктами Matrix3x3 або numpy.ndarray 3x3.")
+            raise TypeError(Mat4x4.ERROR_MESSAGE_ADD)
         if isinstance(other, Mat4x4):
             return Mat4x4(self.data - other.data)
         return Mat4x4(self.data - other)
@@ -149,7 +157,7 @@ class Mat4x4:
         """
         det = np.linalg.det(self.data)
         if np.isclose(det, 0):
-            raise ValueError("Матриця не має оберненої (визначник дорівнює нулю).")
+            raise ValueError(Mat4x4.ERROR_MESSAGE_INV_DOESNT_EXIST)
         return Mat4x4(np.linalg.inv(self.data))
 
     def norm(self):
@@ -200,7 +208,7 @@ class Mat4x4:
             if v.shape == (3,):
                 v = v.astype(float)
             else:
-                raise ValueError("Вектор повороту повинен містити рівно 3 дійсних елементи.")
+                raise ValueError(Mat4x4.ERROR_MESSAGE_ROTATION)
 
         norm = np.linalg.norm(v)
 
@@ -235,7 +243,7 @@ class Mat4x4:
         elif configuration == "ZXZ":
             return Mat4x4.rotation_z(phi) * Mat4x4.rotation_x(theta) * Mat4x4.rotation_z(psi)
         else:
-            raise ValueError("Unknown Euler configuration")
+            raise ValueError(Mat4x4.ERROR_MESSAGE_EULER_CONFIG_UNKNOWN)
 
     def toEuler(self, configuration="XYZ"):
         configuration = configuration.upper()
@@ -244,7 +252,7 @@ class Mat4x4:
         elif configuration == "ZXZ":
             return Mat4x4.toEulerZXZ(self)
         else:
-            raise ValueError("Unknown Euler configuration")
+            raise ValueError(Mat4x4.ERROR_MESSAGE_EULER_CONFIG_UNKNOWN)
 
     @staticmethod
     def toEulerXYZ(r):
@@ -281,95 +289,18 @@ class Mat4x4:
         elif isinstance(sx, (int, float)) and isinstance(sy, (int, float)) and isinstance(sz, (int, float)):
             m = scale_matrix(sx, sy, sz)
         else:
-            raise ValueError("Недостатньо даних, щоб сформувати матрицю розтягу")
+            raise ValueError(Mat4x4.ERROR_MESSAGE_SCALE)
         return Mat4x4(m)
 
 
 # Приклад використання
 if __name__ == "__main__":
-    # # Ініціалізація різними способами
-    # m1 = Mat4x4([[1, 2], [3, 4]])  # 2x2
-    # print("Матриця 2x2, доповнена до 4x4:")
-    # print(m1)
-    #
-    # m2 = Mat4x4([[1, 2, 3], [4, 5, 6], [7, 8, 9]])  # 4x4
-    # print("Матриця 3x3, доповнена до 4x4:")
-    # print(m2)
-    #
-    m44 = Mat4x4(1, 4, 6, 5,
-                 1, 3, 5, 6,
-                 34, 5, -7, 2,
-                 7, 1, 9, 8
-                 )
-    print("Матриця 4x4 з послідовним задаванням елементів:")
-    print(m44)
-    #
-    # m3 = Mat4x4(m44)  # Копіювання об'єкта
-    # print("Копія матриці 4x4:")
-    # print(m3)
-    #
-    # # Доступ до елементів і їх зміна
-    # print("Елемент [1, 2]:", m3[1, 2])
-    # m3[1, 2] = 42
-    # print("Матриця після зміни елемента [1, 2]:")
-    # print(m3)
-    #
-    # # Множення матриць
-    # m4 = m1 @ m2
-    # print("Результат множення матриць:")
-    # print(m4)
-    #
-    # # Додавання матриць
-    # m5 = m1 + m1
-    # print("Результат додавання матриць:")
-    # print(m5)
-    #
-    # # Поелементне множення матриць
-    # m6 = m2 * m2
-    # print("Результат поелементного множення матриць:")
-    # print(m6)
-
-    # Обчислення оберненої матриці
-    m44_inv = Mat4x4()
-    try:
-        m44_inv = m44.inverse()
-        print("Обернена матриця до m1:")
-        print(m44_inv)
-
-        m8 = m44_inv @ m44
-        print("m7 * m44:")
-        print(m8)
-
-
-    except ValueError as e:
-        print(f"Помилка: {e}")
-
-    print("======== розвʼязання системи алгебраїчних рівнянь ===============")
-    print("A:")
-    print(m44)
-
-    b = Vec4(1, 2, 3, 4)
-    print("b =", b)
-
-    x = m44_inv @ b
-    print("x = ", x)
-
-    b1 = m44 @ x
-    print("b1 =", b1)
-
-    print("-===================")
-    m55 = Mat4x4(1, 2, 3, 4,
+    m = Mat4x4(1, 2, 3, 4,
                  5, 6, 7, 8,
                  9, 10, 11, 12,
                  13, 14, 15, 16
                  )
-    print(m55)
-    print()
-    print(m55.T)
-    # print()
-    # m55 = m55.transpose()
-    print(m55)
+    v = Vec4(1, 2, 3)
+    MV =  m * v
+    print(MV)
 
-    m1 = Mat4x4()
-
-    print(m55 - m1)

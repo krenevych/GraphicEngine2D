@@ -8,6 +8,10 @@ from src.math.Vec3 import Vec3
 
 class Mat3x3:
     ERROR_MESSAGE_CONSTRUCTOR = "Непідтриманий тип даних для ініціалізації або недостатньо елементів для побудови матриці 3x3."
+    ERROR_MESSAGE_ADD = "Додавання можливе лише з іншими об'єктами Matrix3x3 або numpy.ndarray 3x3."
+    ERROR_MESSAGE_MULT = "Множення можливе лише з іншими об'єктами Matrix3x3 або numpy.ndarray 3x3 або з Vec3."
+    ERROR_MESSAGE_INV_DOESNT_EXIST = "Матриця не має оберненої (визначник дорівнює нулю)."
+    ERROR_MESSAGE_SCALE = "Недостатньо даних, щоб сформувати матрицю розтягу"
 
     def __init__(self, *data):
         """
@@ -82,7 +86,7 @@ class Mat3x3:
         Реалізує додавання двох матриць Matrix3x3 або numpy.ndarray 3x3.
         """
         if not isinstance(other, (Mat3x3, np.ndarray)):
-            raise TypeError("Додавання можливе лише з іншими об'єктами Matrix3x3 або numpy.ndarray 3x3.")
+            raise TypeError(Mat3x3.ERROR_MESSAGE_ADD)
         if isinstance(other, Mat3x3):
             return Mat3x3(self.data + other.data)
         return Mat3x3(self.data + other)
@@ -92,10 +96,10 @@ class Mat3x3:
         Реалізує множення матриці на іншу Matrix3x3, numpy.ndarray 3x3, або Vector3.
         """
         if not isinstance(other, (Mat3x3, np.ndarray, Vec3)):
-            raise TypeError("Множення можливе лише з іншими об'єктами Matrix3x3 або numpy.ndarray 3x3.")
+            raise TypeError(Mat3x3.ERROR_MESSAGE_MULT)
 
         if isinstance(other, (np.ndarray,)) and other.shape != (3, 3):
-            raise TypeError("Множення можливе лише з іншими об'єктами Matrix3x3 або numpy.ndarray 3x3.")
+            raise TypeError(Mat3x3.ERROR_MESSAGE_MULT)
 
         if isinstance(other, Mat3x3):
             return Mat3x3(np.dot(self.data, other.data))
@@ -117,7 +121,7 @@ class Mat3x3:
         """
         det = np.linalg.det(self.data)
         if np.isclose(det, 0):
-            raise ValueError("Матриця не має оберненої (визначник дорівнює нулю).")
+            raise ValueError(Mat3x3.ERROR_MESSAGE_INV_DOESNT_EXIST)
         return Mat3x3(np.linalg.inv(self.data))
 
     @staticmethod
@@ -175,11 +179,11 @@ class Mat3x3:
             elif isinstance(sx, (float, int)):
                 m = scale_matrix(sx, sx, sx)
             else:
-                raise ValueError("Некоретне значення масштабування")
+                raise ValueError(Mat3x3.ERROR_MESSAGE_SCALE)
         elif all(isinstance(el, (float, int)) for el in sx):
             m = scale_matrix(*sx)
         else:
-            raise ValueError("Некоретне значення масштабування")
+            raise ValueError(Mat3x3.ERROR_MESSAGE_SCALE)
         return Mat3x3(m)
 
 

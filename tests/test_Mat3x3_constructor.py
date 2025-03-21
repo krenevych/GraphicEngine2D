@@ -1,8 +1,8 @@
 import numpy as np
-import pytest
 
 from src.math.Mat3x3 import Mat3x3
 from src.math.Vec3 import Vec3
+
 
 # 1. Перевірка створення одиничної матриці без аргументів
 def test_identity_matrix():

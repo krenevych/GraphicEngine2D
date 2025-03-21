@@ -53,7 +53,7 @@ def test_singular_matrix_inverse():
     singular_mat = Mat3x3(1, 2, 3, 4, 5, 6, 7, 8, 9)  # Визначник = 0
     # singular_mat = Mat3x3(1, 1, 1, 4, 4, 4, 7, 8, 9)  # Визначник = 0
 
-    with pytest.raises(ValueError, match="Матриця не має оберненої"):
+    with pytest.raises(ValueError, match=Mat3x3.ERROR_MESSAGE_INV_DOESNT_EXIST):
         singular_mat.inverse()
 
 
@@ -134,7 +134,7 @@ def test_matrix_scaling_with_vector():
 
 # 14. Тест помилки при некоректному масштабуванні
 def test_invalid_matrix_scaling():
-    with pytest.raises(ValueError, match="Некоретне значення масштабування"):
+    with pytest.raises(ValueError, match=Mat3x3.ERROR_MESSAGE_SCALE):
         Mat3x3.scale("invalid")
 
 

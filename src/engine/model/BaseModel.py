@@ -9,7 +9,7 @@ from src.math.Vec3 import vertex, Vec3
 class BaseModel(metaclass=ABCMeta):
 
     def __init__(self, *vertices):
-        self._pivot = Vec3.point(0, 0)
+        self._pivot = vertex(0, 0)
         self._geometry = self.build_geometry(*vertices)
         self._transformation = Mat3x3()
 

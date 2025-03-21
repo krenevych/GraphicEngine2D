@@ -1,6 +1,6 @@
 from src.engine.model.Model import Model
 from src.math.Mat3x3 import Mat3x3
-from src.math.Vec3 import Vec3
+from src.math.Vec3 import Vec3, vertex
 from src.math.utils_matrix import decompose_affine3
 
 
@@ -8,7 +8,7 @@ class BaseModelTRS(Model):
 
     def __init__(self, *vertices):
         super().__init__(*vertices)
-        self.__translation = Vec3.point()
+        self.__translation = vertex()
         self.__rotation = 0.0
         self.__scale = Vec3(1, 1, 1)
 

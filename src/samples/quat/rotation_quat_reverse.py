@@ -21,7 +21,7 @@ if __name__ == '__main__':
     q = qz * qy * qx
     Rq = q.toRotationMatrix()
 
-    T, S, quat_from_R = decompose_translation_quaternion_scale(R)
+    T, quat_from_R, S = decompose_translation_quaternion_scale(R)
     print(f"{q=}")
     print(f"{quat_from_R=}")
     print(f"{quat_from_R - q=}")

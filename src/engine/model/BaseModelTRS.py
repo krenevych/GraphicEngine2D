@@ -1,6 +1,7 @@
 from src.engine.model.Model import Model
 from src.math.Mat3x3 import Mat3x3
 from src.math.Vec3 import Vec3
+from src.math.utils_matrix import decompose_affine3
 
 
 class BaseModelTRS(Model):
@@ -36,5 +37,5 @@ class BaseModelTRS(Model):
 
     @transformation.setter
     def transformation(self, transformation):
-        self.__translation, self.__rotation, self.__scale = Mat3x3.decompose_affine(transformation)
+        self.__translation, self.__rotation, self.__scale = decompose_affine3(transformation)
         self._transformation = transformation

@@ -1,5 +1,6 @@
 from src.engine.animation.Animation import Animation
 from src.math.Mat3x3 import Mat3x3
+from src.math.utils_matrix import decompose_affine3
 
 
 class ScaleAnimation(Animation):
@@ -8,8 +9,8 @@ class ScaleAnimation(Animation):
         super().__init__(Mat3x3.scale(*end), **kwargs)
 
     def current_transformation(self, frame):
-        start_translation, start_angle, start_scales = Mat3x3.decompose_affine(self.start)
-        end_translation, end_angle, end_scales = Mat3x3.decompose_affine(self.end)
+        start_translation, start_angle, start_scales = decompose_affine3(self.start)
+        end_translation, end_angle, end_scales = decompose_affine3(self.end)
 
         scales = start_scales + (end_scales - start_scales) *  (frame / self.frames)
 

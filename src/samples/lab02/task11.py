@@ -3,6 +3,7 @@ import numpy as np
 from src.engine.model.SimplePolygon import SimplePolygon
 from src.engine.scene.Scene import Scene
 from src.math.Mat3x3 import Mat3x3
+from src.math.utils_matrix import decompose_affine3
 
 FIGURE_KEY = "rect"
 
@@ -76,7 +77,7 @@ def frame2(scene):
     angle = np.arctan2(sin_t, cos_t)
     print(angle, np.degrees(angle))
 
-    print(Mat3x3.decompose_affine(transformation), sep="\n")  # checking
+    print(decompose_affine3(transformation), sep="\n")  # checking
 
 
 if __name__ == '__main__':

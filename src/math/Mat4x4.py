@@ -197,26 +197,26 @@ class Mat4x4:
         return Mat4x4(m)
 
     @staticmethod
-    def rotation(angle, v, is_radians=True):
+    def rotation(angle, axis, is_radians=True):
         if not is_radians:
             angle = np.radians(angle)
 
-        if isinstance(v, (Vec4,)):
-            v = v.xyz
-        elif isinstance(v, (np.ndarray, tuple, list,)):
-            v = np.array(v)
-            if v.shape == (3,):
-                v = v.astype(float)
+        if isinstance(axis, (Vec3, Vec4)):
+            axis = axis.xyz
+        elif isinstance(axis, (np.ndarray, tuple, list,)):
+            axis = np.array(axis)
+            if axis.shape == (3,):
+                axis = axis.astype(float)
             else:
                 raise ValueError(Mat4x4.ERROR_MESSAGE_ROTATION)
 
-        norm = np.linalg.norm(v)
+        norm = np.linalg.norm(axis)
 
         # Нормалізований вектор
         if norm != 0:
-            normalized_v = v.data / norm
+            normalized_v = axis.data / norm
         else:
-            normalized_v = v  # Для нульового вектора нормалізація не визначена
+            normalized_v = axis  # Для нульового вектора нормалізація не визначена
 
         ux, uy, uz = normalized_v
 
@@ -267,6 +267,9 @@ class Mat4x4:
         theta = np.arccos(r[2, 2])
         psi = np.arctan2(r[2, 0], r[2, 1])
         return float(phi), float(theta), float(psi)
+
+    def to_angle_axis(self):
+        return Mat3x3.rotation_matrix_to_angle_axis(self)
 
     @staticmethod
     def translation(tx, ty=None, tz=None):

@@ -158,26 +158,3 @@ def decompose_affine3(transition):
 
         return translation, angle, scales
 
-def rotation_matrix_to_axis_angle(R):
-    angle = np.arccos((np.trace(R) - 1) / 2)
-
-    if np.isclose(angle, 0):
-        axis = np.array([1, 0, 0])  # Вісь довільна, бо кут ≈ 0
-    elif np.isclose(angle, np.pi):
-        # Обережно для кута ~180°
-        x = np.sqrt((R[0,0] + 1)/2)
-        y = np.sqrt((R[1,1] + 1)/2)
-        z = np.sqrt((R[2,2] + 1)/2)
-        axis = np.array([x, y, z])
-    else:
-        axis = Vec3(
-            R[2,1] - R[1,2],
-            R[0,2] - R[2,0],
-            R[1,0] - R[0,1]
-        )
-        axis = axis / (2 * np.sin(angle))
-
-    return axis, angle
-
-
-

@@ -164,6 +164,31 @@ class Mat3x3:
         return Mat3x3(m)
 
     @staticmethod
+    def rotation_matrix_to_angle_axis(R):
+        angle = np.arccos((R[0, 0] + R[1, 1] + R[2, 2] - 1) / 2)
+
+        if np.isclose(angle, 0):
+            axis = np.array([1, 0, 0])  # Вісь довільна, бо кут ≈ 0
+        elif np.isclose(angle, np.pi):
+            # Обережно для кута ~180°
+            x = np.sqrt((R[0, 0] + 1) / 2)
+            y = np.sqrt((R[1, 1] + 1) / 2)
+            z = np.sqrt((R[2, 2] + 1) / 2)
+            axis = np.array([x, y, z])
+        else:
+            axis = Vec3(
+                R[2, 1] - R[1, 2],
+                R[0, 2] - R[2, 0],
+                R[1, 0] - R[0, 1]
+            )
+            axis = axis / (2 * np.sin(angle))
+
+        return angle, axis
+
+    def to_angle_axis(self):
+        return Mat3x3.rotation_matrix_to_angle_axis(self)
+
+    @staticmethod
     def translation(tx, ty=None):
         if ty is None and isinstance(tx, Vec3):
             m = translation_matrix2d(*tx.xy)

@@ -2,6 +2,7 @@ import numpy as np
 from scipy.spatial.transform import Rotation
 from scipy.spatial.transform import Rotation as R
 
+from src.math.Mat3x3 import Mat3x3
 from src.math.Mat4x4 import Mat4x4
 from src.math.Quaternion import Quaternion
 from src.math.Rotations import get_rotation_angle
@@ -129,8 +130,11 @@ def decompose_affine(matrix):
 
 def decompose_affine3(transition):
 
-        if not isinstance(transition, (np.ndarray)):
+        if not isinstance(transition, (np.ndarray, Mat3x3)):
             raise TypeError("Transformation error.")
+
+        if isinstance(transition, Mat3x3):
+            transition = transition.data
 
         if transition.shape != (3, 3):
             raise ValueError("Матриця повинна бути розміром 3x3.")

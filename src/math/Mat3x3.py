@@ -98,8 +98,13 @@ class Mat3x3:
         if not isinstance(other, (Mat3x3, np.ndarray, Vec3)):
             raise TypeError(Mat3x3.ERROR_MESSAGE_MULT)
 
-        if isinstance(other, (np.ndarray,)) and other.shape != (3, 3):
-            raise TypeError(Mat3x3.ERROR_MESSAGE_MULT)
+        if isinstance(other, np.ndarray):
+            if other.shape == (3,3):
+                return self @ Mat3x3(other)
+            elif other.shape == (3,):
+                return self @ Vec3(other)
+            else:
+                raise TypeError(Mat3x3.ERROR_MESSAGE_MULT)
 
         if isinstance(other, Mat3x3):
             return Mat3x3(np.dot(self.data, other.data))

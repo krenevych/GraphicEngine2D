@@ -7,6 +7,7 @@ from src.math.Vec3 import Vec3
 
 
 class Mat3x3:
+    ERROR_MESSAGE_CONSTRUCTOR = "Непідтриманий тип даних для ініціалізації або недостатньо елементів для побудови матриці 3x3."
 
     def __init__(self, *data):
         """
@@ -45,18 +46,16 @@ class Mat3x3:
                         self.data = np.eye(3, dtype=float)
                         self.data[:2, :2] = data
                     else:
-                        raise ValueError("Непідтриманий тип даних для ініціалізації або недостатньо елементів для побудови матриці 3x3.")
+                        raise ValueError(Mat3x3.ERROR_MESSAGE_CONSTRUCTOR)
                 except ValueError:
-                    raise ValueError(
-                        "Непідтриманий тип даних для ініціалізації або недостатньо елементів для побудови матриці 3x3.")
+                    raise ValueError(Mat3x3.ERROR_MESSAGE_CONSTRUCTOR)
 
             else:
-                raise ValueError("Непідтриманий тип даних для ініціалізації або недостатньо елементів для побудови матриці 3x3.")
+                raise ValueError(Mat3x3.ERROR_MESSAGE_CONSTRUCTOR)
         elif len(data) == 3 and all(isinstance(vec, Vec3) for vec in data):
             self.data = np.vstack([vec.data for vec in data])
         else:
-            raise ValueError(
-                "Непідтриманий тип даних для ініціалізації або недостатньо елементів для побудови матриці 3x3.")
+            raise ValueError(Mat3x3.ERROR_MESSAGE_CONSTRUCTOR)
 
     def __getitem__(self, indices):
         """
@@ -94,6 +93,10 @@ class Mat3x3:
         """
         if not isinstance(other, (Mat3x3, np.ndarray, Vec3)):
             raise TypeError("Множення можливе лише з іншими об'єктами Matrix3x3 або numpy.ndarray 3x3.")
+
+        if isinstance(other, (np.ndarray,)) and other.shape != (3, 3):
+            raise TypeError("Множення можливе лише з іншими об'єктами Matrix3x3 або numpy.ndarray 3x3.")
+
         if isinstance(other, Mat3x3):
             return Mat3x3(np.dot(self.data, other.data))
         if isinstance(other, Mat3x3):
@@ -276,6 +279,3 @@ if __name__ == "__main__":
     m22 = Mat3x3.scale(5, 4)
     print(m22)
     print()
-
-
-

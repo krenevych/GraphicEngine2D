@@ -9,6 +9,7 @@ from src.math.Vec4 import Vec4
 
 
 class Mat4x4:
+    ERROR_MESSAGE_CONSTRUCTOR = "Непідтриманий тип даних для ініціалізації або недостатньо елементів для побудови матриці 4x4."
 
     def __init__(self, *data):
         """
@@ -31,7 +32,7 @@ class Mat4x4:
             self.data = np.eye(4, dtype=float)
             self.data[:3, :3] = elements
         elif len(data) == 4:
-            if  all(isinstance(vec, Vec4) for vec in data):
+            if all(isinstance(vec, Vec4) for vec in data):
                 self.data = np.vstack([vec.data for vec in data])
             elif all(isinstance(vec, (np.ndarray, tuple, list)) for vec in data):
                 self.data = np.vstack([vec for vec in data])
@@ -64,16 +65,14 @@ class Mat4x4:
                         self.data = np.eye(4, dtype=float)
                         self.data[:2, :2] = data
                     else:
-                        raise ValueError("Непідтриманий тип даних для ініціалізації або недостатньо елементів для побудови матриці 4x4.")
+                        raise ValueError(Mat4x4.ERROR_MESSAGE_CONSTRUCTOR)
                 except ValueError:
-                    raise ValueError(
-                        "Непідтриманий тип даних для ініціалізації або недостатньо елементів для побудови матриці 4x4.")
+                    raise ValueError(Mat4x4.ERROR_MESSAGE_CONSTRUCTOR)
 
             else:
-                raise ValueError("Непідтриманий тип даних для ініціалізації або недостатньо елементів для побудови матриці 4x4.")
+                raise ValueError(Mat4x4.ERROR_MESSAGE_CONSTRUCTOR)
         else:
-            raise ValueError(
-                "Непідтриманий тип даних для ініціалізації або недостатньо елементів для побудови матриці 4x4.")
+            raise ValueError(Mat4x4.ERROR_MESSAGE_CONSTRUCTOR)
 
     def __getitem__(self, indices):
         """
@@ -105,6 +104,9 @@ class Mat4x4:
         if not isinstance(other, (Mat4x4, np.ndarray, Vec3, Vec4)):
             raise TypeError("Множення можливе лише з іншими об'єктами Matrix4x4 або numpy.ndarray 4x4.")
 
+        if isinstance(other, (np.ndarray,)) and other.shape != (4, 4):
+            raise TypeError("Множення можливе лише з іншими об'єктами Matrix4x4 або numpy.ndarray 4x4.")
+
         if isinstance(other, Mat4x4):
             return Mat4x4(np.dot(self.data, other.data))
         elif isinstance(other, Vec4):
@@ -112,7 +114,7 @@ class Mat4x4:
             # print(v)
             return v
         elif isinstance(other, Vec3):
-            return self * Vec4(other)
+            return self @ Vec4(other)
         return Mat4x4(np.dot(self.data, other))
 
     def __add__(self, other):
@@ -145,12 +147,13 @@ class Mat4x4:
         """
         Обчислює обернену матрицю.
         """
-        if np.linalg.det(self.data) == 0:
+        det = np.linalg.det(self.data)
+        if np.isclose(det, 0):
             raise ValueError("Матриця не має оберненої (визначник дорівнює нулю).")
         return Mat4x4(np.linalg.inv(self.data))
 
     def norm(self):
-        return  np.linalg.norm(self.data)
+        return np.linalg.norm(self.data)
 
     @staticmethod
     def identity():
@@ -239,7 +242,6 @@ class Mat4x4:
         if configuration == "XYZ":
             return Mat4x4.toEulerXYZ(self)
         elif configuration == "ZXZ":
-            print("ZXZ")
             return Mat4x4.toEulerZXZ(self)
         else:
             raise ValueError("Unknown Euler configuration")

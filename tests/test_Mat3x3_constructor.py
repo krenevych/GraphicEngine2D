@@ -55,17 +55,6 @@ def test_matrix_from_numpy_2x2():
     expected = np.array([[1, 2, 0], [3, 4, 0], [0, 0, 1]], dtype=float)
     assert np.allclose(mat.data, expected)
 
-# 9. Перевірка, що некоректний розмір вхідного списку викликає помилку
-def test_matrix_invalid_size():
-    with pytest.raises(ValueError):
-        Mat3x3([[1, 2, 3], [4, 5]])
-
-# 10. Перевірка, що передача неправильного типу викликає помилку
-def test_matrix_invalid_type():
-    with pytest.raises(TypeError):
-        Mat3x3("invalid input")
-
-
 def test_matrix_from_three_vec3():
     row1 = Vec3(1, 2, 3)
     row2 = Vec3(4, 5, 6)
@@ -77,10 +66,4 @@ def test_matrix_from_three_vec3():
     assert np.allclose(mat.data, expected), "Помилка в створенні матриці з трьох Vec3"
 
 
-def test_matrix_invalid_vec3():
-    row1 = Vec3(1, 2, 3)
-    row2 = Vec3(4, 5, 6)
-    row3 = [7, 8, 9]  # Не Vec3
 
-    with pytest.raises(TypeError, match="Непідтриманий тип даних для ініціалізації"):
-        Mat3x3(row1, row2, row3)

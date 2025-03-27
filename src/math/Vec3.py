@@ -170,6 +170,7 @@ class Vec3:
 def vertex(x=0, y=0, z=1):
     return Vec3(x, y, z)
 
+
 if __name__ == '__main__':
     v1 = Vec3()
     # print(v1)

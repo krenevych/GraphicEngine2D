@@ -83,7 +83,7 @@ class BaseModel(metaclass=ABCMeta):
     @property
     def translation(self):
         translation, quaternion, scale = decompose_translation_quaternion_scale(self._transformation)
-        return scale
+        return translation
 
     @translation.setter
     def translation(self, translation):

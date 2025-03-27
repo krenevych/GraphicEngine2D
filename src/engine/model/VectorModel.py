@@ -1,25 +1,32 @@
 import numpy as np
 
 from src.base.arrow import draw_segment
-from src.engine.model.BaseModelTRS import BaseModelTRS
+from src.base.text import DEFAULT_LABEL_FONT_SIZE
+from src.engine.model.Model import Model
 from src.engine.scene.Scene import Scene
 from src.math.Vec3 import Vec3, vertex
 
 
-class VectorModel(BaseModelTRS):
-    AVAILABLE_PARAMETERS = [
-        "color",  # default: , posible values:
-        "line_style",  # default: , posible values:
-        "linewidth",  # default: , posible values:
-        "label",  # default: , posible values:
-        "label_color",  # default: , posible values:
-        "label_fontsize",  # default: , posible values:
-        "label_offset",
-    ]
+class VectorModel(Model):
 
-    def __init__(self, *direction):
-        super().__init__(*direction)
-        self._availible_parameters += self.AVAILABLE_PARAMETERS
+    def __init__(self, *direction,
+                 color="black",
+                 line_style = "solid",
+                 linewidth = "1.0",
+                 label="",
+                 label_color="black",
+                 label_fontsize=DEFAULT_LABEL_FONT_SIZE,
+                 label_offset=(0, 0)
+                 ):
+        super().__init__(*direction,
+                         color=color,
+                         line_style=line_style,
+                         linewidth=linewidth
+                         )
+        self.label = label
+        self.label_color = label_color
+        self.label_fontsize = label_fontsize
+        self.label_offset = label_offset
 
     def build_geometry(self, *vertices):
         direction = vertices
@@ -43,7 +50,29 @@ class VectorModel(BaseModelTRS):
 
         ps = [el.xy for el in transformed_geometry]
 
-        draw_segment(*ps, **self._parameters)
+        draw_segment(*ps,
+                     color=self.color,
+                     label=self.label,
+                     label_color=self.label_color,
+                     label_fontsize=self.label_fontsize,
+                     label_offset=self.label_offset
+                     )
+
+    def __setitem__(self, key, value):
+        if key == "label":
+            self.label = value
+            return
+        if key == "label_color":
+            self.label_color = value
+            return
+        if key == "label_fontsize":
+            self.label_fontsize = value
+            return
+        if key == "label_offset":
+            self.label_offset = value
+            return
+
+        super().__setitem__(key, value)
 
 
 if __name__ == '__main__':
@@ -60,18 +89,17 @@ if __name__ == '__main__':
 
 
     def frame1(scene: Scene):
-        v = scene[scene_figure_key]
+        v : VectorModel = scene[scene_figure_key]
 
         v["color"] = "blue"
         v["label"] = "v"
         v["label_offset"] = -0.2, 0.1
 
-
     def frame2(scene: Scene):
         v = scene[scene_figure_key]
 
-        v.translation(1, 2)
-        v.rotation(np.radians(20))
+        v.translation = (1, 2)
+        v.rotation = np.radians(20)
 
 
     sample_scene = SampleScene(

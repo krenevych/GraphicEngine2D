@@ -192,7 +192,7 @@ class Mat3x3:
     def translation(tx, ty=None):
         if ty is None and isinstance(tx, Vec3):
             m = translation_matrix2d(*tx.xy)
-        elif ty is None and isinstance(tx, np.ndarray):
+        elif ty is None and isinstance(tx, (np.ndarray, list, tuple)):
             m = translation_matrix2d(tx[0], tx[1])
         else:
             m = translation_matrix2d(tx, ty)

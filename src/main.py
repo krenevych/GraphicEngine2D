@@ -41,9 +41,9 @@ if __name__ == '__main__':
         ]
 
         # задаємо трансформацію
-        polygon.scale(2, 1)  # масштабування
-        polygon.rotation(np.radians(45))  # поворот
-        polygon.translation(2, 1)  # перенесення
+        polygon.scale = (2, 1)  # масштабування
+        polygon.rotation = (np.radians(45))  # поворот
+        polygon.translation = (2, 1)  # перенесення
 
 
 

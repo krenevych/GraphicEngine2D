@@ -9,20 +9,36 @@ from src.math.Vec3 import vertex
 
 class Model(BaseModel, ABC):
 
-    def __init__(self, *vertices):
+    def __init__(self,
+                 *vertices,
+                 color = "grey",
+                 line_style="solid",
+                 linewidth=1.0,
+                 ):
         super().__init__(*vertices)
 
         self._pivot = vertex()
         self._is_draw_pivot = False
 
         self._coord_frame = CoordinateFrame()
-        self._coord_frame.line_style = "-"
-        self._coord_frame.line_width = 1.0
-        self._coord_frame.color = ("red", "green")
         self._is_draw_local_frame = False
 
-        self.color = "grey"
+        self.color = color
+        self.line_style = line_style
+        self.linewidth = linewidth
 
+    def __setitem__(self, key, value):
+        if key == "color":
+            self.color = value
+            return
+        if key == "line_style":
+            self.line_style = value
+            return
+        if key == "linewidth":
+            self.linewidth = value
+            return
+
+        super().__setitem__(key, value)
 
     def show_pivot(self, enabled=True):
         self._is_draw_pivot = enabled

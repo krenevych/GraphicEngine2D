@@ -1,27 +1,30 @@
 import numpy as np
 
 from src.base.broken_line import draw_broken_line
-from src.engine.model.BaseModelTRS import BaseModelTRS
+from src.base.text import DEFAULT_LABEL_FONT_SIZE
+from src.engine.model.Model import Model
 from src.engine.scene.Scene import Scene
 
 
-class Polygon(BaseModelTRS):
-    AVAILABLE_PARAMETERS = [
-        "color",  # default: , posible values:
-        "line_style",  # default: , posible values:
-        "linewidth",  # default: , posible values:
-        "vertices_show",  # default: , posible values:
-        "vertex_color",  # default: , posible values:
-        "vertex_size",  # default: , posible values:
-        "labels",  # default: , posible values:
-        "labels_color",  # default: , posible values:
-        "labels_fontsize",  # default: , posible values:
-    ]
+class Polygon(Model):
 
-    def __init__(self, *vertices):
-        super().__init__(*vertices)
+    def __init__(self, *vertices,
+                 color="black",
+                 linewidth=1.0,
+                 line_style="solid",
+                 vertices_show=False, vertex_color="black", vertex_size=50,
+                 labels=(), labels_color="black", labels_font_size=DEFAULT_LABEL_FONT_SIZE,
+                 ):
+        super().__init__(*vertices, color=color, linewidth=linewidth, line_style=line_style)
 
-        self._availible_parameters += Polygon.AVAILABLE_PARAMETERS
+        self.vertices_show = vertices_show
+        self.vertex_color = vertex_color
+        self.vertex_size = vertex_size
+        self.linewidth = linewidth
+        self.line_style = line_style
+        self.labels = labels
+        self.labels_color = labels_color
+        self.labels_font_size = labels_font_size
 
     def draw_model(self):
         transformed_geometry = self.transformed_geometry
@@ -29,8 +32,38 @@ class Polygon(BaseModelTRS):
         ps = [el.xy for el in transformed_geometry]
         ps.append(transformed_geometry[0].xy)  # closed line
 
-        draw_broken_line(ps, **self._parameters)
+        draw_broken_line(ps, color=self.color,
+                         vertices_show=self.vertices_show,
+                         vertex_color=self.vertex_color,
+                         vertex_size=self.vertex_size,
+                         linewidth=self.linewidth,
+                         line_style=self.line_style,
+                         labels=self.labels,
+                         labels_color=self.labels_color,
+                         labels_font_size=self.labels_font_size,)
 
+
+    def __setitem__(self, key, value):
+        if key == "vertices_show":
+            self.vertices_show = value
+            return
+        if key == "vertex_color":
+            self.vertex_color = value
+            return
+        if key == "vertex_size":
+            self.vertex_size = value
+            return
+        if key == "labels":
+            self.labels = value
+            return
+        if key == "labels_color":
+            self.labels_color = value
+            return
+        if key == "labels_fontsize":
+            self.labels_fontsize = value
+            return
+
+        super().__setitem__(key, value)
 
 if __name__ == '__main__':
     scene_figure_key = "polygon"
@@ -38,53 +71,12 @@ if __name__ == '__main__':
     class PolygonScene(Scene):
         def __init__(self, **kwargs):
             super().__init__(**kwargs)
-            m = Polygon()
-
-            m.set_geometry(
+            m = Polygon(
                 0, 0,
                 1, 0,
                 1, 1,
                 0, 1
             )
-            # m.set_geometry(
-            #     0, 0,
-            #     2, 0,
-            #     2, 1,
-            #     1, 2,
-            #     0, 1
-            # )
-
-            # m.set_geometry(
-            #     (0, 0),
-            #     (2, 0),
-            #     (2, 1),
-            #     (1, 2),
-            #     (0, 1)
-            # )
-
-            # m.set_geometry(
-            #     vertex(0, 0),
-            #     vertex(2, 0),
-            #     vertex(2, 1),
-            #     vertex(1, 2),
-            #     vertex(0, 1)
-            # )
-
-            # m.set_geometry(
-            #     np.array((0, 0)),
-            #     np.array((2, 0)),
-            #     np.array((2, 1)),
-            #     np.array((1, 2)),
-            #     np.array((0, 1))
-            # )
-
-            # m.set_geometry(
-            #     np.array((0, 0)),
-            #     np.array((2, 0)),
-            #     np.array((2, 1)),
-            #     np.array((1, 2)),
-            #     np.array((0, 1))
-            # )
 
             self[scene_figure_key] = m
 
@@ -103,28 +95,17 @@ if __name__ == '__main__':
 
         m.pivot(0.5, 0.5)
         m.show_pivot()
-        # m.show_local_frame()
 
         m["color"] = "green"
         m["line_style"] = "--"
-        # m["vertex_color"] = "grey"
-        # m["vertices_show"] = True
-        # m["labels"] = [
-        #     (r'$P_1$', (-0.1, -0.3)),
-        #     (r'$P_2$', (-0.15, 0.2)),
-        #     (r'$P_3$', (-0.1, 0.1)),
-        #     r"$P_4$",
-        #     r"$P_5$",
-        # ]
+
 
     def frame2(scene: Scene):
         m: Polygon = scene[scene_figure_key]
         m["color"] = "blue"
         m["line_style"] = "solid"
 
-        # m.scale(2, 1)
-        # m.translation(Vec3.point(2, 2))
-        m.rotation(np.radians(45))
+        m.rotation = np.radians(45)
 
 
     polygon_scene.add_frames(frame1,

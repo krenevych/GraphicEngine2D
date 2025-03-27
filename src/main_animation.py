@@ -35,7 +35,7 @@ class AnimatedSceneSample(AnimatedScene):
 
 if __name__ == '__main__':
     scene = AnimatedSceneSample(
-        image_size=(5, 5),  # розмір зображення: 1 - 100 пікселів
+        image_size=(7, 7),  # розмір зображення: 1 - 100 пікселів
         coordinate_rect=(-1, -1, 6, 6),  # розмірність системи координат
         title="Animated scene",  # заголовок рисунка
         # grid_show=False,  # чи показувати координатну сітку

@@ -1,4 +1,4 @@
-from src.engine.model.SimplePolygon import SimplePolygon
+from src.engine.model.Polygon import Polygon
 from src.engine.scene.Scene import Scene
 from src.math.Mat3x3 import Mat3x3
 
@@ -9,7 +9,7 @@ if __name__ == '__main__':
         def __init__(self, **kwargs):
             super().__init__(**kwargs)
 
-            rect = SimplePolygon(
+            rect = Polygon(
                 0, 0,
                 1, 0,
                 1, 1,
@@ -23,34 +23,34 @@ if __name__ == '__main__':
 
 
     def frame1(scene):
-        rect: SimplePolygon = scene[FIGURE_KEY]
+        rect: Polygon = scene[FIGURE_KEY]
         rect.color = "blue"
         rect.line_style = ":"
 
 
     def frame2(scene):
-        rect: SimplePolygon = scene[FIGURE_KEY]
+        rect: Polygon = scene[FIGURE_KEY]
         rect.transformation= R_30
         rect.color = "orange"
         rect.line_style = ":"
 
 
     def frame3(scene):
-        rect: SimplePolygon = scene[FIGURE_KEY]
+        rect: Polygon = scene[FIGURE_KEY]
         rect.transformation = T_2_3
         rect.color = "orange"
         rect.line_style = ":"
 
 
     def frame4(scene):
-        rect: SimplePolygon = scene[FIGURE_KEY]
+        rect: Polygon = scene[FIGURE_KEY]
         rect.color = "red"
         rect.line_style = "-"
         rect.transformation = T_2_3 * R_30
 
 
     def frame5(scene):
-        rect: SimplePolygon = scene[FIGURE_KEY]
+        rect: Polygon = scene[FIGURE_KEY]
         rect.transformation = R_30 * T_2_3
 
 

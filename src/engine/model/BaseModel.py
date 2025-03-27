@@ -4,6 +4,7 @@ import numpy as np
 
 from src.math.Mat3x3 import Mat3x3
 from src.math.Vec3 import vertex, Vec3
+from src.math.utils_matrix import decompose_affine3, is_orthogonal
 
 
 class BaseModel(metaclass=ABCMeta):
@@ -40,21 +41,8 @@ class BaseModel(metaclass=ABCMeta):
 
         return geometry
 
-    def set_parameters(self, **kwargs):
-        for key, value in kwargs.items():
-            self[key] = value
-
     def __setitem__(self, param, value):
-        if param in self._availible_parameters:
-            self._parameters[param] = value
-            return
-        elif isinstance(param, int):
-            pass # TODO:
-        else:
-            raise ValueError("Недопустимий параметер")
-
-    def set_transformation(self, transformation):
-        self._transformation = transformation
+        pass
 
     @property
     def transformation(self):
@@ -72,6 +60,52 @@ class BaseModel(metaclass=ABCMeta):
         transformed_data = [transformation * point for point in self._geometry]
 
         return transformed_data
+
+    @property
+    def rotation(self):
+        translation, angle, scales = decompose_affine3(self._transformation)
+        return angle
+
+    @rotation.setter
+    def rotation(self, rotation):
+        translation, angle, scales = decompose_affine3(self._transformation)
+        T = Mat3x3.translation(translation)
+        S = Mat3x3.scale(scales)
+        if isinstance(rotation, Mat3x3):
+            assert is_orthogonal(rotation), "Matrix of rotarion has to be orthogonal"
+            R = rotation
+        elif isinstance(rotation, (float, int)):
+            R = Mat3x3.rotation(rotation)
+        else:
+            raise ValueError("Parameter 'rotation' isn't actually rotation")
+
+        self.transformation = T * R * S
+
+    @property
+    def scale(self):
+        translation, angle, scales = decompose_affine3(self._transformation)
+        return scales
+
+    @scale.setter
+    def scale(self, scale):
+        translation, angle, current_scales = decompose_affine3(self._transformation)
+        T = Mat3x3.translation(translation)
+        S = Mat3x3.scale(scale)
+        R = Mat3x3.rotation(angle)
+        self.transformation = T * R * S
+
+    @property
+    def translation(self):
+        translation, angle, scales = decompose_affine3(self._transformation)
+        return translation
+
+    @translation.setter
+    def translation(self, translation):
+        current_translation, angle, scales = decompose_affine3(self._transformation)
+        T = Mat3x3.translation(translation)
+        S = Mat3x3.scale(scales)
+        R = Mat3x3.rotation(angle)
+        self.transformation = T * R * S
 
     def apply_transformation_to_geometry(self):
         self._geometry = self.transformed_geometry

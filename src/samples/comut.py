@@ -1,6 +1,6 @@
 import numpy as np
 
-from src.engine.model.SimplePolygon import SimplePolygon
+from src.engine.model.Polygon import Polygon
 from src.engine.scene.Scene import Scene
 from src.math.Mat3x3 import Mat3x3
 
@@ -53,7 +53,7 @@ scene = Scene(
     axis_line_style="-."  # стиль ліній осей координат
 )
 
-scene[FIGURE_KEY] = SimplePolygon(
+scene[FIGURE_KEY] = Polygon(
     0, 0,
     1, 0,
     1, 1,

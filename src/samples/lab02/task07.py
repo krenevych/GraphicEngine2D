@@ -1,4 +1,4 @@
-from src.engine.model.SimplePolygon import SimplePolygon
+from src.engine.model.Polygon import Polygon
 from src.engine.scene.Scene import Scene
 from src.math.Mat3x3 import Mat3x3
 
@@ -9,7 +9,7 @@ class SceneSample(Scene):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
-        self[FIGURE_KEY] = SimplePolygon(
+        self[FIGURE_KEY] = Polygon(
             0, 0,
             1, 0,
             1, 1,
@@ -29,19 +29,19 @@ def frame1(scene: Scene):
     pass
 
 def frame2(scene: Scene):
-    rect: (SimplePolygon,) = scene[FIGURE_KEY]
+    rect: (Polygon,) = scene[FIGURE_KEY]
     rect.color = "red"
     rect.transformation = T_P_inv  # перенесли фігуру, щоб опорна точка потрапила в початок координат
 
 
 def frame3(scene: Scene):
-    rect: (SimplePolygon,) = scene[FIGURE_KEY]
+    rect: (Polygon,) = scene[FIGURE_KEY]
     rect.color = "orange"
     rect.transformation = R * T_P_inv  # поворот навколо початку координат, з урахуванням перенесення у початок координат оп.точки
 
 
 def frame4(scene: Scene):
-    rect: (SimplePolygon,) = scene[FIGURE_KEY]
+    rect: (Polygon,) = scene[FIGURE_KEY]
     rect.line_style = "solid"
     rect.color = "green"
     rect.transformation = T_P * R * T_P_inv  # повертаємо опорну точку на її місце

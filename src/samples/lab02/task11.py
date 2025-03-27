@@ -1,6 +1,6 @@
 import numpy as np
 
-from src.engine.model.SimplePolygon import SimplePolygon
+from src.engine.model.Polygon import Polygon
 from src.engine.scene.Scene import Scene
 from src.math.Mat3x3 import Mat3x3
 from src.math.utils_matrix import decompose_affine3
@@ -12,7 +12,7 @@ class SceneSample(Scene):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
-        self[FIGURE_KEY] = SimplePolygon(
+        self[FIGURE_KEY] = Polygon(
             2, 3.4,
             4.9, 4,
             4.5, 6,

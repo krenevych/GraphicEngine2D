@@ -34,7 +34,7 @@ def frame2(scene):
     triangle = scene[FIGURE_KEY]
     # задаємо трансформацію
     # triangle.scale(2, 1)          # масштабування
-    triangle.rotation(np.radians(30))  # поворот
+    triangle.rotation = np.radians(30)  # поворот
     # triangle.translation(2, 1)    # перенесення
     triangle["line_style"] = "-"  # стиль ліній
     # малюємо полігон

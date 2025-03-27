@@ -1,4 +1,4 @@
-from src.engine.model.SimplePolygon import SimplePolygon
+from src.engine.model.Polygon import Polygon
 from src.engine.scene.Scene import Scene
 from src.math.Mat3x3 import Mat3x3
 
@@ -9,7 +9,7 @@ class SceneSample(Scene):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
-        self[FIGURE_KEY] = SimplePolygon(
+        self[FIGURE_KEY] = Polygon(
             0, 0,
             1, 0,
             1, 1,

@@ -3,7 +3,7 @@ import numpy as np
 from src.engine.animation.RotationAnimation import RotationAnimation
 from src.engine.animation.ScaleAnimation import ScaleAnimation
 from src.engine.animation.TranslationAnimation import TranslationAnimation
-from src.engine.model.SimplePolygon import SimplePolygon
+from src.engine.model.Polygon import Polygon
 from src.engine.scene.AnimatedScene import AnimatedScene
 from src.math.Vec3 import vertex
 
@@ -12,7 +12,7 @@ class AnimatedSceneSample(AnimatedScene):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
-        self["rect"] = SimplePolygon(
+        self["rect"] = Polygon(
             0, 0,
             1, 0,
             1, 1,

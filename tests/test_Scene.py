@@ -1,16 +1,10 @@
-from PIL import Image, ImageChops
 
-
-def images_are_equal(img1_path, img2_path):
-    img1 = Image.open(img1_path).convert("RGB")
-    img2 = Image.open(img2_path).convert("RGB")
-    diff = ImageChops.difference(img1, img2)
-    return not diff.getbbox()
 
 
 from src.engine.model.Polygon import Polygon
 from src.engine.scene.Scene import Scene
 from src.math.Mat3x3 import Mat3x3
+from tests.utils.image_utils import images_are_equal
 
 
 def test_plot_image_output(tmp_path):
@@ -48,7 +42,6 @@ def test_plot_image_output(tmp_path):
         0, 1
     )
     scene[FIGURE_KEY].color = "blue"
-    # scene[FIGURE_KEY].color = "red"
     scene[FIGURE_KEY].line_style = ":"
 
     scene.add_frames(frame1,

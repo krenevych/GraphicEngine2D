@@ -19,9 +19,7 @@ class Model(BaseModel, ABC):
         self._is_draw_pivot = False
 
         self._coord_frame = CoordinateFrame(self.plt_axis)
-        self._coord_frame.line_style = "-"
-        self._coord_frame.line_width = 1.0
-        self._coord_frame.color = ("red", "green", "blue")
+
         self._is_draw_local_frame = False
 
         self.color = color

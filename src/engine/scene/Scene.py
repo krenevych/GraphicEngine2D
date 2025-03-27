@@ -116,7 +116,11 @@ class Scene(ABC):
     def _show_plot():
         plt.show()
 
-    def show(self):
+    def show(self, output_file=None):
         self._prepare()
         self.draw()
-        Scene._show_plot()
+
+        if output_file is None:
+            Scene._show_plot()
+        else:
+            plt.savefig(output_file)
